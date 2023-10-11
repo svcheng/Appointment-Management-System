@@ -25,16 +25,27 @@ h1{
     font-size: 50px;
 }
 
+#search {
+    border-radius: 15px;
+    margin-top: 0.5em;
+}
+
+#selectedSalonContainer > input {
+    background-color: white;
+}
+
 .form-outer-box{
     display:flex;
     flex-direction: column;
-    margin-left: 30px;
+    margin-left: 5rem;
 }
 
 .form-inner-box{
     background-color: #d7b29d;
     padding: 30px;
     width: 30%;
+    border-radius: 0.5em;
+    margin-top: 1em;
 }
 
 .form-text{
