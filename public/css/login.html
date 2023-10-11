@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Login</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="../css/login.css">
+    </head>
+    <body>
+        <div class="navbar">
+            <div class="navigation">
+                <button class="nav"><a href="/createpost">Create New Post</a></button>
+                <div class="logo-container"> 
+                    <a href="/home">
+                    </a>
+                </div>
+                <button class="nav"><a href="/userprofile">Account</a></button>
+            </div>
+        </div>
+        <div class="center">
+            <h1>Login</h1>
+            <form id="loginForm" name="loginForm" action="/login" method="post">
+                <div class="txt_field">
+                    <input id="l_username" type="text" name="username" required>
+                    <label>Username</label>
+                </div>
+                <div class="txt_field">
+                    <input id="l_password" type="password" name="password" required>
+                    <label>Password</label>
+                </div>
+                <div class="pass">Forgot Password?</div>
+                <input class="submitBtn" id="loginBtn" type="submit" value="Login">
+                <p class="error" id="l_error">  </p>
+                <div class="signup_link">
+                    Not a member? <a href="/register">Signup</a>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
