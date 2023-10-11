@@ -6,7 +6,7 @@ div.navbar{
     left: 0;
     width: 100%;
     background-color: #F7FFDD;
-    border-bottom: solid 1px #D0E3CC;
+    border-bottom: solid 1px #dde8b9;
     box-sizing: border-box;
     display: inline-flex;
     flex-wrap: nowrap;
@@ -20,13 +20,13 @@ div.navigation{
     text-align: center;
 }
 a{
-    color: black;
+    color: #291c1d;
     text-decoration: none;
-    color:black;
+    color:#291c1d;
 }
 
 a:visited{
-    color:black;
+    color:#291c1d;
 }
 
 button.nav{
@@ -37,7 +37,7 @@ button.nav{
     padding: 0.5rem;
 }
 button.nav:hover{
-    background-color: #D0E3CC;
+    background-color: #dde8b9;;
 }
 img.logo {
     width: 5%;
@@ -63,8 +63,7 @@ body{
     margin: 0;
     height: 100vh;
     overflow: hidden;
-    background-color: #fcfdaf;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(Images/Bokeh-Field-Mt-Falcon.jpg);
+    background-color: #e8d2ae;
     background-position: center;
     background-repeat: no-repeat;
     background-size:cover;
@@ -76,14 +75,14 @@ body{
     left: 50%;
     transform: translate(-50%, -50%);
     width: 400px;
-    background: #dba159;
+    background: #cb8589;
     border-radius: 10px;
     opacity: 80%;
 }
 .center h1{
     text-align: center;
     padding: 0 0 20px 0;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #291c1d;;
 }
 .center form{
     padding: 0 40px;
@@ -91,7 +90,7 @@ body{
 }
 form .txt_field{
     position: relative;
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid #291c1d;;
     margin: 30px 0;
 }
 .txt_field input{
@@ -131,7 +130,7 @@ form .txt_field{
 }
 .pass{
     margin: -5px 0 20px 5px;
-    color: #d0e3cc;
+    color: #dde8b9;;
     cursor: pointer;
 }
 .pass:hover{
@@ -144,23 +143,23 @@ input[type="submit"]{
     background: #fcfdaf;
     border-radius: 25px;
     font-size: 18px;
-    color: black;
+    color: #291c1d;
     font-weight: 700;
     cursor: pointer;
     outline: none;
 }
 input[type="submit"]:hover{
-    border-color: #d0e3cc;
+    border-color: #dde8b9;
     transition: .5s;
 }
 .signup_link{
     margin: 30px 0;
     text-align: center;
     font-size: 16px;
-    color: #666666;
+    color: #291c1d;
 }
 .signup_link a{
-    color: #d0e3cc;
+    color: #dde9b9;
     text-decoration: none;
 }
 .signup_link a:hover{
