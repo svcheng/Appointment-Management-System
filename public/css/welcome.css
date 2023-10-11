@@ -3,6 +3,21 @@ body {
     background-color: #e8d2ae;
 }
 
+a {
+    text-decoration:none;
+}
+
+nav {
+    padding: 1em;
+    font-size: 24px;
+}
+
+nav > a {
+    color: black;
+    display: block;
+    text-align: right;
+}
+
 .welcome-container{
     display:flex;
     flex-direction: column;

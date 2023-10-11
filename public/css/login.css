@@ -1,5 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Arimo:wght@400;600&display=swap');
 
+nav {
+    padding: 1em;
+    font-size: 24px;
+}
+
+nav > a {
+    color: black;
+    display: block;
+    text-align: right;
+    text-decoration: none;
+}
+
 div.navbar{
     position: fixed;
     top: 0;

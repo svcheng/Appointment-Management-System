@@ -3,6 +3,18 @@ body {
     background-color: #e8d2ae;
 }
 
+nav {
+    padding: 1em;
+    font-size: 24px;
+}
+
+nav > a {
+    color: black;
+    display: block;
+    text-align: right;
+    text-decoration: none;
+}
+
 input,select,textarea{
     font-family: 'Kameron',sans-serif;
     font-size: 25px;
@@ -25,7 +37,6 @@ h1{
     width: 30%;
 }
 
-
 .form-text{
     font-weight: bold;
 }
@@ -33,7 +44,14 @@ h1{
 .submit-button{
     border-radius: 35px;
     background-color: #796465;
+    color: white;
     padding: 10px;
     cursor: pointer;
     width: 100%;
+}
+
+.submit-button:hover{
+    background-color: #d7b29d;
+    cursor: pointer;
+    color:black;
 }

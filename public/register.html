@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Login</title>
+        <title>Register Store</title>
         <meta charset="utf-8">
         <link rel="stylesheet" href="css/login.css">
     </head>
@@ -11,21 +11,29 @@
         </nav>
 
         <div class="center">
-            <h1>Login</h1>
+            <h1>Register Store</h1>
             <form id="loginForm" name="loginForm" action="/login" method="post">
                 <div class="txt_field">
-                    <input id="l_username" type="text" name="username" required>
+                    <input id="username" type="text" name="username" required>
                     <label>Username</label>
                 </div>
+
                 <div class="txt_field">
-                    <input id="l_password" type="password" name="password" required>
+                    <input id="password" type="password" name="password" required>
                     <label>Password</label>
                 </div>
+                
+                <div class="txt_field">
+                    <input id="storeName" type="text" name="storeName" required>
+                    <label>Name of Store</label>
+                </div>
+
                 <div class="pass">Forgot Password?</div>
-                <input class="submitBtn" id="loginBtn" type="submit" value="Login">
+
+                <input class="submitBtn" id="loginBtn" type="submit" value="Register">
                 <p class="error" id="l_error">  </p>
                 <div class="signup_link">
-                    Not a member? <a href="register.html">Signup</a>
+                    Already registered? <a href="login.html">Login</a>
                 </div>
             </form>
         </div>
