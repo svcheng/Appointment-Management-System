@@ -1,16 +1,24 @@
 const express = require('express')
 const hbs = require('hbs')
 const app = express()
-
+const path = require('path')
 
 
 app.set('view engine', 'hbs')
 
-app.use(express.static('public'))
-
+app.use(express.static(path.join(__dirname, 'public')))
 
 app.get('/', (req, res) => {
-    res.send("Foo")
+    //res.send("Foo")
+    res.redirect('/static/welcome')
+})
+
+app.get('/static/:page', (req, res) => {
+    res.render('layouts/' + req.params.page)
+})
+
+app.get('/admin', (req, res) => {
+    res.render('layouts/admin')
 })
 
 app.get('/login/:username/:password', (req, res) => {
