@@ -1,16 +1,27 @@
-document.getElementById("loginBtn").addEventListener("click", async (e) => {
-    let username = document.getElementById("username")
-    let password = document.getElementById("password")
-    let storeName = document.getElementById("storeName")
+document.getElementById("regForm").addEventListener("submit", (e) => {
+    e.preventDefault()
+})
 
-    let res = await fetch(`/register/${username}/${password}/${storeName}`, {
+document.getElementById("regBtn").addEventListener("click", async (e) => {
+    const errorMsg = document.getElementById("errorMsg")
+
+    const storeName = document.getElementById("storeName").value
+    const password = document.getElementById("password").value
+
+    const res = await fetch(`/register/${storeName}/${password}`, {
         method: "POST"
-    }).json()
+    })
 
-    if (res.status == 400) {
-        document.getElementById("errorMsg").hidden = false
-    } else if (res.status == 200) {
+    console.log(res)
+
+    if (!res.ok) {
+        errorMsg.hidden = false
+        console.log("Incorrect register")
+    } 
+    else {
         // request admin page from server
         
+        // (placeholder) redirect to welcome
+        window.location.href = '/static/welcome'
     }
 })

@@ -1,13 +1,17 @@
 const mongoose = require('mongoose')
 
 const StoreSchema = new mongoose.Schema({
-    storeID: {
-        type: Number,
-        required: true
-    },
+    // storeID: {
+    //     type: Number,
+    //     required: true
+    // },
     name: {
         type: String,
-        required: true,
+        required: true
+    },
+    password: {
+        type: String,
+        required: true
     }
 });
 

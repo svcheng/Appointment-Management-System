@@ -4,18 +4,19 @@
         <title>Register Store</title>
         <meta charset="utf-8">
         <link rel="stylesheet" href="/css/login.css">
+        <script src="/js/register.js" defer></script>
     </head>
     <body>
-        <nav>
+        <nav> 
             <a href="/static/welcome">Book An Appointment</a>
         </nav>
 
         <div class="center">
             <h1>Register Store</h1>
-            <form id="loginForm" name="loginForm" action="/login" method="post">
+            <form id="regForm">
                 <div class="txt_field">
-                    <input id="username" type="text" name="username" required>
-                    <label>Username</label>
+                    <input id="storeName" type="text" name="storeName" required>
+                    <label>Store Name (this will also serve as the username)</label>
                 </div>
 
                 <div class="txt_field">
@@ -23,15 +24,12 @@
                     <label>Password</label>
                 </div>
                 
-                <div class="txt_field">
-                    <input id="storeName" type="text" name="storeName" required>
-                    <label>Name of Store</label>
-                </div>
+                {{!-- <div class="pass">Forgot Password?</div> --}}
 
-                <div class="pass">Forgot Password?</div>
+                <input class="submitBtn" id="regBtn" type="submit" value="Register">
 
-                <input class="submitBtn" id="loginBtn" type="submit" value="Register">
-                <p class="error" id="l_error">  </p>
+                <p class="error" id="l_error" hidden>Store Name already exists, choose another.</p>
+
                 <div class="signup_link">
                     Already registered? <a href="/static/login">Login</a>
                 </div>

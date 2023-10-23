@@ -4,6 +4,7 @@
         <title>Login</title>
         <meta charset="utf-8">
         <link rel="stylesheet" href="/css/login.css">
+        <script src="js/login.js"></script>
     </head>
     <body>
         <nav>
@@ -17,13 +18,17 @@
                     <input id="l_username" type="text" name="username" required>
                     <label>Username</label>
                 </div>
+
                 <div class="txt_field">
                     <input id="l_password" type="password" name="password" required>
                     <label>Password</label>
                 </div>
-                <div class="pass">Forgot Password?</div>
+
+                {{!-- <div class="pass">Forgot Password?</div> --}}
+
                 <input class="submitBtn" id="loginBtn" type="submit" value="Login">
                 <p class="error" id="l_error">  </p>
+
                 <div class="signup_link">
                     Not a member? <a href="/static/register">Signup</a>
                 </div>
