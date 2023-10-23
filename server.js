@@ -66,10 +66,13 @@ app.get('/admin/:storeName', (req, res) => {
     res.render('layouts/admin')
 })
 
-app.get('/search/:searchInput', (req, res) => {
-    // query database
-
-    // send response
+app.get('/search/:searchInput', async (req, res) => {
+    // query database for all store names containing search input
+    const results = await Store.find({
+        "name": { $regex: req.params.searchInput, $options: "i"}
+    });
+    console.log(results)
+    res.send({stores: results})
 })
 
 

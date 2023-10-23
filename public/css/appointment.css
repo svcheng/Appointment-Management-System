@@ -28,6 +28,11 @@ h1{
 #search {
     border-radius: 15px;
     margin-top: 0.5em;
+    width: 70%;
+}
+
+#searchBar {
+    width: 100%;
 }
 
 #selectedSalonContainer > input {
@@ -65,4 +70,9 @@ h1{
     background-color: #d7b29d;
     cursor: pointer;
     color:black;
+}
+
+.searchResult {
+    background-color: white;
+    padding: 0.3em;
 }

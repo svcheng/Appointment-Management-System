@@ -6,6 +6,7 @@
         </title>
         <link rel="stylesheet" href="/css/appointment.css">
         <link href='https://fonts.googleapis.com/css?family=Kameron' rel='stylesheet'>
+        <script src="/js/appointment.js" defer></script>
     </head>
     <body>
         <div class="form-outer-box">
@@ -14,10 +15,13 @@
             </nav>
 
             <h1>ENTER APPOINTMENT DETAILS</h1>
+
             <div id="search">
-                <input type="text" id="search" placeholder="Search for a store">
-                <select id="searchResults" hidden>
-                </select>
+                <input type="text" id="searchBar" placeholder="Search for a store">
+                <div id="searchResults">
+                    <div class="searchResult">placeholder</div>
+                    <div class="searchResult">placeholder</div>
+                </div>
             </div>
 
             <div class="form-inner-box">
