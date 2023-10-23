@@ -1,15 +1,22 @@
+document.getElementById("logForm").addEventListener("submit", (e) => {
+    e.preventDefault()
+})
+
 document.getElementById("loginBtn").addEventListener("click", async (e) => {
-    let username = document.getElementById("l_username")
-    let password = document.getElementById("l_password")
+    const username = document.getElementById("l_username").value
+    const password = document.getElementById("l_password").value
+    const errorMsg = document.getElementById('l_error')
 
     let res = await fetch(`/login/${username}/${password}`, {
         method: "GET"
-    }).json()
+    })
 
-    if (res.status == 400) {
-        document.getElementById("errorMsg").hidden = false
-    } else if (res.status == 200) {
-        // request admin page from server
-        
+    console.log(res)
+    if (!res.ok) {
+        errorMsg.hidden = false
+        console.log("Incorrect login")
+    } 
+    else {
+        window.location.href = "/admin/" + username
     }
 })

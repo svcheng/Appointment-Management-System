@@ -4,7 +4,7 @@
         <title>Login</title>
         <meta charset="utf-8">
         <link rel="stylesheet" href="/css/login.css">
-        <script src="js/login.js"></script>
+        <script src="/js/login.js" defer></script>
     </head>
     <body>
         <nav>
@@ -13,7 +13,7 @@
 
         <div class="center">
             <h1>Login</h1>
-            <form id="loginForm" name="loginForm" action="/login" method="post">
+            <form id="logForm">
                 <div class="txt_field">
                     <input id="l_username" type="text" name="username" required>
                     <label>Username</label>
@@ -27,16 +27,12 @@
                 {{!-- <div class="pass">Forgot Password?</div> --}}
 
                 <input class="submitBtn" id="loginBtn" type="submit" value="Login">
-                <p class="error" id="l_error">  </p>
+                <p class="error" id="l_error" hidden>Incorrect Login Details</p>
 
                 <div class="signup_link">
                     Not a member? <a href="/static/register">Signup</a>
                 </div>
             </form>
-        </div>
-
-        <div id="errorMsg" hidden>
-            <p>Incorrect Login Details!</p>
         </div>
     </body>
 </html>

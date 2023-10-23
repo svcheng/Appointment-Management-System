@@ -179,7 +179,7 @@ input[type="submit"]:hover{
     text-decoration: underline;
 }
 
-#errorMsg {
+.error {
     margin-top: 1rem;
 
     font-style: italic;

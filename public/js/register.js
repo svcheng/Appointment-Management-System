@@ -3,7 +3,7 @@ document.getElementById("regForm").addEventListener("submit", (e) => {
 })
 
 document.getElementById("regBtn").addEventListener("click", async (e) => {
-    const errorMsg = document.getElementById("errorMsg")
+    const errorMsg = document.getElementById("r_error")
 
     const storeName = document.getElementById("storeName").value
     const password = document.getElementById("password").value
