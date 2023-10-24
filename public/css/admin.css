@@ -1,134 +1,56 @@
-ul {list-style-type: none;}
-body {font-family: 'Kameron',sans-serif;}
-
 body {
-    font-family: 'Kameron',sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f2f2f2;
+  background-color: #e8d2ae;
+  font-family: 'Kameron',sans-serif;
 }
 
-.admin-container {
-    display: flex;
+header {
+  text-align: center;
+  font-size: 2em;
 }
 
-.sidebar {
-    width: 200px;
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
+main {
+  display: flex;
+  padding-left: 0.5em;
+  padding-left: 0.5em;
 }
 
-.sidebar button {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: none;
-    background: none;
-    color: #fff;
-    cursor: pointer;
+#left {
+  width: 45%;
+  padding: 1em;
 }
 
-.content {
-   
-    padding: 20px;
+#right {
+  width: 55%;
 }
 
-.calendar {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    
+.heading {
+  text-align: center;
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
 }
 
-.calendar-header {
-    text-align: center;
-    font-size: 1.5em;
-    margin-bottom: 10px;
+.list {
+  background-color: #d7b29d;
+  border-radius: 0.5em;
+  padding: 0.6em;
+
+  text-align: center;
 }
 
-.calendar-body {
-    text-align: center;
+.service {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+
+  font-size: 1.3em;
+  font-weight: bold;
 }
 
+.subContainer {
+  width: 85%;
+  margin: auto;
+}
 
-.month {
-    flex: 1;
-    display: block;
-    padding: 25px 0px;
-    width: 100%;
-    background: #1abc9c;
-    text-align: center;
-  }
-  
-  .month ul {
-    margin: 0;
-    padding: 0;
-  }
-  
-  .month ul li {
-    color: white;
-    font-size: 30px;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-  }
-  
-  .month .prev {
-    
-    float: left;
-    padding-top: 10px;
-  }
-  
-  .month .next {
-    float: right;
-    padding-top: 10px;
-  }
-  
-  .weekdays {
-    margin: 0;
-    padding: 10px 0;
-    background-color: #ddd;
-  }
-  
-  .weekdays li {
-    display: inline-block;
-    width: 13.6%;
-    color: #666;
-    text-align: center;
-  }
-  
-  .days {
-    padding: 10px 0;
-    background: #eee;
-    margin: 0;
-  }
-  
-  .days li {
-    list-style-type: none;
-    display: inline-block;
-    width: 13.6%;
-    text-align: center;
-    margin-bottom: 5px;
-    font-size:24px;
-    color: #777;
-  }
-  
-  .days li .active {
-    padding: 5px;
-    background: #1abc9c;
-    color: white !important
-  }
-  
-
-  @media screen and (max-width:720px) {
-    .weekdays li, .days li {width: 13.1%;}
-  }
-  
-  @media screen and (max-width: 420px) {
-    .weekdays li, .days li {width: 12.5%;}
-    .days li .active {padding: 2px;}
-  }
-  
-  @media screen and (max-width: 290px) {
-    .weekdays li, .days li {width: 12.2%;}
-  }
+#selectDateContainer {
+  display: flex;
+  justify-content: space-between;
+}
