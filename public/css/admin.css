@@ -3,6 +3,17 @@ body {
   font-family: 'Kameron',sans-serif;
 }
 
+#link {
+  text-align: right;
+  font-size: 1.2em;
+  width: 95%;
+}
+
+a {
+  text-decoration:none;
+  color: black;
+}
+
 header {
   text-align: center;
   font-size: 2em;

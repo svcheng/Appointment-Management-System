@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="/css/admin.css" />
     <link href='https://fonts.googleapis.com/css?family=Kameron' rel='stylesheet'>
+    <script src="/js/admin.js" defer></script>
     <title>Admin Page</title>
   </head>
 
   <body>
-    <header><h2>Salon</h2></header>
+    <div id="link"><a href="/static/welcome">Logout</a></div>
+    <header><h2 id="salonName">{{salonName}}</h2></header>
     <main>
         <div id="left">
           <div class="subContainer">
@@ -17,13 +19,15 @@
 
             <div class="list">
               <div id="services" >
-                  <div class="service">sample</div>
-                  <div class="service">sample</div>
+                  {{#each services}}
+                    <div class="service">{{this}}</div>
+                  {{/each}}
               </div>
 
               <div id="inputContainer">
                 <label for="newService">Add a Service</label>
                 <input type='text' id="newService" name="newService"> 
+                <button id="addService">Add</button>
               </div>
             </div>
           </div>
@@ -41,8 +45,9 @@
             </div>
 
             <div id="appointments" class="list">
-              <div class="service">10:00 - 11:00</div>
-              <div class="service">11:00 - 12:00</div>
+              {{#each appointments}}
+                <div class="service">{{this}}</div>
+              {{/each}}
             </div>
           </div>
         </div>
