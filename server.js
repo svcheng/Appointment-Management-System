@@ -70,8 +70,8 @@ app.get('/search/:searchInput', async (req, res) => {
     // query database for all store names containing search input
     const results = await Store.find({
         "name": { $regex: req.params.searchInput, $options: "i"}
-    });
-    console.log(results)
+    }, 'name') 
+
     res.send({stores: results})
 })
 
