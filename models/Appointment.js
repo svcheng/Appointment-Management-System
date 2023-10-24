@@ -1,12 +1,13 @@
 const mongoose = require('mongoose')
 
 const AppointmentSchema = new mongoose.Schema({
-    storeID: Number,
-    bookerName: String,
-    bookerPhoneNum: Number,
-    startTime: String,
-    endTime: String,
-    service: String
+    storeName: {type: String, required: true},
+    bookerName: {type: String, required: true},
+    bookerPhoneNum: {type: String, required: true},
+
+    startDatetime: {type: Date, required: true},
+    endDatetime: {type: Date, required: true},
+    service: {type: String, required: true}
 });
 
 const Appointment = mongoose.model('Appointment', AppointmentSchema)

@@ -12,6 +12,10 @@ const StoreSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    services: {
+        type: Array,
+        default: [] // a service should be {serviceName, length} where length is the number of hours a <serviceName> appointment takes up
     }
 });
 
