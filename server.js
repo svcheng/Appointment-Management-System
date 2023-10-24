@@ -70,11 +70,12 @@ app.get('/admin/:storeName', async(req, res) => {
 })
 
 // add service 
-app.put('/addService/:storeName/:service', async (req, res) => {
+app.put('/addService/:storeName/:service/:duration', async (req, res) => {
     const store = await Store.findOne({ 'name': req.params.storeName });
 
     if (!store.services.includes(req.params.service)) {
         store.services.push(req.params.service)
+        store.serviceDurations.push(req.params.duration)
     }
     await store.save()
     res.status(200)

@@ -9,9 +9,13 @@ const StoreSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    services: {
-        type: Array,
-        default: [] // a service should be {serviceName, length} where length is the number of hours a <serviceName> appointment takes up
+    services: { // the names of the services
+        type: [String],
+        default: [] 
+    },
+    serviceDurations: { // the time in minutes a service takes
+        type: [Number],
+        default: [] 
     }
 });
 
