@@ -43,6 +43,12 @@ const salonSelection = async (e) => {
     searchResults.setAttribute("id", 'searchResults')
     document.getElementById('search').appendChild(searchResults)
 
+    // empty services options if any
+    let parent = document.getElementById('customer-service')
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+
     // retrieve and add services of selected salon
     let data = await fetch('/services/' + salon, {
         method: 'GET',
@@ -123,4 +129,10 @@ document.getElementById('submitBtn').addEventListener('click', async (e) => {
             service: service
         })
     })
+
+    document.getElementById('selectedSalon').value = ""
+    document.getElementById('name').value = ""
+    document.getElementById('tel').value = ""
+    document.getElementById('dateTime').value = null
+    document.getElementById('customer-service').value = null
 })

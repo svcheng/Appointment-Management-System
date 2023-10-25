@@ -117,13 +117,54 @@ app.get('/services/:salon', async (req, res) => {
         services: salon.services, 
         durations: salon.serviceDurations
     }
-    console.log(response)
+
     res.send(response)
 })
 
 // books an appointment if not conflicting
 app.post('/bookAppointment', async (req, res) => {
     console.log(req.body)
+
+    const salon = await Store.findOne({'name': req.body.salon}, 'services serviceDurations')
+    let duration
+    for (let i=0; i < salon.services.length; i+=1) {
+        if (salon.services[i] == req.body.service) {
+            duration = salon.serviceDurations[i]
+        }
+    }
+
+    let endDate = req.body.dateTime
+    if (duration) { // compute end time
+        let newYear = Number(req.body.dateTime.substring(0, 4))
+        let newMonth = Number(req.body.dateTime.substring(5, 7))
+        let newDay = Number(req.body.dateTime.substring(8, 10))
+        let newHour = Number(req.body.dateTime.substring(11, 13))
+        let newMin = Number(req.body.dateTime.substring(14, 16))
+        
+        const xtraHours = Math.floor(duration / 60)
+        const xtraMins = duration - (hours * 60)
+
+        // add hours
+        newHour = (newHour + xtraHours) % 24
+        if (origHours + xtraHours >= 24) {
+
+        }
+    }
+    console.log(req.body.dateTime, endDate)
+    const newAppointment = new Appointment({
+        storeName: req.body.salon,
+        bookerName: req.body.customerName,
+        bookerPhoneNum: req.body.customerPhone,
+
+        startDatetime: req.body.dateTime,
+        endDatetime: endDate,
+        service: req.body.service
+    })
+    //console.log(newAppointment)
+    await newAppointment.save()
+
+    let data = await Appointment.find({})
+    console.log(data)
 })
 
 app.listen(3000, () =>{

@@ -5,8 +5,8 @@ const AppointmentSchema = new mongoose.Schema({
     bookerName: {type: String, required: true},
     bookerPhoneNum: {type: String, required: true},
 
-    startDatetime: {type: Date, required: true},
-    endDatetime: {type: Date, required: true},
+    startDatetime: {type: String, required: true},
+    endDatetime: {type: String, required: true},
     service: {type: String, required: true}
 });
 
