@@ -64,10 +64,11 @@ h1{
     padding: 10px;
     cursor: pointer;
     width: 100%;
+    margin-top: 1em;
 }
 
-.submit-button:hover{
-    background-color: #d7b29d;
+.submit-button:hover, .searchResult:hover {
+    background-color: #dde9b9;
     cursor: pointer;
     color:black;
 }

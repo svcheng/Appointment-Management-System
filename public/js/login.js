@@ -7,14 +7,14 @@ document.getElementById("loginBtn").addEventListener("click", async (e) => {
     const password = document.getElementById("l_password").value
     const errorMsg = document.getElementById('l_error')
 
-    let res = await fetch(`/login/${username}/${password}`, {
+    const url = `/login/${username}/${password}`
+    let res = await fetch(url, {
         method: "GET"
     })
 
-    console.log(res)
     if (!res.ok) {
         errorMsg.hidden = false
-        console.log("Incorrect login")
+        console.log("Incorrect login:", username, password)
     } 
     else {
         window.location.href = "/admin/" + username

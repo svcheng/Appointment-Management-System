@@ -19,21 +19,21 @@ mongoose.connect(uri)
   })
   .catch(err => console.log(err))
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
+    const all = await Store.find({});
+    console.log(all)
     res.redirect('/static/welcome')
 })
 
-app.get('/static/:page', async (req, res) => {
-    const all = await Store.find({});
-    console.log(all)
-
+app.get('/static/:page', (req, res) => {
     res.render('layouts/' + req.params.page)
 })
 
 app.get('/login/:username/:password', async (req, res) => {
+    console.log("lllll")
     // check if username already exists in the database
     const exists = await Store.findOne({ 'name': req.params.username, 'password': req.params.password });
-
+    console.log(req.params.username, req.params.password)
     if (exists) {
         res.status(200)
     }
@@ -49,15 +49,15 @@ app.post('/register/:storeName/:password', async (req, res) => {
 
     if (!exists) {
         // add store to database
-
         const newStore = new Store({name: req.params.storeName, password: req.params.password})
         await newStore.save()
         res.status(200)
+        res.end()
     }
     else {
         res.status(300)
+        res.end()
     }
-    res.end()
 })
 
 app.get('/admin/:storeName', async(req, res) => {
@@ -91,6 +91,14 @@ app.get('/search/:searchInput', async (req, res) => {
     res.send({stores: results})
 })
 
+// returns all services and service durations of a salon
+app.get('/services/:salon', async (req, res) => {
+    const salon = await Store.findOne({'name': req.params.salon})
+
+    const response = {services: salon.services, durations: salon.serviceDurations}
+    console.log(response)
+    res.send(response)
+})
 
 app.listen(3000, () =>{
     console.log('Hello! Listening at http://localhost:3000')

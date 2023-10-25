@@ -12,16 +12,12 @@ document.getElementById("regBtn").addEventListener("click", async (e) => {
         method: "POST"
     })
 
-    console.log(res)
-
     if (!res.ok) {
         errorMsg.hidden = false
         console.log("Incorrect register")
     } 
     else {
         // request admin page from server
-        
-        // (placeholder) redirect to welcome
-        window.location.href = '/static/welcome'
+        window.location.href = '/admin/' + storeName
     }
 })
