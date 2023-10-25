@@ -11,6 +11,12 @@ document.getElementById('addService').addEventListener('click', async (e)=> {
         method: 'PUT'
     })
 
+    // add to DOM
+    const serviceNode = document.createElement('div')
+    serviceNode.setAttribute('class', 'service')
+    serviceNode.textContent = newService
+    document.getElementById('services').appendChild(serviceNode)
+
     document.getElementById('newService').value = ""
     document.getElementById('newServiceDuration').value = ""
 })

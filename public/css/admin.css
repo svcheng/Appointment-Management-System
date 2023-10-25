@@ -3,10 +3,10 @@ body {
   font-family: 'Kameron',sans-serif;
 }
 
-#link {
+nav {
   text-align: right;
   font-size: 1.2em;
-  width: 95%;
+  padding: 1em;
 }
 
 a {

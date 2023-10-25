@@ -44,14 +44,53 @@ const salonSelection = async (e) => {
     document.getElementById('search').appendChild(searchResults)
 
     // retrieve and add services of selected salon
-    const res = await fetch('/services/' + salon, {
+    let data = await fetch('/services/' + salon, {
         method: 'GET',
     })
-    console.log(res.services)
-    console.log(res.durations)
 
-    // display servies
-    // for (let i=0; i < res.services; i+=1) {
+    data = await data.json()
 
-    // }
+    console.log(data.services)
+    console.log(data.durations)
+
+    // display services
+    for (let i=0; i < data.services.length; i+=1) {
+        addServiceOption(data.services[i], data.durations[i])
+    }
+}
+
+// adds dropdown option for a service to the DOM
+const addServiceOption = (serviceName, duration) => {
+    let elem = document.createElement('option')
+    elem.value = serviceName
+
+    let hours = Math.floor(duration / 60)
+    let mins = duration - (hours * 60)
+
+    let hoursText
+    let minsText
+    switch (hours) {
+        case 0:
+            hoursText = '';
+            break;
+        case 1:
+            hoursText = `${hours} hour`;
+            break;
+        default:
+            hoursText = `${hours} hours`;
+    }
+
+    switch (mins) {
+        case 0:
+            minsText = '';
+            break;
+        case 1:
+            minsText = `${mins} minute`;
+            break;
+        default:
+            minsText = `${mins} minutes`;
+    }
+
+    elem.textContent = `${serviceName} (${hoursText} ${minsText})`
+    document.getElementById('customer-service').appendChild(elem)
 }

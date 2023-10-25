@@ -19,21 +19,20 @@ mongoose.connect(uri)
   })
   .catch(err => console.log(err))
 
-app.get('/', async (req, res) => {
-    const all = await Store.find({});
-    console.log(all)
+app.get('/', (req, res) => {
     res.redirect('/static/welcome')
 })
 
-app.get('/static/:page', (req, res) => {
+app.get('/static/:page', async (req, res) => {
+    const all = await Store.find({});
+    console.log(all)
     res.render('layouts/' + req.params.page)
 })
 
 app.get('/login/:username/:password', async (req, res) => {
-    console.log("lllll")
     // check if username already exists in the database
     const exists = await Store.findOne({ 'name': req.params.username, 'password': req.params.password });
-    console.log(req.params.username, req.params.password)
+
     if (exists) {
         res.status(200)
     }
@@ -95,7 +94,10 @@ app.get('/search/:searchInput', async (req, res) => {
 app.get('/services/:salon', async (req, res) => {
     const salon = await Store.findOne({'name': req.params.salon})
 
-    const response = {services: salon.services, durations: salon.serviceDurations}
+    const response = {
+        services: salon.services, 
+        durations: salon.serviceDurations
+    }
     console.log(response)
     res.send(response)
 })

@@ -8,7 +8,7 @@ document.getElementById("loginBtn").addEventListener("click", async (e) => {
     const errorMsg = document.getElementById('l_error')
 
     const url = `/login/${username}/${password}`
-    let res = await fetch(url, {
+    const res = await fetch(url, {
         method: "GET"
     })
 
