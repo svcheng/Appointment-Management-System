@@ -9,6 +9,7 @@ const Appointment = require('./models/Store.js')
 
 app.set('view engine', 'hbs')
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.json())
 
 // Connect to database
 const password = "cssweng_5"
@@ -23,12 +24,27 @@ app.get('/', (req, res) => {
     res.redirect('/static/welcome')
 })
 
+// render pages
 app.get('/static/:page', async (req, res) => {
     const all = await Store.find({});
     console.log(all)
-    res.render('layouts/' + req.params.page)
+
+    const prepend0 = (d) => {return Math.floor(d / 10) == 0 ? '0' + String(d) : d}
+
+    if (req.params.page === "appointment") {
+        // get current local datetime 
+        let datetime = new Date()
+        let date = `${datetime.getFullYear()}-${prepend0(datetime.getMonth() + 1)}-${prepend0(datetime.getDate())}`
+        let time = `${prepend0(datetime.getHours())}:${prepend0(datetime.getMinutes())}`
+        console.log(`Current Datetime: ${date}T${time}`)
+        res.render('layouts/' + req.params.page, {curDate: date + 'T' + time})
+    }
+    else {
+        res.render('layouts/' + req.params.page)
+    }
 })
 
+// admin log in 
 app.get('/login/:username/:password', async (req, res) => {
     // check if username already exists in the database
     const exists = await Store.findOne({ 'name': req.params.username, 'password': req.params.password });
@@ -42,6 +58,7 @@ app.get('/login/:username/:password', async (req, res) => {
     res.end()
 })
 
+// register salon
 app.post('/register/:storeName/:password', async (req, res) => {    
     // check if storeName already exists in the database
     const exists = await Store.findOne({ 'name': req.params.storeName });
@@ -59,6 +76,7 @@ app.post('/register/:storeName/:password', async (req, res) => {
     }
 })
 
+// send admin page
 app.get('/admin/:storeName', async(req, res) => {
     const salonName = req.params.storeName
     const store = await Store.findOne({name: salonName})
@@ -81,6 +99,7 @@ app.put('/addService/:storeName/:service/:duration', async (req, res) => {
     res.end()
 })
 
+// search salon
 app.get('/search/:searchInput', async (req, res) => {
     // query database for all store names containing search input
     const results = await Store.find({
@@ -100,6 +119,11 @@ app.get('/services/:salon', async (req, res) => {
     }
     console.log(response)
     res.send(response)
+})
+
+// books an appointment if not conflicting
+app.post('/bookAppointment', async (req, res) => {
+    console.log(req.body)
 })
 
 app.listen(3000, () =>{

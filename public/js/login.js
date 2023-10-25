@@ -1,6 +1,4 @@
-document.getElementById("logForm").addEventListener("submit", (e) => {
-    e.preventDefault()
-})
+document.getElementById("logForm").addEventListener("submit", (e) => {e.preventDefault()})
 
 document.getElementById("loginBtn").addEventListener("click", async (e) => {
     const username = document.getElementById("l_username").value

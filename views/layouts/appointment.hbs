@@ -26,23 +26,23 @@
             </div>
             
             <div class="form-inner-box">
-                <form>
+                <form id="form">
                     <label class="form-text" for="customer-name">Name</label><br>
                     <input type="text" id="name" name="customer-name" placeholder="Enter your name"><br><br>
 
                     <label class="form-text" for="customer-num">Phone</label><br>
                     <input type="tel" id="tel" name="customer-num" placeholder="Enter your phone"><br><br>
 
-                    <label class="form-text" for="customer-date">Date</label><br>
-                    <input type="date" id="date" name="customer-date"><br><br>
-
-                    <label class="form-text" for="customer-time">Time</label><br>
-                    <input type="time" id="time" name="customer-time"><br><br>
+                    <label class="form-text" for="dateTime">Date and Time</label><br>
+                    <input type="datetime-local" id="dateTime" name="dateTime" min="{{curDate}}"><br><br>
 
                     <label class="form-text" for="customer-service">Type of Service</label><br>
                     <select id="customer-service" name="options">
                     </select>
-                    <input class="submit-button" type="submit" value="Submit">
+
+                    <p class="error" id="errorMsg" hidden>All fields must be filled out</p>
+
+                    <input class="submit-button" type="submit" value="Submit" id="submitBtn">
                 </form>
             </div>
         </div>

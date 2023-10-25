@@ -50,9 +50,6 @@ const salonSelection = async (e) => {
 
     data = await data.json()
 
-    console.log(data.services)
-    console.log(data.durations)
-
     // display services
     for (let i=0; i < data.services.length; i+=1) {
         addServiceOption(data.services[i], data.durations[i])
@@ -94,3 +91,36 @@ const addServiceOption = (serviceName, duration) => {
     elem.textContent = `${serviceName} (${hoursText} ${minsText})`
     document.getElementById('customer-service').appendChild(elem)
 }
+
+// prevent page reload upon submit 
+document.getElementById('submitBtn').addEventListener('click', (e) => {e.preventDefault()})
+
+// attempt to book appointment
+document.getElementById('submitBtn').addEventListener('click', async (e) => {
+    // form data
+    const salon = document.getElementById('selectedSalon').value
+    const customerName = document.getElementById('name').value
+    const customerPhone = document.getElementById('tel').value
+    const dateTime = document.getElementById('dateTime').value
+    const service = document.getElementById('customer-service').value
+
+    const errorMsg = document.getElementById('errorMsg')
+    errorMsg.hidden = salon && customerName && customerPhone && dateTime && service
+    if (!errorMsg.hidden) {
+        return
+    }
+
+    const res = await fetch('/bookAppointment', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            salon: salon,
+            customerName: customerName,
+            customerPhone: customerPhone,
+            dateTime: dateTime,
+            service: service
+        })
+    })
+})
