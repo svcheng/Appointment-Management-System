@@ -1,6 +1,8 @@
+
 body {
     font-family: 'Kameron',sans-serif;
     background-color: #e8d2ae;
+   
 }
 
 a {
@@ -29,14 +31,14 @@ nav > a {
     font-size: 65px;
 }
 
-.services-button, .appointment-button{
+.lang-button, .appointment-button{
     border-radius: 35px;
     background-color: #796465;
     padding: 10px;
     border: 2px solid black;
 }
 
-.services-text, .appointment-text{
+.lang-text, .appointment-text{
     font-size: 15px;
     color: white;
 }
@@ -48,5 +50,17 @@ nav > a {
 
 #buttons:hover #button-text{
     color:black;
+}
+
+.language-buttons {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 20px;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
 
