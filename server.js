@@ -46,9 +46,6 @@ app.get('/', (req, res) => {
 
 // render pages
 app.get('/static/:page', async (req, res) => {
-    const all = await Store.find({});
-    console.log(all)
-
     if (req.params.page === "appointment") {
         // get current local datetime 
         let datetime = new Date().toString()
@@ -96,7 +93,19 @@ app.get('/admin/:storeName', async(req, res) => {
     const salonName = req.params.storeName
     const store = await Store.findOne({name: salonName})
     const services = store.services
-    const appointments = ['Appointment1', 'Appointment2', 'Appointment3'] // placeholder for now
+    let appointments = await Appointment.find({"storeName": salonName})
+
+    appointments = appointments.map((a) => {
+        let start = localTimeString(a.startDatetime)
+        let end = localTimeString(a.endDatetime)
+        return {
+           service: a.service,
+           bookerName: a.bookerName,
+           bookerPhoneNum: a.bookerPhoneNum,
+           startDatetime: `${start.substring(0, 10)}, ${start.substring(11, 16)}`,
+           endDatetime: `${end.substring(0, 10)}, ${end.substring(11, 16)}`
+        }
+    })
 
     res.render('layouts/admin', {salonName: salonName, services: services, appointments: appointments})
 })
@@ -158,9 +167,6 @@ app.post('/bookAppointment', async (req, res) => {
         service: req.body.service
     })
     await newAppointment.save()
-
-    let data = await Appointment.find({})
-    console.log(data)
 })
 
 app.listen(3000, () =>{

@@ -43,14 +43,20 @@
                 <div class="heading">Appointments:</div>
 
                 <div>
-                  <label for="date">Select Date</label>
+                  <label for="date">Filter by Start Date</label>
                   <input type="date" id="date" name="date">
                 </div>
             </div>
 
             <div id="appointments" class="list">
               {{#each appointments}}
-                <div class="service">{{this}}</div>
+                <div class="appointmentContainer">
+                  <div>Service: {{this.service}}</div>
+                  <div>Booker: {{this.bookerName}}</div>
+                  <div>Phone Number: {{this.bookerPhoneNum}}</div>
+                  <div>Start Date and Time: {{this.startDatetime}}</div>
+                  <div>End Date and Time: {{this.endDatetime}}</div>
+                </div>
               {{/each}}
             </div>
           </div>
