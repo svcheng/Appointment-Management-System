@@ -4,7 +4,7 @@ const app = express()
 const path = require('path')
 const mongoose = require('mongoose');
 const Store = require('./models/Store.js')
-const Appointment = require('./models/Store.js')
+const Appointment = require('./models/Appointment.js')
 
 
 app.set('view engine', 'hbs')
@@ -20,6 +20,26 @@ mongoose.connect(uri)
   })
   .catch(err => console.log(err))
 
+
+// HELPER FUNCTIONS
+const prepend0 = (d) => {return Math.floor(d / 10) == 0 ? '0' + String(d) : d}
+
+// converts date object into 'YYYY-MM-DDTHH:MM' format in local time
+const localTimeString = (datetime) => {
+    datetime = new Date(datetime)
+    return `${datetime.getFullYear()}-${prepend0(datetime.getMonth() + 1)}-${prepend0(datetime.getDate())}T${prepend0(datetime.getHours())}:${prepend0(datetime.getMinutes())}`
+}
+
+// Given an appointment that starts at <dateTime> and lasts <duration> minutes, returns the string representation of the end date-time
+// dateTime is a string representation of the start date-time
+const computeEnd = (dateTime, duration) => {
+    let end = new Date(dateTime)
+    end.setMinutes(end.getMinutes() + duration)
+
+    return end.toString()
+}
+
+// ROUTES
 app.get('/', (req, res) => {
     res.redirect('/static/welcome')
 })
@@ -29,15 +49,10 @@ app.get('/static/:page', async (req, res) => {
     const all = await Store.find({});
     console.log(all)
 
-    const prepend0 = (d) => {return Math.floor(d / 10) == 0 ? '0' + String(d) : d}
-
     if (req.params.page === "appointment") {
         // get current local datetime 
-        let datetime = new Date()
-        let date = `${datetime.getFullYear()}-${prepend0(datetime.getMonth() + 1)}-${prepend0(datetime.getDate())}`
-        let time = `${prepend0(datetime.getHours())}:${prepend0(datetime.getMinutes())}`
-        console.log(`Current Datetime: ${date}T${time}`)
-        res.render('layouts/' + req.params.page, {curDate: date + 'T' + time})
+        let datetime = new Date().toString()
+        res.render('layouts/' + req.params.page, {curDate: localTimeString(datetime)})
     }
     else {
         res.render('layouts/' + req.params.page)
@@ -123,8 +138,6 @@ app.get('/services/:salon', async (req, res) => {
 
 // books an appointment if not conflicting
 app.post('/bookAppointment', async (req, res) => {
-    console.log(req.body)
-
     const salon = await Store.findOne({'name': req.body.salon}, 'services serviceDurations')
     let duration
     for (let i=0; i < salon.services.length; i+=1) {
@@ -133,24 +146,8 @@ app.post('/bookAppointment', async (req, res) => {
         }
     }
 
-    let endDate = req.body.dateTime
-    if (duration) { // compute end time
-        let newYear = Number(req.body.dateTime.substring(0, 4))
-        let newMonth = Number(req.body.dateTime.substring(5, 7))
-        let newDay = Number(req.body.dateTime.substring(8, 10))
-        let newHour = Number(req.body.dateTime.substring(11, 13))
-        let newMin = Number(req.body.dateTime.substring(14, 16))
-        
-        const xtraHours = Math.floor(duration / 60)
-        const xtraMins = duration - (hours * 60)
+    const endDate = computeEnd(req.body.dateTime, duration) 
 
-        // add hours
-        newHour = (newHour + xtraHours) % 24
-        if (origHours + xtraHours >= 24) {
-
-        }
-    }
-    console.log(req.body.dateTime, endDate)
     const newAppointment = new Appointment({
         storeName: req.body.salon,
         bookerName: req.body.customerName,
@@ -160,7 +157,6 @@ app.post('/bookAppointment', async (req, res) => {
         endDatetime: endDate,
         service: req.body.service
     })
-    //console.log(newAppointment)
     await newAppointment.save()
 
     let data = await Appointment.find({})

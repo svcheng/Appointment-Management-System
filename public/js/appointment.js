@@ -125,14 +125,14 @@ document.getElementById('submitBtn').addEventListener('click', async (e) => {
             salon: salon,
             customerName: customerName,
             customerPhone: customerPhone,
-            dateTime: dateTime,
+            dateTime: new Date(dateTime).toString(),
             service: service
         })
     })
 
-    document.getElementById('selectedSalon').value = ""
-    document.getElementById('name').value = ""
-    document.getElementById('tel').value = ""
-    document.getElementById('dateTime').value = null
-    document.getElementById('customer-service').value = null
+    // document.getElementById('selectedSalon').value = ""
+    // document.getElementById('name').value = ""
+    // document.getElementById('tel').value = ""
+    // document.getElementById('dateTime').value = null
+    // document.getElementById('customer-service').value = null
 })
