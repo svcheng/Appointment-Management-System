@@ -84,7 +84,18 @@ h1{
 
     font-style: italic;
     color: red;
-    font-size: 16px;
+    font-size: 1rem;
+
+    text-align: center;
+}
+
+.confirm {
+    margin-top: 1rem;
+    margin-bottom: 0px;
+
+    font-style: italic;
+    color: green;
+    font-size: 1rem;
 
     text-align: center;
 }

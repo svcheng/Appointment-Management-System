@@ -111,28 +111,37 @@ document.getElementById('submitBtn').addEventListener('click', async (e) => {
     const service = document.getElementById('customer-service').value
 
     const errorMsg = document.getElementById('errorMsg')
+    const confirmMsg = document.getElementById('confirmMsg')
     errorMsg.hidden = salon && customerName && customerPhone && dateTime && service
     if (!errorMsg.hidden) {
+        confirmMsg.hidden = true
         return
     }
+    confirmMsg.hidden = false
 
-    const res = await fetch('/bookAppointment', {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            salon: salon,
-            customerName: customerName,
-            customerPhone: customerPhone,
-            dateTime: new Date(dateTime).toString(),
-            service: service
-        })
-    })
+    // const res = await fetch('/bookAppointment', {
+    //     method: 'POST',
+    //     headers: {
+    //         "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //         salon: salon,
+    //         customerName: customerName,
+    //         customerPhone: customerPhone,
+    //         dateTime: new Date(dateTime).toString(),
+    //         service: service
+    //     })
+    // })
 
-    // document.getElementById('selectedSalon').value = ""
-    // document.getElementById('name').value = ""
-    // document.getElementById('tel').value = ""
-    // document.getElementById('dateTime').value = null
-    // document.getElementById('customer-service').value = null
+    document.getElementById('selectedSalon').value = ""
+    document.getElementById('name').value = ""
+    document.getElementById('tel').value = ""
+    document.getElementById('dateTime').value = null
+    document.getElementById('customer-service').value = null
+
+    // empty services options if any
+    let parent = document.getElementById('customer-service')
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
 })

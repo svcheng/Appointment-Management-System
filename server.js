@@ -93,8 +93,11 @@ app.get('/admin/:storeName', async(req, res) => {
     const salonName = req.params.storeName
     const store = await Store.findOne({name: salonName})
     const services = store.services
-    let appointments = await Appointment.find({"storeName": salonName})
+    
+    // delete finished appointments
+    await Appointment.deleteMany({'endDatetime': {$lt: new Date()}})
 
+    let appointments = await Appointment.find({"storeName": salonName})
     appointments = appointments.map((a) => {
         let start = localTimeString(a.startDatetime)
         let end = localTimeString(a.endDatetime)
