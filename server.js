@@ -98,6 +98,12 @@ app.get('/admin/:storeName', async(req, res) => {
     await Appointment.deleteMany({'endDatetime': {$lt: new Date()}})
 
     let appointments = await Appointment.find({"storeName": salonName})
+    
+    // sort appointments by start dates
+    appointments = appointments.sort((a, b) => {
+        return a.startDatetime - b.startDatetime
+    })
+
     appointments = appointments.map((a) => {
         let start = localTimeString(a.startDatetime)
         let end = localTimeString(a.endDatetime)
