@@ -4,9 +4,11 @@ body {
 }
 
 nav {
-  text-align: right;
+  text-align: center;
   font-size: 1.2em;
   padding: 1em;
+  background-color: #d7b29d;
+
 }
 
 a {
@@ -17,16 +19,18 @@ a {
 header {
   text-align: center;
   font-size: 2em;
+  padding: 1em;
 }
 
 main {
   display: flex;
+  flex-direction: column;
   padding-left: 0.5em;
   padding-left: 0.5em;
 }
 
 #left {
-  width: 45%;
+  width: 100%;
   padding: 1em;
 }
 
@@ -35,16 +39,18 @@ main {
   width: 90%;
   display: flex;
   flex-direction: column;
+  align-items:center;
 }
 
 #right {
-  width: 55%;
+  width: 100%;
+  margin-top:1em;
 }
 
 .heading {
   text-align: center;
   font-size: 1.5em;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.5em 0;
 }
 
 .list {
@@ -65,12 +71,13 @@ main {
 }
 
 .subContainer {
-  width: 85%;
+  width: 90%;
   margin: auto;
 }
 
 #selectDateContainer {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }
 
@@ -78,7 +85,6 @@ main {
   background-color: #796465;
   color: white;
   padding: 0.5em;
-  border-color: black;
-  border-width: thin;
-  border-style: solid;
+  border: 1 px solid black;
+  margin: 0.5em 0;
 }
