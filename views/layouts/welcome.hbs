@@ -4,20 +4,29 @@
         <title>
             Welcome
         </title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        
+        <link rel="stylesheet" href="/css/tailwind.css">
         <link rel="stylesheet" href="/css/welcome.css">
+        
         <link href='https://fonts.googleapis.com/css?family=Kameron' rel='stylesheet'>
+        <script src="/js/test_translate.js" defer></script>
+        <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
     </head>
     <body>
-        <nav>
+        <nav class="flex justify-end space-x-10">
+            <div id="google_translate_element"></div>
             <a href="/static/login">Admin Login</a>
         </nav>
+         
         <div class="welcome-container">
-            <h1 class="welcome-text">APPOINTMENT BOOKING AND MANAGEMENT</h1>
-            <h4 class="sample-text">Sample text.</h4>
+            <h1 class="welcome-text font-bold">APPOINTMENT BOOKING AND MANAGEMENT</h1>
+            <h4 class="sample-text underline">Sample text.</h4>
             <br><br>
 
             <a href="/static/appointment">
-                <div class="appointment-button" id="buttons">
+                <div class="appointment-button bg-brown-100" id="buttons">
                     <h3 class="appointment-text"id="button-text">BOOK AN APPOINTMENT</h3>
                 </div>
             </a>
@@ -26,6 +35,7 @@
                 <div class="lang-button" id="buttons"><p class="lang-text">English</p></div>
                 <div id="buttons" class="lang-button"><p class="lang-text">한국인</p></div>
             </div>
+
         </div>
     </body>
 </html>
