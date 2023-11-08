@@ -119,19 +119,19 @@ document.getElementById('submitBtn').addEventListener('click', async (e) => {
     }
     confirmMsg.hidden = false
 
-    // const res = await fetch('/bookAppointment', {
-    //     method: 'POST',
-    //     headers: {
-    //         "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //         salon: salon,
-    //         customerName: customerName,
-    //         customerPhone: customerPhone,
-    //         dateTime: new Date(dateTime).toString(),
-    //         service: service
-    //     })
-    // })
+    const res = await fetch('/pendingAppointment', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            salon: salon,
+            customerName: customerName,
+            customerPhone: customerPhone,
+            dateTime: new Date(dateTime).toString(),
+            service: service
+        })
+    })
 
     document.getElementById('selectedSalon').value = ""
     document.getElementById('name').value = ""

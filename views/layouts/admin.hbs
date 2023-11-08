@@ -41,6 +41,33 @@
         <div id="right">
           <div class="subContainer">
             <div id="selectDateContainer">
+                <div class="heading">Pending Appointments:</div>
+
+                <div>
+                  <label for="date">Filter by Start Date</label>
+                  <input type="date" id="date" name="date">
+                </div>
+            </div>
+
+            <div id="pendingAppointments" class="list">
+                {{#each pending}}
+                    <div class="appointmentContainer">
+                        <div>Service: {{this.service}}</div>
+                        <div>Booker: {{this.bookerName}}</div>
+                        <div>Phone Number: {{this.bookerPhoneNum}}</div>
+                        <div>Start Date and Time: {{this.startDatetime}}</div>
+                        <div>End Date and Time: {{this.endDatetime}}</div>
+                    </div>
+                {{/each}}
+                <div id="approveDeclineButtons">
+                    <button class="approveButton">Approve</button>
+                    <button class="declineButton">Decline</button>
+                </div>
+            </div>
+
+        <div id="right">
+          <div class="subContainer">
+            <div id="selectDateContainer">
                 <div class="heading">Appointments:</div>
 
                 <div>

@@ -5,6 +5,7 @@ const path = require('path')
 const mongoose = require('mongoose');
 const Store = require('./models/Store.js')
 const Appointment = require('./models/Appointment.js')
+const Pending = require('./models/Pending.js')
 
 
 app.set('view engine', 'hbs')
@@ -94,13 +95,20 @@ app.get('/admin/:storeName', async(req, res) => {
     const store = await Store.findOne({name: salonName})
     const services = store.services
     
-    // delete finished appointments
+    // Delete finished appointments
     await Appointment.deleteMany({'endDatetime': {$lt: new Date()}})
 
-    let appointments = await Appointment.find({"storeName": salonName})
+    let [appointments, pending] = await Promise.all([
+        Appointment.find({"storeName": salonName}),
+        Pending.find({"storeName": salonName})
+    ])
     
-    // sort appointments by start dates
+    // Sort appointments by start dates
     appointments = appointments.sort((a, b) => {
+        return a.startDatetime - b.startDatetime
+    })
+
+    pendingAppointments = pending.sort((a, b) => {
         return a.startDatetime - b.startDatetime
     })
 
@@ -108,16 +116,29 @@ app.get('/admin/:storeName', async(req, res) => {
         let start = localTimeString(a.startDatetime)
         let end = localTimeString(a.endDatetime)
         return {
-           service: a.service,
-           bookerName: a.bookerName,
-           bookerPhoneNum: a.bookerPhoneNum,
-           startDatetime: `${start.substring(0, 10)}, ${start.substring(11, 16)}`,
-           endDatetime: `${end.substring(0, 10)}, ${end.substring(11, 16)}`
+            service: a.service,
+            bookerName: a.bookerName,
+            bookerPhoneNum: a.bookerPhoneNum,
+            startDatetime: `${start.substring(0, 10)}, ${start.substring(11, 16)}`,
+            endDatetime: `${end.substring(0, 10)}, ${end.substring(11, 16)}`
         }
     })
 
-    res.render('layouts/admin', {salonName: salonName, services: services, appointments: appointments})
+    pending = pending.map((a) => {
+        let start = localTimeString(a.startDatetime)
+        let end = localTimeString(a.endDatetime)
+        return {
+            service: a.service,
+            bookerName: a.bookerName,
+            bookerPhoneNum: a.bookerPhoneNum,
+            startDatetime: `${start.substring(0, 10)}, ${start.substring(11, 16)}`,
+            endDatetime: `${end.substring(0, 10)}, ${end.substring(11, 16)}`
+        }
+    })
+
+    res.render('layouts/admin', {salonName: salonName, services: services, appointments: appointments, pending: pending})
 })
+
 
 // add service 
 app.put('/addService/:storeName/:service/:duration', async (req, res) => {
@@ -177,6 +198,83 @@ app.post('/bookAppointment', async (req, res) => {
     })
     await newAppointment.save()
 })
+
+//puts appointment into the pending collection to await to be accepted or rejected
+app.post('/pendingAppointment', async (req, res) => {
+    const salon = await Store.findOne({'name': req.body.salon}, 'services serviceDurations')
+    let duration
+    for (let i=0; i < salon.services.length; i+=1) {
+        if (salon.services[i] == req.body.service) {
+            duration = salon.serviceDurations[i]
+        }
+    }
+
+    const endDate = computeEnd(req.body.dateTime, duration) 
+
+    const newPendingAppointment = new Pending({
+        storeName: req.body.salon,
+        bookerName: req.body.customerName,
+        bookerPhoneNum: req.body.customerPhone,
+
+        startDatetime: req.body.dateTime,
+        endDatetime: endDate,
+        service: req.body.service
+    })
+    await newPendingAppointment.save()
+
+    res.send('Appointment request sent to pending collection.');
+})
+
+app.post('/approveAppointment', async (req, res) => {
+    const { salon, customerName, customerPhone, dateTime, service } = req.body;
+
+    // Add the approved appointment to the appointments collection
+    const salonInfo = await Store.findOne({ name: salon }, 'services serviceDurations');
+    let duration;
+    for (let i = 0; i < salonInfo.services.length; i += 1) {
+        if (salonInfo.services[i] == service) {
+            duration = salonInfo.serviceDurations[i];
+        }
+    }
+    const endDate = computeEnd(dateTime, duration);
+
+    const newAppointment = new Appointment({
+        storeName: salon,
+        bookerName: customerName,
+        bookerPhoneNum: customerPhone,
+        startDatetime: dateTime,
+        endDatetime: endDate,
+        service: service
+    });
+
+    await newAppointment.save();
+
+    // Delete the pending appointment from the pendings collection
+    await Pending.findOneAndDelete({
+        storeName: salon,
+        bookerName: customerName,
+        bookerPhoneNum: customerPhone,
+        startDatetime: dateTime,
+        service: service
+    });
+
+    res.send('Appointment approved and moved to appointments collection.');
+});
+
+app.post('/deletePendingAppointment', async (req, res) => {
+    const { salon, customerName, customerPhone, dateTime, service } = req.body;
+
+    await Pending.findOneAndDelete({
+        storeName: salon,
+        bookerName: customerName,
+        bookerPhoneNum: customerPhone,
+        startDatetime: dateTime,
+        service: service
+    });
+
+    res.send('Pending appointment deleted.');
+});
+
 
 app.listen(3000, () =>{
     console.log('Hello! Listening at http://localhost:3000')
