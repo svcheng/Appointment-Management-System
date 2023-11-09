@@ -1,95 +1,70 @@
 <!DOCTYPE html>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/tailwind.css">
     <link rel="stylesheet" type="text/css" href="/css/admin.css" />
     <link href='https://fonts.googleapis.com/css?family=Kameron' rel='stylesheet'>
     <script src="/js/admin.js" defer></script>
     <title>Admin Page</title>
   </head>
+<body>
+<body class="bg-yellow-300 font-Kameron">
+    <nav class="text-right text-lg p-4">
+        <a href="/static/welcome" class="no-underline text-black">Logout</a>
+    </nav>
 
-  <body>
-    <nav><a href="/static/welcome">Logout</a></nav>
+    <header class="text-center text-2xl">
+        <h2 id="salonName">{{salonName}}</h2>
+    </header>
 
-    <header><h2 id="salonName">{{salonName}}</h2></header>
-    <main>
-        <div id="left">
-          <div class="subContainer">
-            <div class="heading" id="servicesHeader">Services</div>
+    <main class="flex">
+        <div id="left" class="w-45 p-4">
+            <div class="subContainer">
+                <div class="heading">Services</div>
 
-            <div class="list">
-              <div id="services" >
-                  {{#each services}}
-                    <div class="service">{{this}}</div>
-                  {{/each}}
-              </div>
+                <div class="list bg-orange-400 rounded-md p-3 text-center overflow-y-scroll">
+                    <div id="services">
+                        {{#each services}}
+                            <div class="service mt-2 mb-2 text-lg font-bold">{{this}}</div>
+                        {{/each}}
+                    </div>
 
-              <div id="inputContainer">
-                <label for="newService">Service Name</label>
-                <input type='text' id="newService" name="newService"> 
+                    <div id="inputContainer" class="mt-4 mx-auto w-90 flex flex-col">
+                        <label for="newService" class="block">Service Name</label>
+                        <input type="text" id="newService" name="newService" class="border p-2">
 
-                <label for="newService">Service Duration (in minutes)</label>
-                <input type='text' id="newServiceDuration" name="newService"> 
-                <button id="addService">Add Service</button>
-              </div>
+                        <label for="newServiceDuration" class="block mt-2">Service Duration (in minutes)</label>
+                        <input type="text" id="newServiceDuration" name="newService" class="border p-2">
+                        <button id="addService" class="bg-blue-500 text-white p-2 mt-2">Add Service</button>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
 
-        <div id="right">
-          <div class="subContainer">
-            <div id="selectDateContainer">
-                <div class="heading">Pending Appointments:</div>
+        <div id="right" class="w-55">
+            <div class="subContainer">
+                <div id="selectDateContainer" class="flex justify-between">
+                    <div class="heading">Appointments:</div>
 
-                <div>
-                  <label for="date">Filter by Start Date</label>
-                  <input type="date" id="date" name="date">
-                </div>
-            </div>
-
-            <div id="pendingAppointments" class="list">
-                {{#each pending}}
-                    <div class="appointmentContainer">
-                        <div>Service: {{this.service}}</div>
-                        <div>Booker: {{this.bookerName}}</div>
-                        <div>Phone Number: {{this.bookerPhoneNum}}</div>
-                        <div>Start Date and Time: {{this.startDatetime}}</div>
-                        <div>End Date and Time: {{this.endDatetime}}</div>
+                    <div class="mt-2">
+                        <label for="date" class="block">Filter by Start Date</label>
+                        <input type="date" id="date" name="date" class="border p-2">
                     </div>
-                {{/each}}
-                <div id="approveDeclineButtons">
-                    <button class="approveButton">Approve</button>
-                    <button class="declineButton">Decline</button>
+                </div>
+
+                <div id="appointments" class="list bg-brown-600 text-white p-4 rounded-md space-y-4">
+                    {{#each appointments}}
+                        <div class="appointmentContainer border-black border-solid border-thin p-2">
+                            <div>Service: {{this.service}}</div>
+                            <div>Booker: {{this.bookerName}}</div>
+                            <div>Phone Number: {{this.bookerPhoneNum}}</div>
+                            <div>Start Date and Time: {{this.startDatetime}}</div>
+                            <div>End Date and Time: {{this.endDatetime}}</div>
+                        </div>
+                    {{/each}}
                 </div>
             </div>
-
-        <div id="right">
-          <div class="subContainer">
-            <div id="selectDateContainer">
-                <div class="heading">Appointments:</div>
-
-                <div>
-                  <label for="date">Filter by Start Date</label>
-                  <input type="date" id="date" name="date">
-                </div>
-            </div>
-
-            <div id="appointments" class="list">
-              {{#each appointments}}
-                <div class="appointmentContainer">
-                  <div>Service: {{this.service}}</div>
-                  <div>Booker: {{this.bookerName}}</div>
-                  <div>Phone Number: {{this.bookerPhoneNum}}</div>
-                  <div>Start Date and Time: {{this.startDatetime}}</div>
-                  <div>End Date and Time: {{this.endDatetime}}</div>
-                </div>
-              {{/each}}
-            </div>
-          </div>
         </div>
     </main>
-  </body>
-</html>
+</body>

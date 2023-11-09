@@ -1,14 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   background-color: #e8d2ae;
   font-family: 'Kameron',sans-serif;
 }
 
 nav {
-  text-align: center;
+  text-align: right;
   font-size: 1.2em;
   padding: 1em;
-  background-color: #d7b29d;
-
 }
 
 a {
@@ -19,18 +21,16 @@ a {
 header {
   text-align: center;
   font-size: 2em;
-  padding: 1em;
 }
 
 main {
   display: flex;
-  flex-direction: column;
   padding-left: 0.5em;
   padding-left: 0.5em;
 }
 
 #left {
-  width: 100%;
+  width: 45%;
   padding: 1em;
 }
 
@@ -39,18 +39,16 @@ main {
   width: 90%;
   display: flex;
   flex-direction: column;
-  align-items:center;
 }
 
 #right {
-  width: 100%;
-  margin-top:1em;
+  width: 55%;
 }
 
 .heading {
   text-align: center;
   font-size: 1.5em;
-  margin-bottom: 0.5em 0;
+  margin-bottom: 0.5em;
 }
 
 .list {
@@ -71,13 +69,12 @@ main {
 }
 
 .subContainer {
-  width: 90%;
+  width: 85%;
   margin: auto;
 }
 
 #selectDateContainer {
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
 }
 
@@ -85,6 +82,7 @@ main {
   background-color: #796465;
   color: white;
   padding: 0.5em;
-  border: 1 px solid black;
-  margin: 0.5em 0;
+  border-color: black;
+  border-width: thin;
+  border-style: solid;
 }
