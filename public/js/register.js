@@ -19,9 +19,9 @@ document.getElementById("regBtn").addEventListener("click", async (e) => {
 
     const storeName = document.getElementById("storeName").value
     const password = document.getElementById("password").value
-    const captcha = document.getElementById("captcha").value
+    const codeVerify = document.getElementById("codeVerify").value
 
-    const res = await fetch(`/register/${storeName}/${password}/${captcha}`, {
+    const res = await fetch(`/register/${storeName}/${password}/${codeVerify}`, {
         method: "POST"
     })
 
@@ -40,9 +40,9 @@ document.getElementById("sendCode").addEventListener("click", async (e) =>{
     const receivedEmail = document.getElementById("email").value
 
     if(document.getElementById("email").checkValidity()){
-    const captcha = generateRandomString(6);
-    verify = captcha;
-    const res = await fetch(`/sendData/${receivedEmail}/${captcha}`, {
+    const codeVerify = generateRandomString(6);
+    verify = codeVerify;
+    const res = await fetch(`/sendData/${receivedEmail}/${codeVerify}`, {
         method: 'POST', 
     });
     } else {
@@ -50,9 +50,9 @@ document.getElementById("sendCode").addEventListener("click", async (e) =>{
     }
 })
 
-document.getElementById("testingCaptcha").addEventListener("click", async (e) =>{
-    const captcha = document.getElementById("captcha").value
-    if(captcha === verify){
+document.getElementById("testingMatch").addEventListener("click", async (e) =>{
+    const codeVerify = document.getElementById("codeVerify").value
+    if(codeVerify === verify){
         alert('CORRECT!');
     } else {
         alert('WRONG!');
