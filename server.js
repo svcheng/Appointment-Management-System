@@ -6,7 +6,8 @@ const mongoose = require('mongoose');
 const Store = require('./models/Store.js')
 const Appointment = require('./models/Appointment.js')
 const Pending = require('./models/Pending.js')
-
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 
 app.set('view engine', 'hbs')
 app.use(express.static(path.join(__dirname, 'public')))
@@ -72,8 +73,9 @@ app.get('/login/:username/:password', async (req, res) => {
 })
 
 // register salon
-app.post('/register/:storeName/:password', async (req, res) => {    
+app.post('/register/:storeName/:password/:captcha', async (req, res) => {    
     // check if storeName already exists in the database
+
     const exists = await Store.findOne({ 'name': req.params.storeName });
 
     if (!exists) {
@@ -275,6 +277,46 @@ app.post('/deletePendingAppointment', async (req, res) => {
     res.send('Pending appointment deleted.');
 });
 
+//Details for Email
+const transporter = nodemailer.createTransport({
+    service:'gmail',
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: false,
+    auth: {
+      user: 'appointmentsserver@gmail.com',
+      pass: 'vflm pnvr dkbs xxmh'
+    },
+    tls: {
+      rejectUnauthorized: false
+    }
+  });
+
+//Sending an Email
+const sendMail = async (transporter, mailOptions) =>{
+    try{
+      await transporter.sendMail(mailOptions);
+      console.log('Email has been sent!');
+    } catch (error){
+      console.error(error);
+    }
+  }
+
+//Coalesces and send Email + gets randomString from register.js
+app.post('/sendData/:receivedEmail/:captcha', async (req, res) =>{
+    const receivedEmail = req.params.receivedEmail;
+    let codeConfirm = req.params.captcha;
+    const mailOptions = {
+        from: {
+          name: "Server Appointments",
+          address: 'appointmentsserver@gmail.com'
+        }, // sender address
+        to: receivedEmail, // list of receivers
+        subject: "Account Authentication", // Subject line
+        html: "<p>Your code is: " + codeConfirm, 
+      }
+    sendMail(transporter, mailOptions);
+})
 
 app.listen(3000, () =>{
     console.log('Hello! Listening at http://localhost:3000')
