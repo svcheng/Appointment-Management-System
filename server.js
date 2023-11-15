@@ -73,7 +73,7 @@ app.get('/login/:username/:password', async (req, res) => {
 })
 
 // register salon
-app.post('/register/:storeName/:password/:captcha', async (req, res) => {    
+app.post('/register/:storeName/:password/:codeVerify', async (req, res) => {    
     // check if storeName already exists in the database
 
     const exists = await Store.findOne({ 'name': req.params.storeName });
@@ -303,9 +303,9 @@ const sendMail = async (transporter, mailOptions) =>{
   }
 
 //Coalesces and send Email + gets randomString from register.js
-app.post('/sendData/:receivedEmail/:captcha', async (req, res) =>{
+app.post('/sendData/:receivedEmail/:codeVerify', async (req, res) =>{
     const receivedEmail = req.params.receivedEmail;
-    let codeConfirm = req.params.captcha;
+    let codeConfirm = req.params.codeVerify;
     const mailOptions = {
         from: {
           name: "Server Appointments",
