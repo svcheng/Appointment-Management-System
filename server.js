@@ -8,6 +8,7 @@ const Appointment = require('./models/Appointment.js')
 const Pending = require('./models/Pending.js')
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 
 app.set('view engine', 'hbs')
 app.use(express.static(path.join(__dirname, 'public')))
@@ -61,10 +62,18 @@ app.get('/static/:page', async (req, res) => {
 // admin log in 
 app.get('/login/:username/:password', async (req, res) => {
     // check if username already exists in the database
-    const exists = await Store.findOne({ 'name': req.params.username, 'password': req.params.password });
+    const exists = await Store.findOne({ 'name': req.params.username});
 
     if (exists) {
-        res.status(200)
+        const userPassword = req.params.password;
+        const hashedPassword = exists.password;
+        const passwordMatch = await bcrypt.compare(userPassword, hashedPassword);
+        if(passwordMatch){
+            res.status(200)
+        } 
+        else {
+            res.status(300)
+        }
     }
     else {
         res.status(300)
@@ -73,14 +82,14 @@ app.get('/login/:username/:password', async (req, res) => {
 })
 
 // register salon
-app.post('/register/:storeName/:password/:codeVerify', async (req, res) => {    
+app.post('/register/:storeName/:password/:receivedEmail', async (req, res) => {    
     // check if storeName already exists in the database
 
     const exists = await Store.findOne({ 'name': req.params.storeName });
-
+   
     if (!exists) {
         // add store to database
-        const newStore = new Store({name: req.params.storeName, password: req.params.password})
+        const newStore = new Store({name: req.params.storeName, password: req.params.password, email: req.params.receivedEmail})
         await newStore.save()
         res.status(200)
         res.end()
@@ -224,6 +233,8 @@ app.post('/pendingAppointment', async (req, res) => {
     })
     await newPendingAppointment.save()
 
+    
+
     res.send('Appointment request sent to pending collection.');
 })
 
@@ -303,7 +314,7 @@ const sendMail = async (transporter, mailOptions) =>{
   }
 
 //Coalesces and send Email + gets randomString from register.js
-app.post('/sendData/:receivedEmail/:codeVerify', async (req, res) =>{
+app.post('/sendData/:receivedEmail/:codeVerify', async (req) =>{
     const receivedEmail = req.params.receivedEmail;
     let codeConfirm = req.params.codeVerify;
     const mailOptions = {
@@ -317,6 +328,57 @@ app.post('/sendData/:receivedEmail/:codeVerify', async (req, res) =>{
       }
     sendMail(transporter, mailOptions);
 })
+
+//Email Notification: send to the StoreOwner about a sent appointment
+app.post('/appointmentEmail/:salon/:customerName/:customerPhone/:dateTime/:service', async (req) =>{
+    const exists = await Store.findOne({ 'name': req.params.salon });
+
+    if(exists){
+        const mailOptions = {
+            from: {
+              name: "Appointment Notification to" + req.params.salon,
+              address: 'appointmentsserver@gmail.com'
+            }, // sender address
+            to: exists.email, // list of receivers
+            subject: "New Appointment", // Subject line
+            //Content of Letter; coded directly here to prevent error messages if we were to instead read from an external HTML file
+            html: `
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr><td>
+                    <p>Greetings!</p>
+                    <p>You have a pending appointment to approve/decline:</p>
+                    </td></tr><tr><td>
+                    <table width="100%" cellpadding="5" cellspacing="0" border="1">
+                        <tr>
+                        <td><strong>Customer's Name:</strong></td>
+                        <td>${req.params.customerName}</td>
+                        </tr>
+                        <tr>
+                        <td><strong>Customer's Phone:</strong></td>
+                        <td>${req.params.customerPhone}</td>
+                        </tr>
+                        <tr>
+                        <td><strong>Time:</strong></td>
+                        <td>${req.params.dateTime}</td>
+                        </tr>
+                        <tr>
+                        <td><strong>Service:</strong></td>
+                        <td>${req.params.service}</td>
+                        </tr>
+                    </table>
+                    </td></tr><tr><td>
+                    <p>Please head to your respective admin page to respond!</p>
+                </td></tr>
+            </table>
+            `, 
+          }
+        sendMail(transporter, mailOptions);
+    } else {
+        console.error(error);
+    }
+})
+
+
 
 app.listen(3000, () =>{
     console.log('Hello! Listening at http://localhost:3000')
