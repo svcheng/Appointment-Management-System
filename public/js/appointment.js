@@ -133,6 +133,9 @@ document.getElementById('submitBtn').addEventListener('click', async (e) => {
         })
     })
 
+    //Sends Email Notification to Admin
+    sendEmail(salon, customerName, customerPhone, dateTime, service)
+
     document.getElementById('selectedSalon').value = ""
     document.getElementById('name').value = ""
     document.getElementById('tel').value = ""
@@ -145,3 +148,10 @@ document.getElementById('submitBtn').addEventListener('click', async (e) => {
         parent.removeChild(parent.firstChild);
     }
 })
+
+const sendEmail = async (salon, customerName, customerPhone, dateTime, service) => { 
+    const res2 = await fetch(`/appointmentEmail/${salon}/${customerName}/${customerPhone}/${dateTime}/${service}`, {
+        method: 'POST',
+    })
+
+}
