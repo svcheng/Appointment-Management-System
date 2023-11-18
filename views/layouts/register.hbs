@@ -30,20 +30,23 @@
                     <label>Email</label>
                 </div>
             
-                <input id="sendCode" type="button" value="Send Code">
+                <input id="sendCode" type="button" value="Send Code" class="Enabled">
+                <p class="error" id="r_email" hidden>Please enter a proper email.</p>
 
                 <div class="txt_field">
                     <input id="codeVerify" name="sentCode" required>
                     <label>Code</label>
                 </div>
 
-                <input id="testingMatch" type="button" value="(Test) Captcha Match?">
-                <br>
+                {{!-- <input id="testingMatch" type="button" value="(Test) Captcha Match?"> --}}
+               
                 {{!-- <div class="pass">Forgot Password?</div> --}}
 
                 <input class="submitBtn" id="regBtn" type="submit" value="Register">
 
                 <p class="error" id="r_error" hidden>Store name already exists, choose another.</p>
+                <p class="error" id="r_code" hidden>Incorrect code.</p>
+                
 
                 <div class="signup_link">
                     Already registered? <a href="/static/login">Login</a>
