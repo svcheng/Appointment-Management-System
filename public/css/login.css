@@ -79,6 +79,7 @@ body{
     background-position: center;
     background-repeat: no-repeat;
     background-size:cover;
+    overflow-y: auto; /* Add vertical scroll */
 }
 
 .center{
@@ -166,11 +167,12 @@ input[type="submit"]:hover{
     transition: .5s;
 }
 
-input[type="button"]:hover{
+input[class="Enabled"]:hover{
     border-color: #dde8b9;
     transition: .5s;
-  }
-  input[type="button"]{
+}
+
+input[id="sendCode"]{
     width: 100%;
     height: 50px;
     border: 1px solid;
@@ -181,8 +183,17 @@ input[type="button"]:hover{
     font-weight: 700;
     cursor: pointer;
     outline: none;
-  }
+}
 
+input[class="Disabled"]:hover{
+    border-color: #291c1d;
+}
+
+#sendCode.disabled {
+    pointer-events: none; /* Disable pointer events */
+    border-color: initial; /* Reset border color */
+    transition: initial; /* Reset transition */
+}
 
 .signup_link{
     margin: 30px 0;
