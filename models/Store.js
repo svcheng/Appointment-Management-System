@@ -1,4 +1,7 @@
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
+
+
 
 const StoreSchema = new mongoose.Schema({
     name: {
@@ -6,6 +9,10 @@ const StoreSchema = new mongoose.Schema({
         required: true
     },
     password: {
+        type: String,
+        required: true
+    },
+    email: {
         type: String,
         required: true
     },
@@ -18,6 +25,13 @@ const StoreSchema = new mongoose.Schema({
         default: [] 
     }
 });
+//password hashing
+StoreSchema.pre('save', async function (next) {
+    const salt = await bcrypt.genSalt();
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+})
+
 
 const Store = mongoose.model('Store', StoreSchema)
 module.exports = Store
