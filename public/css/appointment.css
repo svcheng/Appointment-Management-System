@@ -44,18 +44,38 @@ h1{
     background-color: white;
 }
 
+.calendar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    border-radius: 0.5em;
+    margin-top: 1em; /* Set the height to 100% of the viewport height */
+  }
+
 .calendar-bar {
     display: flex;
     justify-content: space-between;
     background-color: #f0f0f0;
     padding: 10px;
+    border-radius: 10px;
+    
   }
   
   .day {
     flex: 1;
     text-align: center;
     padding: 10px;
+    margin: 5px; 
+    border-radius: 10px;
     border: 1px solid #ccc;
+    background-color: #fff; 
+    cursor: pointer;
+    transition: background-color 0.3s ease; 
+  }
+  
+  .day:hover {
+    background-color: #ddd; 
   }
 
 .form-outer-box{
