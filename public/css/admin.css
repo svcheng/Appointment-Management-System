@@ -77,6 +77,7 @@ main {
   justify-content: space-between;
 }
 
+
 .appointmentContainer {
   background-color: #796465;
   color: white;
@@ -115,3 +116,22 @@ main {
 .colorful-textbox:hover {
   background-color: #e8d2ae; 
 }
+
+.colorful-date-input {
+  background-color: #cb9589; 
+  color: #796465; 
+  padding: 10px; 
+  border: none; 
+  border-radius: 5px; 
+  width: 100%; 
+  box-sizing: border-box; 
+}
+
+
+.colorful-date-input::-webkit-calendar-picker-indicator {
+  filter: invert(1); 
+}
+
+
+.colorful-date-input::-webkit-calendar-drop-indicator {
+  color: #cb9589; }
