@@ -32,11 +32,14 @@
 
                     <div id="inputContainer" class="mt-4 mx-auto w-90 flex flex-col">
                         <label for="newService" class="block">Service Name</label>
-                        <input type="text" id="newService" name="newService" class="border p-2">
+                        
+                        <input type="text" id="newService" name="newService" class="colorful-textbox">
 
                         <label for="newServiceDuration" class="block mt-2">Service Duration (in minutes)</label>
-                        <input type="text" id="newServiceDuration" name="newService" class="border p-2">
-                        <button id="addService" class="bg-blue-500 text-white p-2 mt-2">Add Service</button>
+                        <input type="text" id="newServiceDuration" name="newService" class="colorful-textbox">
+                        <button id="addService" class="store-button" type="submit">Submit</button>
+
+
                     </div>
                 </div>
             </div>
@@ -62,8 +65,8 @@
                             </div>
                         {{/each}}
                         <div id="approveDeclineButtons">
-                            <button class="approveButton">Approve</button>
-                            <button class="declineButton">Decline</button>
+                            <button id="approveButton" class="store-button">Approve</button>
+                            <button id="declineButton" class="store-button">Decline</button>
                         </div>
         </div>
         

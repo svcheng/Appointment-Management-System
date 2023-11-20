@@ -85,3 +85,33 @@ main {
   border-width: thin;
   border-style: solid;
 }
+.store-button{
+  border-radius: 35px;
+  background-color: #796465;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 1em;
+}
+
+.store-button:hover, .searchResult:hover {
+  background-color: #dde9b9;
+  cursor: pointer;
+  color:black;
+}
+
+.colorful-textbox {
+  background-color: #cb9589; 
+  color: #796465; 
+  padding: 10px; 
+  border: none; 
+  border-radius: 5px; 
+  width: 100%; 
+  box-sizing: border-box; 
+}
+
+
+.colorful-textbox:hover {
+  background-color: #e8d2ae; 
+}
