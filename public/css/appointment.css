@@ -10,10 +10,12 @@ body {
 nav {
     padding: 1em;
     font-size: 24px;
+    background-color:#796465;
+    border-bottom: 1px solid black;
 }
 
 nav > a {
-    color: black;
+    color: white;
     display: block;
     text-align: right;
     text-decoration: none;
@@ -44,16 +46,16 @@ h1{
     background-color: white;
 }
 
-.calendar-container {
+#calendar-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 40%;
+    width:0%;
     border-radius: 0.5em;
     margin-top: 1em; /* Set the height to 100% of the viewport height */
   }
 
-.calendar-bar {
+#calendar-bar {
     display: flex;
     justify-content: space-between;
     background-color: #f0f0f0;
@@ -62,7 +64,7 @@ h1{
     
   }
   
-  .day {
+  #day {
     flex: 1;
     text-align: center;
     padding: 10px;
@@ -74,14 +76,14 @@ h1{
     transition: background-color 0.3s ease; 
   }
   
-  .day:hover {
+  #day:hover {
     background-color: #ddd; 
   }
 
 .form-outer-box{
     display:flex;
     flex-direction: column;
-    margin-left: 5rem;
+    margin-left: 15rem;
 }
 
 .form-inner-box{
@@ -137,4 +139,26 @@ h1{
     font-size: 1rem;
 
     text-align: center;
+}
+
+#appointment-container{
+    display:flex;
+    flex-direction:row;
+    width: 50%;
+}
+#left-side{
+    display:flex;
+    flex-direction:column;
+    width: 1000%;
+}
+
+.goog-te-menu-value span,
+.goog-te-menu-value span:before {
+  font-size: 8px; 
+}
+
+
+.goog-te-menu-frame.skiptranslate,
+.goog-te-menu-frame.skiptranslate iframe {
+  max-width: 200px; 
 }

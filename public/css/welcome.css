@@ -16,6 +16,8 @@ a {
 nav {
     padding: 1em;
     font-size: 24px;
+    background-color:#796465;
+    border-bottom: 1px solid black;
 }
 
 nav > a {
@@ -68,3 +70,13 @@ nav > a {
     gap: 10px;
 }
 
+.goog-te-menu-value span,
+.goog-te-menu-value span:before {
+  font-size: 8px; 
+}
+
+
+.goog-te-menu-frame.skiptranslate,
+.goog-te-menu-frame.skiptranslate iframe {
+  max-width: 200px; 
+}
