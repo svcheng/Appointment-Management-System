@@ -52,6 +52,8 @@ h1{
     align-items: center;
     width:0%;
     border-radius: 0.5em;
+    float:left;
+    display:inline-bloack;
     margin-top: 1em; /* Set the height to 100% of the viewport height */
   }
 
