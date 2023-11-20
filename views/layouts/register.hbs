@@ -6,10 +6,15 @@
         <link rel="stylesheet" href="/css/tailwind.css">
         <link rel="stylesheet" href="/css/login.css">
         <script src="/js/register.js" defer></script>
+        <script src="/js/test_translate.js" defer></script>
+        <script async type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     </head>
     <body>
-        <nav> 
-            <a href="/static/welcome">Book An Appointment</a>
+        <nav class="flex justify-end space-x-10">
+            <div id="google-container" class="w-20">
+                <div  id="google_translate_element"></div>
+            </div> 
+            <a href="/static/welcome" class="text-white hover:text-black">Book An Appointment</a>
         </nav>
 
         <div class="center">

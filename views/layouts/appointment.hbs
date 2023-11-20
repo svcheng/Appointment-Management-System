@@ -6,57 +6,69 @@
         <link rel="stylesheet" href="/css/appointment.css">
         <link href='https://fonts.googleapis.com/css?family=Kameron' rel='stylesheet'>
         <script src="/js/appointment.js" defer></script>
+        <script src="/js/test_translate.js" defer></script>
+        <script async type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     </head>
     <body>
+        <nav class="flex justify-end space-x-10">
+            <div id="google-container" class="w-20">
+                <div  id="google_translate_element"></div>
+            </div>
+            <a href="/static/welcome" class="text-white hover:text-black">Back</a>
+        </nav>
         <div class="form-outer-box">
-            <nav>
+            {{!-- <nav class="bg-brown-500">
                 <a href="/static/welcome">Back</a>
-            </nav>
+            </nav> --}}
 
             <h1>ENTER APPOINTMENT DETAILS</h1>
 
             <div id="search">
                 <input type="text" id="searchBar" placeholder="Search for a store">
-                <div id="searchResults">
+                <div id="searchResults"></div>
+            </div>
+
+            <div id="appointment-container">
+                <div id="left-side">
+                    <div class="form-inner-box">
+                        <label class="form-text">Selected Store</label><br>
+                        <input id="selectedSalon" disabled></input>
+                    </div>
+
+                    <div class="form-inner-box">
+                        <form id="form">
+                            <label class="form-text" for="customer-name">Name</label><br>
+                            <input type="text" id="name" name="customer-name" placeholder="Enter your name"><br><br>
+
+                            <label class="form-text" for="customer-num">Phone</label><br>
+                            <input type="tel" id="tel" name="customer-num" placeholder="Enter your phone"><br><br>
+
+                            <label class="form-text" for="dateTime">Date and Time</label><br>
+                            <input type="datetime-local" id="dateTime" name="dateTime" min="{{curDate}}"><br><br>
+
+                            <label class="form-text" for="customer-service">Type of Service</label><br>
+                            <select id="customer-service" name="options">
+                            </select>
+
+                            <p class="error" id="errorMsg" hidden>All fields must be filled out</p>
+                            <p class="confirm" id="confirmMsg" hidden>Appointment Requested</p>
+
+                            <input class="submit-button" type="submit" value="Submit" id="submitBtn">
+                        </form>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-inner-box">
-                <label class="form-text">Selected Store</label><br>
-                <input id="selectedSalon" disabled></input>
-            </div>
-                <div class="calendar-container">
-                <div class="calendar-bar">
-                    <div class="day">Sun</div>
-                    <div class="day">Mon</div>
-                    <div class="day">Tue</div>
-                    <div class="day">Wed</div>
-                    <div class="day">Thu</div>
-                    <div class="day">Fri</div>
-                    <div class="day">Sat</div>
-                 </div>
-                 </div>
-
-            <div class="form-inner-box">
-                <form id="form">
-                    <label class="form-text" for="customer-name">Name</label><br>
-                    <input type="text" id="name" name="customer-name" placeholder="Enter your name"><br><br>
-
-                    <label class="form-text" for="customer-num">Phone</label><br>
-                    <input type="tel" id="tel" name="customer-num" placeholder="Enter your phone"><br><br>
-
-                    <label class="form-text" for="dateTime">Date and Time</label><br>
-                    <input type="datetime-local" id="dateTime" name="dateTime" min="{{curDate}}"><br><br>
-
-                    <label class="form-text" for="customer-service">Type of Service</label><br>
-                    <select id="customer-service" name="options">
-                    </select>
-
-                    <p class="error" id="errorMsg" hidden>All fields must be filled out</p>
-                    <p class="confirm" id="confirmMsg" hidden>Appointment Requested</p>
-
-                    <input class="submit-button" type="submit" value="Submit" id="submitBtn">
-                </form>
+                <div id="calendar-container">
+                    <div id="calendar-bar">
+                        <div id="day">Sun</div>
+                        <div id="day">Mon</div>
+                        <div id="day">Tue</div>
+                        <div id="day">Wed</div>
+                        <div id="day">Thu</div>
+                        <div id="day">Fri</div>
+                        <div id="day">Sat</div>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
