@@ -27,11 +27,15 @@ const StoreSchema = new mongoose.Schema({
 });
 //password hashing
 StoreSchema.pre('save', async function (next) {
+    // Occurs only if password was modified
+    if (!this.isModified('password')) {
+        return next();
+    }
+
     const salt = await bcrypt.genSalt();
     this.password = await bcrypt.hash(this.password, salt);
     next();
-})
-
+});
 
 const Store = mongoose.model('Store', StoreSchema)
 module.exports = Store
