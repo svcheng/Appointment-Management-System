@@ -3,6 +3,20 @@
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Arimo:wght@400;600&display=swap');
 
+
+body{
+    font-family: 'Kameron',sans-serif;
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #e8d2ae;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:cover;
+    overflow-y: auto; /* Add vertical scroll */
+}
+
 nav {
     padding: 1em;
     font-size: 24px;
@@ -15,6 +29,10 @@ nav > a {
     display: block;
     text-align: right;
     text-decoration: none;
+}
+
+#book-appointment:hover{
+    color: black;
 }
 
 div.navbar{
@@ -36,7 +54,7 @@ div.navigation{
     margin-right: auto;
     text-align: center;
 }
-a{
+/* a{
     color: #291c1d;
     text-decoration: none;
     color:#291c1d;
@@ -44,7 +62,7 @@ a{
 
 a:visited{
     color:#291c1d;
-}
+} */
 
 button.nav{
     font-family: 'Arimo', sans-serif;
@@ -74,18 +92,7 @@ div.logo-container{
     padding: 0.5rem;
 }
 
-body{
-    font-family: 'Arimo', sans-serif;
-    padding: 0;
-    margin: 0;
-    height: 100vh;
-    overflow: hidden;
-    background-color: #e8d2ae;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size:cover;
-    overflow-y: auto; /* Add vertical scroll */
-}
+
 
 .center{
     padding-top: 0.5rem;

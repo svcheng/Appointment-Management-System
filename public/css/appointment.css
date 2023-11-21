@@ -46,21 +46,25 @@ h1{
     background-color: white;
 }
 
+
 #calendar-container {
-    display: flex;
-    justify-content: center;
+    /* display: flex;
+    justify-content:center;
     align-items: center;
     width:0%;
     border-radius: 0.5em;
-    float:left;
-    display:inline-bloack;
+    float:left; */
+    /* display:inline-bloack; */
+    background-color: #d7b29d;
+    border-radius: 10px;
     margin-top: 1em; /* Set the height to 100% of the viewport height */
+    margin-left: 7em;
   }
 
 #calendar-bar {
     display: flex;
     justify-content: space-between;
-    background-color: #f0f0f0;
+    background-color: #d7b29d;
     padding: 10px;
     border-radius: 10px;
     
@@ -91,9 +95,10 @@ h1{
 .form-inner-box{
     background-color: #d7b29d;
     padding: 30px;
-    width: 40%;
+    width: 100%;
     border-radius: 0.5em;
     margin-top: 1em;
+    
 }
 
 .form-text{
@@ -151,8 +156,29 @@ h1{
 #left-side{
     display:flex;
     flex-direction:column;
-    width: 1000%;
+    
 }
+
+#right-side{
+    display: flex;
+    flex-direction:column;
+}
+
+#schedule-container{
+    display: flex;
+    justify-content: space-between;
+    background-color: #d7b29d;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 1em;
+    justify-content: center;
+    
+    width: 100%;
+    margin-left: 3.5em;
+    height: 80%;
+}
+
+
 
 .goog-te-menu-value span,
 .goog-te-menu-value span:before {
