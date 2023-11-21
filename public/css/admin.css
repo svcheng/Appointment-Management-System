@@ -3,22 +3,31 @@
 @tailwind utilities;
 
 body {
-  background-color: #e8d2ae;
   font-family: 'Kameron',sans-serif;
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #e8d2ae;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size:cover;
+  overflow-y: auto; /* Add vertical scroll */
 }
 
+
+
 nav {
-  text-align: right;
-  font-size: 24px;
   padding: 1em;
+  font-size: 24px;
   background-color:#796465;
   border-bottom: 1px solid black;
 }
+
 nav > a {
-  color: white;
+  color: black;
   display: block;
   text-align: right;
-  text-decoration: none;
 }
 
 /* a {
