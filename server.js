@@ -176,15 +176,42 @@ app.get('/search/:searchInput', async (req, res) => {
 
 // returns all services and service durations of a salon
 app.get('/services/:salon', async (req, res) => {
+   
     const salon = await Store.findOne({'name': req.params.salon})
-
+    
     const response = {
         services: salon.services, 
         durations: salon.serviceDurations
     }
 
     res.send(response)
-})
+});
+
+app.get('/schedules/:salon', async (req, res) => {
+    try {
+        const appointments = await Appointment.find({'storeName': req.params.salon});
+        
+        if (!appointments) {
+            console.log("No appointment found");
+            return res.status(404).send("No appointment found");
+        }
+
+        const response = appointments.map(appointment => ({
+            service: appointment.service, 
+            start: appointment.startDatetime,
+            end: appointment.endDatetime,
+            bookerName: appointment.bookerName,
+            bookerPhoneNum: appointment.bookerPhoneNum
+        }));
+
+        console.log("Response: ", response)
+        res.send(response)
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
 
 // books an appointment if not conflicting
 app.post('/bookAppointment', async (req, res) => {
