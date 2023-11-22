@@ -55,17 +55,21 @@ const salonSelection = async (e) => {
     })
 
     data = await data.json()
-    console.log("data:")
-    console.log(data);
+    // console.log("data:")
+    // console.log(data);
+
     // display services
     for (let i=0; i < data.services.length; i+=1) {
         addServiceOption(data.services[i], data.durations[i])
     }
 
     // show header
+    let email = String(data.email);
     let appointmentHeader = document.getElementById('appointment-header');
     appointmentHeader.appendChild(document.createTextNode(" "+ salon));
+    appointmentHeader.appendChild(document.createTextNode(" (" + email + ")"));
     appointmentHeader.style.display = 'block'
+
 
     // display salon schedule
     let sched = await fetch('/schedules/' + salon, {
@@ -73,8 +77,8 @@ const salonSelection = async (e) => {
     })
 
     sched = await sched.json()
-    console.log("sched:");
-    console.log(sched);
+    // console.log("sched:");
+    // console.log(sched);
 
     sched.forEach(sched => {
         addScheduleOption(sched.service, sched.start, sched.end, sched.bookerName, sched.bookerPhoneNum)
@@ -83,14 +87,15 @@ const salonSelection = async (e) => {
 
 //
 const addScheduleOption = (serviceType, startTime, endTime, bookerName, bookerPhoneNum) => {
-    console.log("addScheduleOption");
-    let elem = document.createElement('div')
+    let elem = document.createElement('select')
     elem.setAttribute('id', 'sched-desc')
-    elem.innerHTML = `Service:  ${serviceType}<br>
-        Time:      ${startTime} to ${endTime}<br>
-        Booked by: ${bookerName} (${bookerPhoneNum})`
-    //elem.style.whiteSpace = 'pre';
-    // elem.appendChild(elemText)
+    //     <select name="Time: ${startTime} to ${endTime}">
+    elem.innerHTML = 
+    `
+        <option disabled selected value="">Time: ${startTime} to ${endTime}</option>
+        <option disabled> Service:  ${serviceType} </option>
+        <option disabled> Booked by: ${bookerName} (${bookerPhoneNum})</option>
+    `
 
     document.getElementById('schedule-container').appendChild(elem)
 }
