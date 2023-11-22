@@ -66,6 +66,8 @@ const salonSelection = async (e) => {
     // show header
     let email = String(data.email);
     let appointmentHeader = document.getElementById('appointment-header');
+    appointmentHeader.innerHTML = "";
+    appointmentHeader.appendChild(document.createTextNode("Schedule for"));
     appointmentHeader.appendChild(document.createTextNode(" "+ salon));
     appointmentHeader.appendChild(document.createTextNode(" (" + email + ")"));
     appointmentHeader.style.display = 'block'
