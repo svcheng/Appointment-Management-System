@@ -55,13 +55,45 @@ const salonSelection = async (e) => {
     })
 
     data = await data.json()
-
+    console.log("data:")
+    console.log(data);
     // display services
     for (let i=0; i < data.services.length; i+=1) {
         addServiceOption(data.services[i], data.durations[i])
     }
+
+    // show header
+    let appointmentHeader = document.getElementById('appointment-header');
+    appointmentHeader.appendChild(document.createTextNode(" "+ salon));
+    appointmentHeader.style.display = 'block'
+
+    // display salon schedule
+    let sched = await fetch('/schedules/' + salon, {
+        method: 'GET',
+    })
+
+    sched = await sched.json()
+    console.log("sched:");
+    console.log(sched);
+
+    sched.forEach(sched => {
+        addScheduleOption(sched.service, sched.start, sched.end, sched.bookerName, sched.bookerPhoneNum)
+    })
 }
 
+//
+const addScheduleOption = (serviceType, startTime, endTime, bookerName, bookerPhoneNum) => {
+    console.log("addScheduleOption");
+    let elem = document.createElement('div')
+    elem.setAttribute('id', 'sched-desc')
+    elem.innerHTML = `Service:  ${serviceType}<br>
+        Time:      ${startTime} to ${endTime}<br>
+        Booked by: ${bookerName} (${bookerPhoneNum})`
+    //elem.style.whiteSpace = 'pre';
+    // elem.appendChild(elemText)
+
+    document.getElementById('schedule-container').appendChild(elem)
+}
 // adds dropdown option for a service to the DOM
 const addServiceOption = (serviceName, duration) => {
     let elem = document.createElement('option')
