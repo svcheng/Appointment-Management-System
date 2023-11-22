@@ -34,13 +34,13 @@ document.getElementById('date').addEventListener('change', (e) => {
 })
 
 
-document.getElementById('approveDeclineButtons').addEventListener('click', async (e) => {
+document.getElementById('approveButton').addEventListener('click', async () => {
     const pendingAppointments = document.querySelectorAll('#pendingAppointments .appointmentContainer');
 
-    if (e.target.classList.contains('approveButton') && pendingAppointments.length > 0) {
+    if (pendingAppointments.length > 0) {
         const pendingAppointment = pendingAppointments[pendingAppointments.length - 1]; // Get the last pending appointment
 
-        const salon = document.getElementById('salonName').textContent
+        const salon = document.getElementById('salonName').textContent;
         const customerName = pendingAppointment.querySelector('div:nth-child(2)').textContent.split(': ')[1];
         const customerPhone = pendingAppointment.querySelector('div:nth-child(3)').textContent.split(': ')[1];
         const dateTime = pendingAppointment.querySelector('div:nth-child(4)').textContent.split(': ')[1];
@@ -49,29 +49,48 @@ document.getElementById('approveDeclineButtons').addEventListener('click', async
         const res = await fetch('/approveAppointment', {
             method: 'POST',
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 salon: salon,
                 customerName: customerName,
                 customerPhone: customerPhone,
                 dateTime: new Date(dateTime).toString(),
-                service: service
-            })
-        })
+                service: service,
+            }),
+        });
 
         if (res.ok) {
             // Remove the pending appointment from the DOM
             pendingAppointment.remove();
+
+            // Create a new appointment element for the approved appointment
+            const newAppointment = document.createElement('div');
+            newAppointment.classList.add('appointmentContainer');
+            newAppointment.innerHTML = `
+                <div>Service: ${service}</div>
+                <div>Booker: ${customerName}</div>
+                <div>Phone Number: ${customerPhone}</div>
+                <div>Start Date and Time: ${dateTime}</div>
+                <div>End Date and Time: ${new Date(dateTime).toString()}</div>
+            `;
+
+            // Append the new appointment to the appointments container
+            document.getElementById('appointments').appendChild(newAppointment);
         }
     }
+});
 
-    if (e.target.classList.contains('declineButton') && pendingAppointments.length > 0) {
+
+document.getElementById('declineButton').addEventListener('click', async () => {
+    const pendingAppointments = document.querySelectorAll('#pendingAppointments .appointmentContainer');
+
+    if (pendingAppointments.length > 0) {
         const pendingAppointment = pendingAppointments[pendingAppointments.length - 1]; // Get the last pending appointment
         pendingAppointment.remove(); // Remove the pending appointment from the DOM
 
         // Get appointment details for deletion
-        const salon = document.getElementById('salonName').textContent
+        const salon = document.getElementById('salonName').textContent;
         const customerName = pendingAppointment.querySelector('div:nth-child(2)').textContent.split(': ')[1];
         const customerPhone = pendingAppointment.querySelector('div:nth-child(3)').textContent.split(': ')[1];
         const dateTime = pendingAppointment.querySelector('div:nth-child(4)').textContent.split(': ')[1];
@@ -81,17 +100,18 @@ document.getElementById('approveDeclineButtons').addEventListener('click', async
         await fetch('/deletePendingAppointment', {
             method: 'POST',
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 salon: salon,
                 customerName: customerName,
                 customerPhone: customerPhone,
                 dateTime: new Date(dateTime).toString(),
-                service: service
-            })
-        })
+                service: service,
+            }),
+        });
     }
 });
+
 
 
