@@ -154,7 +154,7 @@ h1{
 #appointment-container{
     display:flex;
     flex-direction:row;
-    width: 50%;
+    width: 66%;
 }
 #left-side{
     display:flex;
@@ -165,13 +165,12 @@ h1{
 #right-side{
     display: flex;
     flex-direction:column;
+    width: 100%;
 }
 
 #schedule-container{
     display: flex;
     flex-direction: column;
-    /* justify-content: space-between; */
-
     background-color: #d7b29d;
     padding: 10px;
     border-radius: 10px;
@@ -179,7 +178,7 @@ h1{
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
     width: 100%;
     margin-left: 3.5em;
-    height: 80%;
+    height: 100%;
 }
 #schedule-container > h3{
     display:none;
@@ -189,15 +188,19 @@ h1{
 }
 
 #schedule-container > #sched-desc{
-    /* margin-left: 1.5em; */
-    /* border: black solid 1px; */
+    margin-left: 1em;
+    background-color: #796465;
+    background-color: hsl(20, 17%, 50%);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
     border-bottom: black solid 1px;
 }
 
-select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+
+#schedule-container > #sched-desc > option{
+    color: white;
+    background-color: #796465;
+    background-color: hsl(20, 17%, 50%);
 }
 
 .goog-te-menu-value span,
