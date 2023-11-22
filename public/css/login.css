@@ -22,6 +22,7 @@ nav {
     font-size: 24px;
     background-color:#796465;
     border-bottom: 1px solid black;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
 nav > a {
@@ -104,6 +105,7 @@ div.logo-container{
     background: #cb8589;
     border-radius: 10px;
     opacity: 80%;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 .center h1{
     text-align: center;
