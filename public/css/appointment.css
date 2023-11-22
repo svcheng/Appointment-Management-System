@@ -190,7 +190,14 @@ h1{
 
 #schedule-container > #sched-desc{
     /* margin-left: 1.5em; */
-    border: black solid 1px;
+    /* border: black solid 1px; */
+    border-bottom: black solid 1px;
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
 .goog-te-menu-value span,
