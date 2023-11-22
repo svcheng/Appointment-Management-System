@@ -181,7 +181,8 @@ app.get('/services/:salon', async (req, res) => {
     
     const response = {
         services: salon.services, 
-        durations: salon.serviceDurations
+        durations: salon.serviceDurations,
+        email: salon.email
     }
 
     res.send(response)
@@ -204,7 +205,7 @@ app.get('/schedules/:salon', async (req, res) => {
             bookerPhoneNum: appointment.bookerPhoneNum
         }));
 
-        console.log("Response: ", response)
+        // console.log("Response: ", response)
         res.send(response)
     } catch (error) {
         console.error("Error:", error);
