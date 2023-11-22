@@ -77,9 +77,9 @@ const salonSelection = async (e) => {
     })
 
     sched = await sched.json()
-    // console.log("sched:");
-    // console.log(sched);
 
+    //Sorts chronologically before displaying
+    sched.sort((a, b) => new Date(a.start) - new Date(b.start));
     sched.forEach(sched => {
         addScheduleOption(sched.service, sched.start, sched.end, sched.bookerName, sched.bookerPhoneNum)
     })
@@ -87,17 +87,89 @@ const salonSelection = async (e) => {
 
 //
 const addScheduleOption = (serviceType, startTime, endTime, bookerName, bookerPhoneNum) => {
+    let startTimeDate = new Date(startTime)
+    let endTimeDate = new Date(endTime)
     let elem = document.createElement('select')
     elem.setAttribute('id', 'sched-desc')
-    //     <select name="Time: ${startTime} to ${endTime}">
+
+    let startMonth = startTimeDate.getMonth() + 1
+    let startDay = startTimeDate.getDate()
+    let startYear = startTimeDate.getFullYear()
+    let startHour = startTimeDate.getHours()
+    let startMin = startTimeDate.getMinutes()
+
+    if (startMin < 10) {
+        startMin = "0" + startMin
+        
+    }
+    if (startHour == 0) {
+        startHour = "00"
+    }
+    
+    let newStartTime = startHour + ":" + startMin
+
+    let endHour = endTimeDate.getHours()
+    let endMin = endTimeDate.getMinutes()
+
+    if (endMin < 10) {
+        endMin = "0" + endMin
+    }
+    if (endHour == 0) {
+        endHour = "00"
+    }
+
+    let newEndTime = endHour + ":" + endMin
+
+    switch(startMonth) {
+        case 1:
+            startMonth = "January"
+            break;
+        case 2:
+            startMonth = "February"
+            break;
+        case 3:
+            startMonth = "March"
+            break;
+        case 4:
+            startMonth = "April"
+            break;
+        case 5:
+            startMonth = "May"
+            break;
+        case 6:
+            startMonth = "June"
+            break;
+        case 7:
+            startMonth = "July"
+            break;
+        case 8:
+            startMonth = "August"
+            break;
+        case 9:
+            startMonth = "September"
+            break;
+        case 10:
+            startMonth = "October"
+            break;
+        case 11:
+            startMonth = "November"
+            break;
+        case 12:
+            startMonth = "December"
+            break;
+    }
+
     elem.innerHTML = 
     `
-        <option disabled selected value="">Time: ${startTime} to ${endTime}</option>
+        <option disabled selected value="">${startMonth} ${startDay}, ${startYear} | ${newStartTime} to ${newEndTime}</option>
         <option disabled> Service:  ${serviceType} </option>
-        <option disabled> Booked by: ${bookerName} (${bookerPhoneNum})</option>
+        <option disabled> Booked by: ${bookerName} </option>
+        
     `
+    let br = document.createElement('br')
 
     document.getElementById('schedule-container').appendChild(elem)
+    document.getElementById('schedule-container').appendChild(br)
 }
 // adds dropdown option for a service to the DOM
 const addServiceOption = (serviceName, duration) => {
