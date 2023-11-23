@@ -114,4 +114,19 @@ document.getElementById('declineButton').addEventListener('click', async () => {
 });
 
 
+// delete appointment (ignore)
+function deleteAppointmentEvent(e) {
+    // Get appointment details for deletion
+    // const salon = document.getElementById('salonName').textContent;
+    // const customerName = pendingAppointment.querySelector('div:nth-child(2)').textContent.split(': ')[1];
+    // const customerPhone = pendingAppointment.querySelector('div:nth-child(3)').textContent.split(': ')[1];
+    // const dateTime = pendingAppointment.querySelector('div:nth-child(4)').textContent.split(': ')[1];
+    // const service = pendingAppointment.querySelector('div:nth-child(1)').textContent.split(': ')[1];
+}
+
+let btns = document.querySelectorAll(".deleteAptmntBtn")
+
+for (let i=0; i <btns.length; i+=1) {
+    btns[i].addEventListener("click", deleteAppointmentEvent)
+}
 
