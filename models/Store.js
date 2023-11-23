@@ -23,6 +23,14 @@ const StoreSchema = new mongoose.Schema({
     serviceDurations: { // the time in minutes a service takes
         type: [Number],
         default: [] 
+    },
+    workingHoursStart: {
+        type: Number,
+        default: -1
+    },
+    workingHoursEnd: {
+        type: Number,
+        default: -1
     }
 });
 //password hashing

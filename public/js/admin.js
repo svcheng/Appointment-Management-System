@@ -17,6 +17,8 @@ document.getElementById('addService').addEventListener('click', async (e)=> {
     serviceNode.textContent = newService
     document.getElementById('services').appendChild(serviceNode)
 
+    updateDeleteServiceDropdown()
+
     document.getElementById('newService').value = ""
     document.getElementById('newServiceDuration').value = ""
 })
@@ -25,6 +27,7 @@ document.getElementById('date').addEventListener('change', (e) => {
     const inputDate = document.getElementById('date').value
 
     const appointments = document.getElementById('appointments').children
+    
     for (let i=0; i < appointments.length; i+=1) {
         let start = appointments[i].children[3].textContent.substring(21, 31)
 
@@ -33,6 +36,45 @@ document.getElementById('date').addEventListener('change', (e) => {
     }
 })
 
+document.getElementById('deleteServiceBtn').addEventListener('click', async () => {
+    const deleteServiceDropdown = document.getElementById('deleteServiceDropdown');
+    const selectedService = deleteServiceDropdown.value;
+
+    if (!selectedService) {
+      return;
+    }
+
+    //In need of edit
+    const servicesContainer = document.getElementById('services');
+    const serviceToRemove = servicesContainer.querySelector(`.service:contains("${selectedService}")`);
+    
+    if (serviceToRemove) {
+      servicesContainer.removeChild(serviceToRemove);
+    }
+
+    // Update the deleteServiceDropdown
+    updateDeleteServiceDropdown();
+  });
+
+  function updateDeleteServiceDropdown() {
+    const deleteServiceDropdown = document.getElementById('deleteServiceDropdown');
+    const services = document.querySelectorAll('.service');
+
+    // Clears the specific option in dropdown
+    deleteServiceDropdown.innerHTML = '';
+
+    // Populate dropdown with existing services
+    services.forEach(service => {
+      const serviceName = service.textContent;
+      const option = document.createElement('option');
+      option.value = serviceName;
+      option.textContent = serviceName;
+      deleteServiceDropdown.appendChild(option);
+    });
+  }
+  HTMLElement.prototype.containsText = function (text) {
+    return this.innerText.includes(text);
+  };
 
 document.getElementById('approveButton').addEventListener('click', async () => {
     const pendingAppointments = document.querySelectorAll('#pendingAppointments .appointmentContainer');
@@ -118,7 +160,6 @@ document.getElementById('declineButton').addEventListener('click', async () => {
         });
     }
 });
-
 const sendEmailResponse = async (salon, customerName, customerPhone, dateTime, service, result) => {
     const res2 = await fetch(`/emailApproveOrDecline/${salon}/${customerName}/${customerPhone}/${dateTime}/${service}/${result}`, {
         method: 'POST',
@@ -134,10 +175,24 @@ function deleteAppointmentEvent(e) {
     // const dateTime = pendingAppointment.querySelector('div:nth-child(4)').textContent.split(': ')[1];
     // const service = pendingAppointment.querySelector('div:nth-child(1)').textContent.split(': ')[1];
 }
-
 let btns = document.querySelectorAll(".deleteAptmntBtn")
-
 for (let i=0; i <btns.length; i+=1) {
     btns[i].addEventListener("click", deleteAppointmentEvent)
 }
 
+document.getElementById("editWorkingHours").addEventListener("click", async () => {
+    let start = document.getElementById("start")
+    let end = document.getElementById("end")
+    const salon = document.getElementById('salonName').textContent;
+
+    console.log(start)
+    console.log(end)
+    
+    const res = await fetch(`/editWorkingHours/${salon}/${start.value}/${end.value}`, {
+        method: "PUT"
+    })
+
+    if (res.ok) {
+        document.getElementById("workingHoursHeader").textContent = `Working Hours: ${start.value}-${end.value}`
+    }
+})

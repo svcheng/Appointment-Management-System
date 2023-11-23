@@ -131,7 +131,7 @@ app.get('/admin/:storeName', async(req, res) => {
             bookerName: a.bookerName,
             bookerPhoneNum: a.bookerPhoneNum,
             startDatetime: `${start.substring(0, 10)}, ${start.substring(11, 16)}`,
-            endDatetime: `${end.substring(0, 10)}, ${end.substring(11, 16)}`
+            endDatetime: `${end.substring(0, 10)}, ${end.substring(11, 16)}`,
         }
     })
 
@@ -143,11 +143,21 @@ app.get('/admin/:storeName', async(req, res) => {
             bookerName: a.bookerName,
             bookerPhoneNum: a.bookerPhoneNum,
             startDatetime: `${start.substring(0, 10)}, ${start.substring(11, 16)}`,
-            endDatetime: `${end.substring(0, 10)}, ${end.substring(11, 16)}`
+            endDatetime: `${end.substring(0, 10)}, ${end.substring(11, 16)}`,
+
         }
     })
+    
+    let workingHours
+    if (store.workingHoursStart !== -1 || store.workingHoursEnd !== -1) {
+        workingHours = "Not Set"
+    } else {
+        workingHours = `${store.workingHoursStart}-${store.workingHoursEnd}`
+    }
 
-    res.render('layouts/admin', {salonName: salonName, services: services, appointments: appointments, pending: pending})
+    console.log("foo")
+    console.log(start, end)
+    res.render('layouts/admin', {salonName: salonName, services: services, appointments: appointments, pending: pending, workingHours: workingHours})
 })
 
 
@@ -497,6 +507,8 @@ app.post('/emailApproveOrDecline/:salon/:customerName/:customerPhone/:dateTime/:
         console.log("Email not sent to appointment peep");
     }
     
+})app.put('/editWorkingHours/:salonName/:start/:end', async (req, res) => {
+
 })
 
 app.listen(3000, () =>{
