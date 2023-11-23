@@ -194,10 +194,12 @@ document.getElementById("editWorkingHours").addEventListener("click", async () =
     
     const res = await fetch(`/editWorkingHours/${salon}/${start.value}/${end.value}`, {
         method: "PUT"
-    })
+    }) 
 
     if (res.ok) {
         document.getElementById("workingHoursHeader").textContent = `Working Hours: ${start.value}-${end.value}`
-        confirmMsg = false
+        confirmMsg.hidden = false
+    } else {
+        window.alert("Invalid Working Hours.")
     }
 })
