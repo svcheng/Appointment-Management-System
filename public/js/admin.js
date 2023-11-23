@@ -169,4 +169,19 @@ for (let i=0; i <btns.length; i+=1) {
     btns[i].addEventListener("click", deleteAppointmentEvent)
 }
 
+document.getElementById("editWorkingHours").addEventListener("click", async () => {
+    let start = document.getElementById("start")
+    let end = document.getElementById("end")
+    const salon = document.getElementById('salonName').textContent;
 
+    console.log(start)
+    console.log(end)
+    
+    const res = await fetch(`/editWorkingHours/${salon}/${start.value}/${end.value}`, {
+        method: "PUT"
+    })
+
+    if (res.ok) {
+        document.getElementById("workingHoursHeader").textContent = `Working Hours: ${start.value}-${end.value}`
+    }
+})
