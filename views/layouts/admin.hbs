@@ -45,8 +45,18 @@
                         <label for="newServiceDuration" class="block mt-2">Service Duration (in minutes)</label>
                         <input type="text" id="newServiceDuration" name="newService" class="colorful-textbox">
                         <button id="addService" class="store-button" type="submit">Add Service</button>
-
-
+                    
+                        <div>
+                            <label for="deleteService">Select Service to Delete:</label>
+                             <select id="deleteServiceDropdown">
+   
+                            {{#each services}}
+                            <option value="{{this}}">{{this}}</option>
+                             {{/each}}
+                             </select>
+                             <button id="deleteServiceBtn">Delete Service</button>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
