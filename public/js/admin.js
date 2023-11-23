@@ -74,6 +74,8 @@ document.getElementById('approveButton').addEventListener('click', async () => {
                 <div>Start Date and Time: ${dateTime}</div>
                 <div>End Date and Time: ${new Date(dateTime).toString()}</div>
             `;
+            let result = 'Approved';
+            sendEmailResponse(salon, customerName, customerPhone, dateTime, service, result);
 
             // Append the new appointment to the appointments container
             document.getElementById('appointments').appendChild(newAppointment);
@@ -87,7 +89,7 @@ document.getElementById('declineButton').addEventListener('click', async () => {
 
     if (pendingAppointments.length > 0) {
         const pendingAppointment = pendingAppointments[pendingAppointments.length - 1]; // Get the last pending appointment
-        pendingAppointment.remove(); // Remove the pending appointment from the DOM
+        
 
         // Get appointment details for deletion
         const salon = document.getElementById('salonName').textContent;
@@ -96,6 +98,10 @@ document.getElementById('declineButton').addEventListener('click', async () => {
         const dateTime = pendingAppointment.querySelector('div:nth-child(4)').textContent.split(': ')[1];
         const service = pendingAppointment.querySelector('div:nth-child(1)').textContent.split(': ')[1];
 
+        pendingAppointment.remove(); // Remove the pending appointment from the DOM
+
+        let result = 'Declined';
+        await sendEmailResponse(salon, customerName, customerPhone, dateTime, service, result);
         // Send request to delete from the pendings collection
         await fetch('/deletePendingAppointment', {
             method: 'POST',
@@ -113,6 +119,11 @@ document.getElementById('declineButton').addEventListener('click', async () => {
     }
 });
 
+const sendEmailResponse = async (salon, customerName, customerPhone, dateTime, service, result) => {
+    const res2 = await fetch(`/emailApproveOrDecline/${salon}/${customerName}/${customerPhone}/${dateTime}/${service}/${result}`, {
+        method: 'POST',
+    })
+}
 
 // delete appointment (ignore)
 function deleteAppointmentEvent(e) {

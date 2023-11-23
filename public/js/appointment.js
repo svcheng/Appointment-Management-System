@@ -218,6 +218,7 @@ document.getElementById('submitBtn').addEventListener('click', async (e) => {
     const salon = document.getElementById('selectedSalon').value
     const customerName = document.getElementById('name').value
     const customerPhone = document.getElementById('tel').value
+    const customerEmail = document.getElementById('email').value
     const dateTime = document.getElementById('dateTime').value
     const service = document.getElementById('customer-service').value
 
@@ -239,6 +240,7 @@ document.getElementById('submitBtn').addEventListener('click', async (e) => {
             salon: salon,
             customerName: customerName,
             customerPhone: customerPhone,
+            clientEmail: customerEmail || null,
             dateTime: new Date(dateTime).toString(),
             service: service
         })

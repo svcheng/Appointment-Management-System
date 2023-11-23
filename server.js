@@ -24,7 +24,7 @@ mongoose.connect(uri)
   .catch(err => console.log(err))
 
 
-// HELPER FUNCTIONS
+// HELPER FUNCTIONS 
 const prepend0 = (d) => {return Math.floor(d / 10) == 0 ? '0' + String(d) : d}
 
 // converts date object into 'YYYY-MM-DDTHH:MM' format in local time
@@ -257,7 +257,9 @@ app.post('/pendingAppointment', async (req, res) => {
 
         startDatetime: req.body.dateTime,
         endDatetime: endDate,
-        service: req.body.service
+        service: req.body.service,
+
+        clientEmail: req.body.clientEmail
     })
     await newPendingAppointment.save()
 
@@ -279,16 +281,40 @@ app.post('/approveAppointment', async (req, res) => {
     }
     const endDate = computeEnd(dateTime, duration);
 
-    const newAppointment = new Appointment({
-        storeName: salon,
-        bookerName: customerName,
+    //find email if it exists
+    let email = await Pending.findOne({
+        storeName: salon, bookerName: customerName,
         bookerPhoneNum: customerPhone,
         startDatetime: dateTime,
         endDatetime: endDate,
-        service: service
-    });
+        service: service}, 
+        'clientEmail')
+    if(email){
+        const newAppointment = new Appointment({
+            storeName: salon,
+            bookerName: customerName,
+            bookerPhoneNum: customerPhone,
+            startDatetime: dateTime,
+            endDatetime: endDate,
+            service: service,
+            clientEmail: email.clientEmail
+        });
+        await newAppointment.save();
+    }else{
+        const newAppointment = new Appointment({
+            storeName: salon,
+            bookerName: customerName,
+            bookerPhoneNum: customerPhone,
+            startDatetime: dateTime,
+            endDatetime: endDate,
+            service: service
+            
+        });
+        await newAppointment.save();
+    }
+    
 
-    await newAppointment.save();
+    
 
     // Delete the pending appointment from the pendings collection
     await Pending.findOneAndDelete({
@@ -406,7 +432,72 @@ app.post('/appointmentEmail/:salon/:customerName/:customerPhone/:dateTime/:servi
     }
 })
 
+//This Email is sent to pending.customerEmail (if NOT null) upon being approved or declined. Just make it so this is only called if customerEmail != null
+app.post('/emailApproveOrDecline/:salon/:customerName/:customerPhone/:dateTime/:service/:result', async (req) =>{
+    console.log("Trying to send email to appointment peep");
+    //req.params.result is just "Approved" or "Declined" as a string to include in the email ^
+    const existsStore = await Store.findOne({ 'name': req.params.salon });
+    const salonOwnerEmail = existsStore.email;
 
+    console.log("Trying to find appointment in pendings")
+    let existsPending = await Pending.findOne({ 'storeName': req.params.salon, 'bookerName': req.params.customerName})
+    if(!existsPending){
+        console.log("Not found in pendings, trying to find it in appointments");
+        existsPending = await Appointment.findOne({ 'storeName': req.params.salon, 'bookerName': req.params.customerName})
+        if(existsPending){
+            console.log("Appointment Found!\n Appointment: "+existsPending);
+        }else{
+            console.log("Appointment not found");
+        }
+    }else{
+        console.log("Appointment Found!\n Appointment: " + existsPending);
+    }
+    // console.log("Check before email check\n ClientEmail:" )
+    if(existsPending.clientEmail){
+        const mailOptions = {
+            from: {
+                name: "Appointment Notification to " + req.params.salon,
+                address: 'appointmentsserver@gmail.com'
+            }, // sender address
+            to: existsPending.clientEmail, // list of receivers
+            subject: `Your Appointment to ${req.params.salon} has been ${req.params.result}`, // Subject line
+            //Content of Letter; coded directly here to prevent error messages if we were to instead read from an external HTML file
+            html: `
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr><td>
+                    <p>${req.params.salon} has responded to your pending appointment: ${req.params.result}!</p>
+                    <p>Here were the details of your appointment:</p>
+                    </td></tr><tr><td>
+                    <table width="100%" cellpadding="5" cellspacing="0" border="1">
+                        <tr>
+                        <td><strong>Customer's Name:</strong></td>
+                        <td>${req.params.customerName}</td>
+                        </tr>
+                        <tr>
+                        <td><strong>Customer's Phone:</strong></td>
+                        <td>${req.params.customerPhone}</td>
+                        </tr>
+                        <tr>
+                        <td><strong>Time:</strong></td>
+                        <td>${req.params.dateTime}</td>
+                        </tr>
+                        <tr>
+                        <td><strong>Service:</strong></td>
+                        <td>${req.params.service}</td>
+                        </tr>
+                    </table>
+                    </td></tr><tr><td>
+                    <p>If you have any further questions, please contact the salon owner at ${salonOwnerEmail}.</p>
+                </td></tr>
+            </table>
+            `, 
+            }
+        sendMail(transporter, mailOptions);
+    }else{
+        console.log("Email not sent to appointment peep");
+    }
+    
+})
 
 app.listen(3000, () =>{
     console.log('Hello! Listening at http://localhost:3000')

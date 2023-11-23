@@ -7,7 +7,8 @@ const AppointmentSchema = new mongoose.Schema({
 
     startDatetime: {type: Date, required: true}, 
     endDatetime: {type: Date, required: true},
-    service: {type: String, required: true}
+    service: {type: String, required: true},
+    clientEmail: {type: String, required: false}
 });
 
 const Appointment = mongoose.model('Appointment', AppointmentSchema)
