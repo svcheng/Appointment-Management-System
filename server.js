@@ -440,7 +440,7 @@ app.post('/appointmentEmail/:salon/:customerName/:customerPhone/:dateTime/:servi
     } else {
         console.error(error);
     }
-})
+});
 
 //This Email is sent to pending.customerEmail (if NOT null) upon being approved or declined. Just make it so this is only called if customerEmail != null
 app.post('/emailApproveOrDecline/:salon/:customerName/:customerPhone/:dateTime/:service/:result', async (req) =>{
@@ -507,7 +507,9 @@ app.post('/emailApproveOrDecline/:salon/:customerName/:customerPhone/:dateTime/:
         console.log("Email not sent to appointment peep");
     }
     
-})app.put('/editWorkingHours/:salonName/:start/:end', async (req, res) => {
+});
+
+app.put('/editWorkingHours/:salonName/:start/:end', async (req, res) => {
 
 })
 
