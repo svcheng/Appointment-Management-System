@@ -149,14 +149,12 @@ app.get('/admin/:storeName', async(req, res) => {
     })
     
     let workingHours
-    if (store.workingHoursStart !== -1 || store.workingHoursEnd !== -1) {
+    if (store.workingHoursStart === -1 || store.workingHoursEnd === -1) {
         workingHours = "Not Set"
     } else {
         workingHours = `${store.workingHoursStart}-${store.workingHoursEnd}`
     }
-
-    console.log("foo")
-    console.log(start, end)
+    
     res.render('layouts/admin', {salonName: salonName, services: services, appointments: appointments, pending: pending, workingHours: workingHours})
 })
 
@@ -510,7 +508,13 @@ app.post('/emailApproveOrDecline/:salon/:customerName/:customerPhone/:dateTime/:
 });
 
 app.put('/editWorkingHours/:salonName/:start/:end', async (req, res) => {
+    const store = await Store.findOne({ 'name': req.params.salonName });
 
+    store.workingHoursStart = req.params.start
+    store.workingHoursEnd = req.params.end
+    store.save()
+    res.status(200)
+    res.end()
 })
 
 app.listen(3000, () =>{

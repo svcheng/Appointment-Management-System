@@ -181,12 +181,16 @@ for (let i=0; i <btns.length; i+=1) {
 }
 
 document.getElementById("editWorkingHours").addEventListener("click", async () => {
+    let confirmMsg = document.getElementById("confirmMsg")
     let start = document.getElementById("start")
     let end = document.getElementById("end")
     const salon = document.getElementById('salonName').textContent;
 
-    console.log(start)
-    console.log(end)
+    confirmMsg.hidden = true
+    if (start.value < 0 || start.value > 23 || end.value < 0 || end.value > 23) {
+        window.alert("Invalid Working Hours.")
+        return
+    }
     
     const res = await fetch(`/editWorkingHours/${salon}/${start.value}/${end.value}`, {
         method: "PUT"
@@ -194,5 +198,6 @@ document.getElementById("editWorkingHours").addEventListener("click", async () =
 
     if (res.ok) {
         document.getElementById("workingHoursHeader").textContent = `Working Hours: ${start.value}-${end.value}`
+        confirmMsg = false
     }
 })
