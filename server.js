@@ -546,7 +546,7 @@ app.get('/withinWorkingHours/:salonName/:service/:startDate', async (req, res) =
     // returns whether each hour in hours is within the interval [start, end] 
     const within = (hours, interval) => {
         for (let i=0; i < hours.length; i+=1) {
-            if (hour[i] > interval[1] || hour[i] < interval[0]) {
+            if (hours[i] > interval[1] || hours[i] < interval[0]) {
                 return false
             }
         }
@@ -557,7 +557,7 @@ app.get('/withinWorkingHours/:salonName/:service/:startDate', async (req, res) =
     workingHoursEnd = workingHoursEnd === 0 ? 24 : workingHoursEnd
     const appointmentRange = [appointmentStartHour, appointmentEndHour]
     if (workingHoursStart < workingHoursEnd) {
-        let appointmentEndHour = appointmentEndHour === 0 ? 24 : appointmentEndHour
+        appointmentEndHour = appointmentEndHour === 0 ? 24 : appointmentEndHour
         if (within([appointmentStartHour, appointmentEndHour], [workingHoursStart, workingHoursEnd])) {
             res.status(200)
             res.end()
