@@ -231,7 +231,20 @@ document.getElementById('submitBtn').addEventListener('click', async (e) => {
     }
     confirmMsg.hidden = false
 
-    const res = await fetch('/pendingAppointment', {
+    // check if time falls within salon working hours
+    let res = await fetch(`/withinWorkingHours/${salon}/${service}/${new Date(dateTime).toString()}`, {
+        method: "GET"
+    })
+
+    let workingHoursError = document.getElementById("workingHoursError")
+    if (!res.ok) {
+        workingHoursError.hidden = false
+        return 
+    } else {
+        workingHoursError.hidden = true
+    }
+
+    res = await fetch('/pendingAppointment', {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",

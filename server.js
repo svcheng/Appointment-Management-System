@@ -507,6 +507,7 @@ app.post('/emailApproveOrDecline/:salon/:customerName/:customerPhone/:dateTime/:
     
 });
 
+// edit working hours
 app.put('/editWorkingHours/:salonName/:start/:end', async (req, res) => {
     const store = await Store.findOne({ 'name': req.params.salonName });
 
@@ -514,6 +515,68 @@ app.put('/editWorkingHours/:salonName/:start/:end', async (req, res) => {
     store.workingHoursEnd = req.params.end
     store.save()
     res.status(200)
+    res.end()
+})
+
+// checks if appointment is withing working hours 
+app.get('/withinWorkingHours/:salonName/:service/:startDate', async (req, res) => {
+    const salon = await Store.findOne({ 'name': req.params.salonName })
+    let workingHoursStart = salon.workingHoursStart
+    let workingHoursEnd = salon.workingHoursEnd 
+
+    if (workingHoursStart === -1 || workingHoursEnd === -1) {
+        res.status(300)
+        res.end()
+    }
+
+    let duration
+    for (let i=0; i < salon.services.length; i+=1) {
+        if (salon.services[i] == req.body.service) {
+            duration = salon.serviceDurations[i]
+        }
+    }
+
+    const endDate = new Date(computeEnd(req.params.startDate, duration))
+    let appointmentStartHour = new Date(req.params.startDate).getHours()
+    let appointmentEndHour = endDate.getHours()
+    if (endDate.getMinutes() > 0) {
+        appointmentEndHour = (appointmentEndHour + 1) % 24
+    }
+
+    // returns whether each hour in hours is within the interval [start, end] 
+    const within = (hours, interval) => {
+        for (let i=0; i < hours.length; i+=1) {
+            if (hour[i] > interval[1] || hour[i] < interval[0]) {
+                return false
+            }
+        }
+
+        return true
+    }
+
+    workingHoursEnd = workingHoursEnd === 0 ? 24 : workingHoursEnd
+    const appointmentRange = [appointmentStartHour, appointmentEndHour]
+    if (workingHoursStart < workingHoursEnd) {
+        let appointmentEndHour = appointmentEndHour === 0 ? 24 : appointmentEndHour
+        if (within([appointmentStartHour, appointmentEndHour], [workingHoursStart, workingHoursEnd])) {
+            res.status(200)
+            res.end()
+        }
+    } else {
+        if (appointmentStartHour > appointmentEndHour) {
+            if (within([appointmentStartHour], [workingHoursStart, 24]) && within([appointmentEndHour], [0, workingHoursEnd])) {
+                res.status(200)
+                res.end()
+            }
+        } else {
+            if (within(appointmentRange, [workingHoursStart, 24]) || within(appointmentRange, [0, workingHoursEnd])) {
+                res.status(200)
+                res.end()
+            }
+        }
+    } 
+
+    res.status(300)
     res.end()
 })
 

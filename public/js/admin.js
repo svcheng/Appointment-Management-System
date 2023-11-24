@@ -187,7 +187,7 @@ document.getElementById("editWorkingHours").addEventListener("click", async () =
     const salon = document.getElementById('salonName').textContent;
 
     confirmMsg.hidden = true
-    if (start.value < 0 || start.value > 23 || end.value < 0 || end.value > 23) {
+    if (start.value < 0 || start.value > 23 || end.value < 0 || end.value > 23 || start.value === end.value) {
         window.alert("Invalid Working Hours.")
         return
     }
