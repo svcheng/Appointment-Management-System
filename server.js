@@ -172,6 +172,29 @@ app.put('/addService/:storeName/:service/:duration', async (req, res) => {
     res.end()
 })
 
+//delete service 
+app.delete('/deleteService/:storeName/:service', async (req, res) => {
+    try {
+        const store = await Store.findOne({ 'name': req.params.storeName });
+
+        if (store.services.includes(req.params.service)) {
+            const serviceIndex = store.services.indexOf(req.params.service);
+            store.services.splice(serviceIndex, 1);
+            store.serviceDurations.splice(serviceIndex, 1);
+
+            await store.save();
+
+            res.status(200).end();
+        } else {
+            res.status(404).json({ error: 'Service not found in the store' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
 // search salon
 app.get('/search/:searchInput', async (req, res) => {
     // query database for all store names containing search input

@@ -17,6 +17,7 @@ document.getElementById('addService').addEventListener('click', async (e)=> {
     serviceNode.textContent = newService
     document.getElementById('services').appendChild(serviceNode)
 
+    //updates the server list
     updateDeleteServiceDropdown()
 
     document.getElementById('newService').value = ""
@@ -35,35 +36,54 @@ document.getElementById('date').addEventListener('change', (e) => {
         appointments[i].hidden = (start !== inputDate) && inputDate
     }
 })
-
+//delete service (tenatative)
+/*
 document.getElementById('deleteServiceBtn').addEventListener('click', async () => {
     const deleteServiceDropdown = document.getElementById('deleteServiceDropdown');
     const selectedService = deleteServiceDropdown.value;
 
+    //if the selected service is not chosen returns
     if (!selectedService) {
-      return;
+        return;
     }
+    //requests to fetch to find the selected service and delete
+    try {
+        const response = await fetch(`/deleteService/${encodeURIComponent(selectedService)}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
 
-    //In need of edit
-    const servicesContainer = document.getElementById('services');
-    const serviceToRemove = servicesContainer.querySelector(`.service:contains("${selectedService}")`);
-    
-    if (serviceToRemove) {
-      servicesContainer.removeChild(serviceToRemove);
+        if (response.ok) {
+            // service is deleted
+            const servicesContainer = document.getElementById('services');
+            const serviceToRemove = servicesContainer.querySelector(`.service:contains("${selectedService}")`);
+
+            if (serviceToRemove) {
+                servicesContainer.removeChild(serviceToRemove);
+            }
+
+            // update delete service dropdown
+            updateDeleteServiceDropdown();
+        } else {
+            // handle error
+            console.error('Error deleting service:', response.statusText);
+        }
+    } catch (error) {
+        // handle error for network
+        console.error('Network error:', error.message);
     }
-
-    // Update the deleteServiceDropdown
-    updateDeleteServiceDropdown();
-  });
+});
 
   function updateDeleteServiceDropdown() {
     const deleteServiceDropdown = document.getElementById('deleteServiceDropdown');
     const services = document.querySelectorAll('.service');
 
-    // Clears the specific option in dropdown
+    // clears the option in dropdown
     deleteServiceDropdown.innerHTML = '';
 
-    // Populate dropdown with existing services
+    // populate dropdown with other servers
     services.forEach(service => {
       const serviceName = service.textContent;
       const option = document.createElement('option');
@@ -75,6 +95,7 @@ document.getElementById('deleteServiceBtn').addEventListener('click', async () =
   HTMLElement.prototype.containsText = function (text) {
     return this.innerText.includes(text);
   };
+  */
 
 document.getElementById('approveButton').addEventListener('click', async () => {
     const pendingAppointments = document.querySelectorAll('#pendingAppointments .appointmentContainer');
