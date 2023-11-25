@@ -96,7 +96,7 @@ main {
   margin-bottom: 1.5em;
 }
 
-#selectDateContainer {
+.selectDateContainer {
   display: flex;
   justify-content: space-between;
 }

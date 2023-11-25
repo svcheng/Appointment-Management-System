@@ -24,20 +24,32 @@ document.getElementById('addService').addEventListener('click', async (e)=> {
     document.getElementById('newServiceDuration').value = ""
 })
 
-document.getElementById('date').addEventListener('change', (e) => {
-    const inputDate = document.getElementById('date').value
+document.getElementById('pendingsDate').addEventListener('change', (e) => {
+    const inputDate = e.target.value
 
-    const appointments = document.getElementById('appointments').children
-    
-    for (let i=0; i < appointments.length; i+=1) {
-        let start = appointments[i].children[3].textContent.substring(21, 31)
+    const pendings = document.getElementById('pendingAppointments').children
+
+    for (let i=1; i <= pendings.length - 2; i+=1) {
+        let start = pendings[i].children[3].textContent.split(": ")[1].substring(0, 10)
 
         // hide if appointment has different start date as calendar value and inputDate is not empty
-        appointments[i].hidden = (start !== inputDate) && inputDate
+        pendings[i].hidden = inputDate && (start !== inputDate) 
     }
-
-    displayNoAppointments()
 })
+
+document.getElementById('appointmentsDate').addEventListener('change', (e) => {
+    const inputDate = e.target.value
+
+    const appointments = document.getElementById('appointments').children
+
+    for (let i=1; i < appointments.length; i+=1) {
+        let start = appointments[i].children[0].children[3].textContent.split(": ")[1].substring(0, 10)
+        
+        // hide if appointment has different start date as calendar value and inputDate is not empty
+        appointments[i].hidden = inputDate && (start !== inputDate) 
+    }
+})
+
 //delete service (tenatative)
 /*
 document.getElementById('deleteServiceBtn').addEventListener('click', async () => {
