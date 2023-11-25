@@ -55,8 +55,7 @@ const salonSelection = async (e) => {
     })
 
     data = await data.json()
-    // console.log("data:")
-    // console.log(data);
+
 
     // display services
     for (let i=0; i < data.services.length; i+=1) {
@@ -65,12 +64,13 @@ const salonSelection = async (e) => {
 
     // show header
     let email = String(data.email);
-    let appointmentHeader = document.getElementById('appointment-header');
-    appointmentHeader.innerHTML = "";
-    appointmentHeader.appendChild(document.createTextNode("Schedule for"));
-    appointmentHeader.appendChild(document.createTextNode(" "+ salon));
-    appointmentHeader.appendChild(document.createTextNode(" (" + email + ")"));
-    appointmentHeader.appendChild(document.createTextNode(`\nWorking Hours: ${data.workingHoursStart} - ${data.workingHoursEnd}`));
+    let appointmentHeader = document.getElementById('appointment-header')
+    appointmentHeader.innerHTML = ""
+    appointmentHeader.appendChild(document.createTextNode("Schedule for"))
+    appointmentHeader.appendChild(document.createTextNode(" " + salon))
+    appointmentHeader.appendChild(document.createTextNode(" (" + email + ")"))
+    appointmentHeader.appendChild(document.createElement("br"));
+    appointmentHeader.appendChild(document.createTextNode(`Working Hours: ${data.workingHoursStart} - ${data.workingHoursEnd}`))
     appointmentHeader.style.display = 'block'
 
 
@@ -84,15 +84,15 @@ const salonSelection = async (e) => {
     //Sorts chronologically before displaying
     sched.sort((a, b) => new Date(a.start) - new Date(b.start));
     sched.forEach(sched => {
-        addScheduleOption(sched.service, sched.start, sched.end, sched.bookerName, sched.bookerPhoneNum)
+        addScheduleOption(sched.start, sched.end)
     })
 }
 
 //
-const addScheduleOption = (serviceType, startTime, endTime, bookerName, bookerPhoneNum) => {
+const addScheduleOption = (startTime, endTime) => {
     let startTimeDate = new Date(startTime)
     let endTimeDate = new Date(endTime)
-    let elem = document.createElement('select')
+    let elem = document.createElement('div')
     elem.setAttribute('id', 'sched-desc')
 
     let startMonth = startTimeDate.getMonth() + 1
@@ -164,9 +164,8 @@ const addScheduleOption = (serviceType, startTime, endTime, bookerName, bookerPh
 
     elem.innerHTML = 
     `
-        <option disabled selected value="">${startMonth} ${startDay}, ${startYear} | ${newStartTime} to ${newEndTime}</option>
-        <option disabled> Service:  ${serviceType} </option>
-        <option disabled> Booked by: ${bookerName} </option>
+        <div>${startMonth} ${startDay}, ${startYear} | ${newStartTime} to ${newEndTime}</div>
+
         
     `
     let br = document.createElement('br')
