@@ -55,45 +55,46 @@ document.getElementById('appointmentsDate').addEventListener('change', (e) => {
 document.getElementById('deleteService').addEventListener('click', async () => {
     const deleteServiceDropdown = document.getElementById('deleteServiceDropdown');
     const selectedService = deleteServiceDropdown.value;
-
+    const salonName = document.getElementById('salonName').textContent;
     //if the selected service is not chosen returns
     if (!selectedService) {
         return;
     }
     //requests to fetch to find the selected service and delete
-        const response = await fetch(`/deleteService/${encodeURIComponent(selectedService)}`, {
-            method: 'DELETE',
+    const response = await fetch(`/deleteService/${salonName}/${encodeURIComponent(selectedService)}`, {
+        method: 'DELETE',
+    });
 
-        });
-            // service is deleted
-            const servicesContainer = document.getElementById('services');
-            const serviceToRemove = servicesContainer.querySelector(`.service:contains("${selectedService}")`);
-
-            if (serviceToRemove) {
-                servicesContainer.removeChild(serviceToRemove);
+    if (response.ok) {
+        // service is deleted
+        const servicesContainer = document.getElementById('services');
+        for (const service of servicesContainer.children) {
+            if (service.textContent === selectedService) {
+                servicesContainer.removeChild(service);
             }
+        }
 
-            // update delete service dropdown
-            updateDeleteServiceDropdown();
-
+        // update delete service dropdown
+        updateServiceDropdown();
+    }
 });
 
-  function updateServiceDropdown() {
+async function updateServiceDropdown() {
     const deleteServiceDropdown = document.getElementById('deleteServiceDropdown');
     const services = document.querySelectorAll('.service');
 
     // clears the option in dropdown
     deleteServiceDropdown.innerHTML = '';
 
-    // populate dropdown with other servers
+    // populate dropdown with other services
     services.forEach(service => {
-      const serviceName = service.textContent;
-      const option = document.createElement('option');
-      option.value = serviceName;
-      option.textContent = serviceName;
-      deleteServiceDropdown.appendChild(option);
+        const serviceName = service.textContent;
+        const option = document.createElement('option');
+        option.value = serviceName;
+        option.textContent = serviceName;
+        deleteServiceDropdown.appendChild(option);
     });
-  }
+}
 
   
 
