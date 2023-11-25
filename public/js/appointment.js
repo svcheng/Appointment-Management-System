@@ -70,6 +70,7 @@ const salonSelection = async (e) => {
     appointmentHeader.appendChild(document.createTextNode("Schedule for"));
     appointmentHeader.appendChild(document.createTextNode(" "+ salon));
     appointmentHeader.appendChild(document.createTextNode(" (" + email + ")"));
+    appointmentHeader.appendChild(document.createTextNode(`\nWorking Hours: ${data.workingHoursStart} - ${data.workingHoursEnd}`));
     appointmentHeader.style.display = 'block'
 
 
@@ -266,6 +267,7 @@ document.getElementById('submitBtn').addEventListener('click', async (e) => {
     document.getElementById('selectedSalon').value = ""
     document.getElementById('name').value = ""
     document.getElementById('tel').value = ""
+    document.getElementById('email').value = ""
     document.getElementById('dateTime').value = null
     document.getElementById('customer-service').value = null
 

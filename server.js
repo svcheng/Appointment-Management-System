@@ -214,7 +214,9 @@ app.get('/services/:salon', async (req, res) => {
     const response = {
         services: salon.services, 
         durations: salon.serviceDurations,
-        email: salon.email
+        email: salon.email,
+        workingHoursStart: salon.workingHoursStart,
+        workingHoursEnd: salon.workingHoursEnd
     }
 
     res.send(response)
