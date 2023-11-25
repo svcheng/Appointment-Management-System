@@ -178,22 +178,29 @@ app.delete('/deleteService/:storeName/:service', async (req, res) => {
     try {
         const store = await Store.findOne({ 'name': req.params.storeName });
 
-        if (store.services.includes(req.params.service)) {
-            const serviceIndex = store.services.indexOf(req.params.service);
+        // Find the index of the service in the array
+        const serviceIndex = store.services.indexOf(req.params.service);
+
+        if (serviceIndex !== -1) {
+            // Remove the service and its duration
             store.services.splice(serviceIndex, 1);
             store.serviceDurations.splice(serviceIndex, 1);
 
+            // Save the updated store
             await store.save();
 
             res.status(200).end();
         } else {
-            res.status(404).json({ error: 'Service not found in the store' });
+            // Service not found
+            res.status(404).json({ error: 'Service not found' });
         }
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal server error' });
+        // Handle errors
+        console.error('Error deleting service:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
 
 
 // search salon

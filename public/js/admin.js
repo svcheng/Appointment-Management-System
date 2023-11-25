@@ -18,7 +18,7 @@ document.getElementById('addService').addEventListener('click', async (e)=> {
     document.getElementById('services').appendChild(serviceNode)
 
     //updates the server list
-    updateDeleteServiceDropdown()
+    updateServiceDropdown()
 
     document.getElementById('newService').value = ""
     document.getElementById('newServiceDuration').value = ""
@@ -50,9 +50,9 @@ document.getElementById('appointmentsDate').addEventListener('change', (e) => {
     }
 })
 
+
 //delete service (tenatative)
-/*
-document.getElementById('deleteServiceBtn').addEventListener('click', async () => {
+document.getElementById('deleteService').addEventListener('click', async () => {
     const deleteServiceDropdown = document.getElementById('deleteServiceDropdown');
     const selectedService = deleteServiceDropdown.value;
 
@@ -61,15 +61,10 @@ document.getElementById('deleteServiceBtn').addEventListener('click', async () =
         return;
     }
     //requests to fetch to find the selected service and delete
-    try {
         const response = await fetch(`/deleteService/${encodeURIComponent(selectedService)}`, {
             method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
 
-        if (response.ok) {
+        });
             // service is deleted
             const servicesContainer = document.getElementById('services');
             const serviceToRemove = servicesContainer.querySelector(`.service:contains("${selectedService}")`);
@@ -80,17 +75,10 @@ document.getElementById('deleteServiceBtn').addEventListener('click', async () =
 
             // update delete service dropdown
             updateDeleteServiceDropdown();
-        } else {
-            // handle error
-            console.error('Error deleting service:', response.statusText);
-        }
-    } catch (error) {
-        // handle error for network
-        console.error('Network error:', error.message);
-    }
+
 });
 
-  function updateDeleteServiceDropdown() {
+  function updateServiceDropdown() {
     const deleteServiceDropdown = document.getElementById('deleteServiceDropdown');
     const services = document.querySelectorAll('.service');
 
@@ -106,10 +94,8 @@ document.getElementById('deleteServiceBtn').addEventListener('click', async () =
       deleteServiceDropdown.appendChild(option);
     });
   }
-  HTMLElement.prototype.containsText = function (text) {
-    return this.innerText.includes(text);
-  };
-  */
+
+  
 
 document.getElementById('approveButton').addEventListener('click', async () => {
     const pendingAppointments = document.querySelectorAll('#pendingAppointments .appointmentContainer');

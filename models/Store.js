@@ -33,6 +33,7 @@ const StoreSchema = new mongoose.Schema({
         default: -1
     }
 });
+
 //password hashing
 StoreSchema.pre('save', async function (next) {
     // Occurs only if password was modified
