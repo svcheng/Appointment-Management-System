@@ -187,15 +187,37 @@ const sendEmailResponse = async (salon, customerName, customerPhone, dateTime, s
     })
 }
 
-// delete appointment (ignore)
-function deleteAppointmentEvent(e) {
+// delete appointment 
+async function deleteAppointmentEvent(e) {
     // Get appointment details for deletion
-    // const salon = document.getElementById('salonName').textContent;
-    // const customerName = pendingAppointment.querySelector('div:nth-child(2)').textContent.split(': ')[1];
-    // const customerPhone = pendingAppointment.querySelector('div:nth-child(3)').textContent.split(': ')[1];
-    // const dateTime = pendingAppointment.querySelector('div:nth-child(4)').textContent.split(': ')[1];
-    // const service = pendingAppointment.querySelector('div:nth-child(1)').textContent.split(': ')[1];
+    const appointment = e.target.parentNode.firstElementChild
+    const children = appointment.children 
+
+    const salon = document.getElementById('salonName').textContent
+    const customerName = children[1].textContent.split(': ')[1]
+    const customerPhone = children[2].textContent.split(': ')[1]
+    const dateTime = children[3].textContent.split(': ')[1]
+    const service = children[0].textContent.split(': ')[1]
+    const clientEmail = children[5].textContent.split(': ')[1]
+
+    const res = await fetch('/deleteAppointment', {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            salon: salon,
+            customerName: customerName,
+            customerPhone: customerPhone,
+            dateTime: new Date(dateTime).toString(),
+            service: service,
+            clientEmail: clientEmail
+        })
+    })
+
+    appointment.parentNode.remove()
 }
+
 let btns = document.querySelectorAll(".deleteAptmntBtn")
 for (let i=0; i <btns.length; i+=1) {
     btns[i].addEventListener("click", deleteAppointmentEvent)

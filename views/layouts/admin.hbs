@@ -93,6 +93,7 @@
                                 <div>Phone Number: {{this.bookerPhoneNum}}</div>
                                 <div>Start Date and Time: {{this.startDatetime}}</div>
                                 <div>End Date and Time: {{this.endDatetime}}</div>
+                                <div>Email: {{this.clientEmail}}</div>
                             </div>              
                         {{/each}}
                         <div id="approveDeclineButtons">
@@ -115,14 +116,17 @@
 
                 <div id="appointments" class="list bg-brown-600 text-white p-4 rounded-md space-y-4">
                     {{#each appointments}}
+                    <div>
                         <div class="appointmentContainer border-black border-solid border-thin p-2">
                             <div>Service: {{this.service}}</div>
                             <div>Booker: {{this.bookerName}}</div>
                             <div>Phone Number: {{this.bookerPhoneNum}}</div>
                             <div>Start Date and Time: {{this.startDatetime}}</div>
                             <div>End Date and Time: {{this.endDatetime}}</div>
+                            <div>Email: {{this.clientEmail}}</div>
                         </div>
-                        {{!-- <div class="deleteAptmntBtn">Cancel Appointment</div>     --}}
+                        <div class="deleteAptmntBtn">Cancel Appointment</div>  
+                    </div>  
                     {{/each}}
                 </div>
             </div>

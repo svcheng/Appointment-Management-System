@@ -132,6 +132,7 @@ app.get('/admin/:storeName', async(req, res) => {
             bookerPhoneNum: a.bookerPhoneNum,
             startDatetime: `${start.substring(0, 10)}, ${start.substring(11, 16)}`,
             endDatetime: `${end.substring(0, 10)}, ${end.substring(11, 16)}`,
+            clientEmail: a.clientEmail
         }
     })
 
@@ -372,6 +373,20 @@ app.post('/deletePendingAppointment', async (req, res) => {
 
     res.send('Pending appointment deleted.');
 });
+
+app.delete('/deleteAppointment', async (req, res) => {
+    const deletedAppointment = await Appointment.findOneAndDelete({
+        storeName: req.body.salon,
+        bookerName: req.body.customerName,
+        bookerPhoneNum: req.body.customerPhone,
+        startDatetime: req.body.dateTime,
+        service: req.body.service,
+        clientEmail: req.body.clientEmail === "" ? null : req.body.clientEmail
+    });
+
+    // console.log(deletedAppointment)
+    res.end()
+})
 
 //Details for Email
 const transporter = nodemailer.createTransport({
