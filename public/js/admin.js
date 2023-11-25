@@ -32,9 +32,11 @@ document.getElementById('date').addEventListener('change', (e) => {
     for (let i=0; i < appointments.length; i+=1) {
         let start = appointments[i].children[3].textContent.substring(21, 31)
 
-        // hide if appointment has different start data as calendar value and inputDate is not empty
+        // hide if appointment has different start date as calendar value and inputDate is not empty
         appointments[i].hidden = (start !== inputDate) && inputDate
     }
+
+    displayNoAppointments()
 })
 //delete service (tenatative)
 /*
@@ -136,12 +138,15 @@ document.getElementById('approveButton').addEventListener('click', async () => {
                 <div>Phone Number: ${customerPhone}</div>
                 <div>Start Date and Time: ${dateTime}</div>
                 <div>End Date and Time: ${new Date(dateTime).toString()}</div>
+                <div class="deleteAptmntBtn">Cancel Appointment</div>  
             `;
             let result = 'Approved';
             sendEmailResponse(salon, customerName, customerPhone, dateTime, service, result);
 
             // Append the new appointment to the appointments container
             document.getElementById('appointments').appendChild(newAppointment);
+
+            displayNoAppointments()
         }
     }
 });
@@ -160,11 +165,11 @@ document.getElementById('declineButton').addEventListener('click', async () => {
         const customerPhone = pendingAppointment.querySelector('div:nth-child(3)').textContent.split(': ')[1];
         const dateTime = pendingAppointment.querySelector('div:nth-child(4)').textContent.split(': ')[1];
         const service = pendingAppointment.querySelector('div:nth-child(1)').textContent.split(': ')[1];
-
-        pendingAppointment.remove(); // Remove the pending appointment from the DOM
+        const clientEmail = pendingAppointment.children[5].textContent.split(': ')[1]
 
         let result = 'Declined';
         await sendEmailResponse(salon, customerName, customerPhone, dateTime, service, result);
+        console.log(clientEmail)
         // Send request to delete from the pendings collection
         await fetch('/deletePendingAppointment', {
             method: 'POST',
@@ -177,8 +182,12 @@ document.getElementById('declineButton').addEventListener('click', async () => {
                 customerPhone: customerPhone,
                 dateTime: new Date(dateTime).toString(),
                 service: service,
+                clientEmail: clientEmail
             }),
         });
+
+        pendingAppointment.remove(); // Remove the pending appointment from the DOM
+        displayNoAppointments()
     }
 });
 const sendEmailResponse = async (salon, customerName, customerPhone, dateTime, service, result) => {
@@ -216,6 +225,9 @@ async function deleteAppointmentEvent(e) {
     })
 
     appointment.parentNode.remove()
+
+    // display msg if no appointments/ no pendings
+    displayNoAppointments()
 }
 
 let btns = document.querySelectorAll(".deleteAptmntBtn")
@@ -245,4 +257,18 @@ document.getElementById("editWorkingHours").addEventListener("click", async () =
     } else {
         window.alert("Invalid Working Hours.")
     }
+})
+
+// display message when there are no pendings/ no appointments
+const displayNoAppointments = () => {
+    let noPendings = document.getElementById("noAppointmentsPending")
+    let noAppointments = document.getElementById("noAppointmentsNonPending")
+    
+    noPendings.hidden = document.getElementById("pendingAppointments").children.length !== 2 
+    noAppointments.hidden = document.getElementById("appointments").children.length !== 1
+    document.getElementById("approveDeclineButtons").hidden = !noPendings.hidden
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    displayNoAppointments()
 })

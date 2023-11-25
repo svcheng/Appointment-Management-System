@@ -168,6 +168,7 @@ main {
   border-style: solid;
   background-color: #e8d2ae;
   max-width: 75%;
+  color: black;
 }
 
 .deleteAptmntBtn:hover {
@@ -184,4 +185,9 @@ main {
   font-size: 1rem;
 
   text-align: center;
+}
+
+.noAppointments {
+  font-size: 1em;
+  font-weight: bold;
 }

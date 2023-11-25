@@ -145,7 +145,7 @@ app.get('/admin/:storeName', async(req, res) => {
             bookerPhoneNum: a.bookerPhoneNum,
             startDatetime: `${start.substring(0, 10)}, ${start.substring(11, 16)}`,
             endDatetime: `${end.substring(0, 10)}, ${end.substring(11, 16)}`,
-
+            clientEmail: a.clientEmail
         }
     })
     
@@ -361,17 +361,19 @@ app.post('/approveAppointment', async (req, res) => {
 });
 
 app.post('/deletePendingAppointment', async (req, res) => {
-    const { salon, customerName, customerPhone, dateTime, service } = req.body;
+    const { salon, customerName, customerPhone, dateTime, service, clientEmail } = req.body;
 
-    await Pending.findOneAndDelete({
+    const deleted = await Pending.findOneAndDelete({
         storeName: salon,
         bookerName: customerName,
         bookerPhoneNum: customerPhone,
         startDatetime: dateTime,
-        service: service
+        service: service,
+        clientEmail: clientEmail === "" ? null : clientEmail
     });
 
-    res.send('Pending appointment deleted.');
+    console.log(deleted)
+    res.end();
 });
 
 app.delete('/deleteAppointment', async (req, res) => {
@@ -479,7 +481,7 @@ app.post('/appointmentEmail/:salon/:customerName/:customerPhone/:dateTime/:servi
 });
 
 //This Email is sent to pending.customerEmail (if NOT null) upon being approved or declined. Just make it so this is only called if customerEmail != null
-app.post('/emailApproveOrDecline/:salon/:customerName/:customerPhone/:dateTime/:service/:result', async (req) =>{
+app.post('/emailApproveOrDecline/:salon/:customerName/:customerPhone/:dateTime/:service/:result', async (req, res) =>{
     console.log("Trying to send email to appointment peep");
     //req.params.result is just "Approved" or "Declined" as a string to include in the email ^
     const existsStore = await Store.findOne({ 'name': req.params.salon });
@@ -542,7 +544,7 @@ app.post('/emailApproveOrDecline/:salon/:customerName/:customerPhone/:dateTime/:
     }else{
         console.log("Email not sent to appointment peep");
     }
-    
+    res.end()
 });
 
 // edit working hours

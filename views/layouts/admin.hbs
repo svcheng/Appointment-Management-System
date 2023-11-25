@@ -86,15 +86,16 @@
                         </div>
                     </div>
                     <div id="pendingAppointments" class="list">
+                        <div class="noAppointments" id="noAppointmentsPending" hidden>No appointments on this day waiting to be approved.</div>
                         {{#each pending}}
-                            <div class="appointmentContainer">
-                                <div>Service: {{this.service}}</div>
-                                <div>Booker: {{this.bookerName}}</div>
-                                <div>Phone Number: {{this.bookerPhoneNum}}</div>
-                                <div>Start Date and Time: {{this.startDatetime}}</div>
-                                <div>End Date and Time: {{this.endDatetime}}</div>
-                                <div>Email: {{this.clientEmail}}</div>
-                            </div>              
+                        <div class="appointmentContainer">
+                            <div>Service: {{this.service}}</div>
+                            <div>Booker: {{this.bookerName}}</div>
+                            <div>Phone Number: {{this.bookerPhoneNum}}</div>
+                            <div>Start Date and Time: {{this.startDatetime}}</div>
+                            <div>End Date and Time: {{this.endDatetime}}</div>
+                            <div>Email: {{this.clientEmail}}</div>
+                        </div>              
                         {{/each}}
                         <div id="approveDeclineButtons">
                             <button id="approveButton" class="store-button">Approve</button>
@@ -115,6 +116,7 @@
                 </div>
 
                 <div id="appointments" class="list bg-brown-600 text-white p-4 rounded-md space-y-4">
+                    <div class="noAppointments" id="noAppointmentsNonPending" hidden>No appointments scheduled on this day.</div>
                     {{#each appointments}}
                     <div>
                         <div class="appointmentContainer border-black border-solid border-thin p-2">
