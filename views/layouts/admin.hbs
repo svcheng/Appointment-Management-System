@@ -48,18 +48,18 @@
                     
                         <div>
                             <label for="deleteService">Select Service to Delete:</label>
-                             <select id="deleteServiceDropdown">
+                             <select id="deleteServiceDropdown" class="colorful-textbox">
    
                             {{#each services}}
                             <option value="{{this}}">{{this}}</option>
                              {{/each}}
                              </select>
-                             <button id="deleteService">Delete Service</button>
+                             <button id="deleteService" class="store-button">Delete Service</button>
                         </div>
                         
                         <div>
                             <label for="editService">Select Service to Edit:</label>
-                            <select id="editServiceDropdown">
+                            <select id="editServiceDropdown" class="colorful-textbox">
                                 <option value="0">Select a service</option>
                                 {{#each services}}
                                 <option value="{{this}}">{{this}}</option>
@@ -126,34 +126,32 @@
                     </div>
         </div>
         
-        <div id="nonpendings" class="w-55">
-            <div class="subContainer">
-                <div class="selectDateContainer">
-                    <div class="heading">Appointments:</div>
-
-                    <div class="mt-2">
-                        <label for="date" class="block">Filter by Start Date</label>
-                        <input type="date" id="appointmentsDate" class="colorful-date-input">
-                    </div>
-                </div>
-
-                <div id="appointments" class="list bg-brown-600 text-white p-4 rounded-md space-y-4">
-                    <div class="noAppointments" id="noAppointmentsNonPending" hidden>No appointments scheduled on this day.</div>
-                    {{#each appointments}}
-                    <div>
-                        <div class="appointmentContainer border-black border-solid border-thin p-2">
-                            <div>Service: {{this.service}}</div>
-                            <div>Booker: {{this.bookerName}}</div>
-                            <div>Phone Number: {{this.bookerPhoneNum}}</div>
-                            <div>Start Date and Time: {{this.startDatetime}}</div>
-                            <div>End Date and Time: {{this.endDatetime}}</div>
-                            <div>Email: {{this.clientEmail}}</div>
-                        </div>
-                        <div class="deleteAptmntBtn">Cancel Appointment</div>  
-                    </div>  
-                    {{/each}}
-                </div>
-            </div>
+<div id="nonpendings" class="subContainer">
+    <div class="selectDateContainer">
+        <div class="heading">Appointments:</div>
+        <div class="mt-2">
+            <label for="date" class="block">Filter by Start Date</label>
+            <input type="date" id="appointmentsDate" class="colorful-date-input">
         </div>
+    </div>
+
+    <div id="appointments" class="list">
+        <div class="noAppointments" id="noAppointmentsNonPending" hidden>No appointments scheduled on this day.</div>
+        {{#each appointments}}
+            <div>
+                <div class="appointmentContainer border-black border-solid border-thin p-2">
+                    <div>Service: {{this.service}}</div>
+                    <div>Booker: {{this.bookerName}}</div>
+                    <div>Phone Number: {{this.bookerPhoneNum}}</div>
+                    <div>Start Date and Time: {{this.startDatetime}}</div>
+                    <div>End Date and Time: {{this.endDatetime}}</div>
+                    <div>Email: {{this.clientEmail}}</div>
+                </div>
+                <div class="deleteAptmntBtn">Cancel Appointment</div>  
+            </div>  
+        {{/each}}
+    </div>
+</div>
+
     </main>
 </body>
