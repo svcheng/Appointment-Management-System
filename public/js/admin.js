@@ -148,22 +148,27 @@ async function updateServiceDropdown() {
     deleteServiceDropdown.innerHTML = '';
     editServiceDropdown.innerHTML = '';
 
+    let option = document.createElement('option');
+    option.value = "0"
+    option.textContent = "Select a service"
+    option.disabled = true
+    option.selected = true
+    deleteServiceDropdown.appendChild(option);
+    editServiceDropdown.appendChild(option.cloneNode(true));
+
     // populate dropdown with other services
     services.forEach(service => {
         const serviceName = service.textContent;
-        const option = document.createElement('option');
+        option = document.createElement('option');
         option.value = serviceName;
         option.textContent = serviceName;
         deleteServiceDropdown.appendChild(option);
+        editServiceDropdown.appendChild(option.cloneNode(true));
     });
 
-    services.forEach(service => {
-        const serviceName = service.textContent;
-        const option = document.createElement('option');
-        option.value = serviceName;
-        option.textContent = serviceName;
-        editServiceDropdown.appendChild(option);
-    });
+
+    deleteServiceDropdown.value = "0"
+    editServiceDropdown.value = "0"
 }
 
   

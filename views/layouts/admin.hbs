@@ -48,19 +48,19 @@
                     
                         <div>
                             <label for="deleteService">Select Service to Delete:</label>
-                             <select id="deleteServiceDropdown" class="colorful-textbox">
-   
-                            {{#each services}}
-                            <option value="{{this}}">{{this}}</option>
-                             {{/each}}
-                             </select>
-                             <button id="deleteService" class="store-button">Delete Service</button>
+                            <select id="deleteServiceDropdown" class="colorful-textbox">
+                                <option value="0" disabled selected>Select a service</option>
+                                {{#each services}}
+                                <option value="{{this}}">{{this}}</option>
+                                {{/each}}
+                            </select>
+                            <button id="deleteService" class="store-button">Delete Service</button>
                         </div>
                         
                         <div>
                             <label for="editService">Select Service to Edit:</label>
                             <select id="editServiceDropdown" class="colorful-textbox">
-                                <option value="0">Select a service</option>
+                                <option value="0" disabled selected>Select a service</option>
                                 {{#each services}}
                                 <option value="{{this}}">{{this}}</option>
                                 {{/each}}
