@@ -648,6 +648,58 @@ app.get('/withinWorkingHours/:salonName/:service/:startDate', async (req, res) =
     res.end()
 })
 
+//Email Notification: sent to client (if they have an email) upon an approved appointment being deleted
+app.post('/emailDeleted/:salon/:customerName/:customerPhone/:dateTime/:service/:clientEmail', async (req, res) =>{
+    const existsStore = await Store.findOne({ 'name': req.params.salon });
+    const salonOwnerEmail = existsStore.email;
+
+    const appointmentSchedule = req.params.dateTime.replace('T', ' at ');
+
+    if(clientEmail){
+        const mailOptions = {
+            from: {
+                name: `Your appointment to ${req.params.salon} has been canceled.`,
+                address: 'appointmentsserver@gmail.com'
+            }, // sender address
+            to: clientEmail, // list of receivers
+            subject: `Your Appointment to ${req.params.salon} has been canceled.`, // Subject line
+            //Content of Letter; coded directly here to prevent error messages if we were to instead read from an external HTML file
+            html: `
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr><td>
+                    <p>${req.params.salon} has deleted your appointment.</p>
+                    <p>Here were the details of your appointment:</p>
+                    </td></tr><tr><td>
+                    <table width="100%" cellpadding="5" cellspacing="0" border="1">
+                        <tr>
+                        <td><strong>Customer's Name:</strong></td>
+                        <td>${req.params.customerName}</td>
+                        </tr>
+                        <tr>
+                        <td><strong>Customer's Phone:</strong></td>
+                        <td>${req.params.customerPhone}</td>
+                        </tr>
+                        <tr>
+                        <td><strong>Time:</strong></td>
+                        <td>${appointmentSchedule}</td>
+                        </tr>
+                        <tr>
+                        <td><strong>Service:</strong></td>
+                        <td>${req.params.service}</td>
+                        </tr>
+                    </table>
+                    </td></tr><tr><td>
+                    <p>If you have any further questions or wish to inquire why, please contact the salon owner at ${salonOwnerEmail}.</p>
+                </td></tr>
+            </table>
+            `, 
+            }
+        sendMail(transporter, mailOptions);
+    }else{
+        console.log("Email not sent to appointment");
+    } 
+})
+
 app.listen(3000, () =>{
     console.log('Hello! Listening at http://localhost:3000')
 })
