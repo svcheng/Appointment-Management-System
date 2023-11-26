@@ -278,6 +278,9 @@ async function deleteAppointmentEvent(e) {
     const service = children[0].textContent.split(': ')[1]
     const clientEmail = children[5].textContent.split(': ')[1]
 
+    //Calls Function to send Email Notification to client if email exists
+    sendEmailDeleted(salon, customerName, customerPhone, dateTime, service, clientEmail);
+    
     const res = await fetch('/deleteAppointment', {
         method: 'DELETE',
         headers: {
@@ -297,6 +300,13 @@ async function deleteAppointmentEvent(e) {
 
     // display msg if no appointments/ no pendings
     displayNoAppointments()
+}
+
+//Sends an email when an approved appointment is Deleted
+const sendEmailDeleted = async (salon, customerName, customerPhone, dateTime, service, clientEmail) => {
+    const res2 = await fetch(`/emailDeleted/${salon}/${customerName}/${customerPhone}/${dateTime}/${service}/${clientEmail}/`, {
+        method: 'POST',
+    })
 }
 
 let btns = document.querySelectorAll(".deleteAptmntBtn")
