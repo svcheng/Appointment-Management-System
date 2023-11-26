@@ -655,6 +655,7 @@ app.get('/withinWorkingHours/:salonName/:service/:startDate', async (req, res) =
 app.post('/emailDeleted/:salon/:customerName/:customerPhone/:dateTime/:service/:clientEmail', async (req, res) =>{
     const existsStore = await Store.findOne({ 'name': req.params.salon });
     const salonOwnerEmail = existsStore.email;
+    const clientEmail = req.params.clientEmail
 
     const appointmentSchedule = req.params.dateTime.replace('T', ' at ');
 
@@ -701,6 +702,8 @@ app.post('/emailDeleted/:salon/:customerName/:customerPhone/:dateTime/:service/:
     }else{
         console.log("Email not sent to appointment");
     } 
+
+    res.end()
 })
 
 app.listen(3000, () =>{
