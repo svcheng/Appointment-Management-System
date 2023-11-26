@@ -6,6 +6,11 @@ document.getElementById('addService').addEventListener('click', async (e)=> {
     if (!newService || !newServiceDuration) {
         return
     }
+
+    if (isNaN(Number(newServiceDuration)) || !Number.isInteger(Number(newServiceDuration)) || Number(newServiceDuration) <= 0) {
+        window.alert("Invalid Input.")
+        return
+    }
     
     await fetch(`/addService/${salon}/${newService}/${newServiceDuration}`, {
         method: 'PUT'
@@ -56,10 +61,12 @@ document.getElementById('deleteService').addEventListener('click', async () => {
     const deleteServiceDropdown = document.getElementById('deleteServiceDropdown');
     const selectedService = deleteServiceDropdown.value;
     const salonName = document.getElementById('salonName').textContent;
+
     //if the selected service is not chosen returns
     if (!selectedService) {
         return;
     }
+
     //requests to fetch to find the selected service and delete
     const response = await fetch(`/deleteService/${salonName}/${encodeURIComponent(selectedService)}`, {
         method: 'DELETE',
