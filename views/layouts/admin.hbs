@@ -96,6 +96,55 @@
                     <p id="confirmMsg" hidden>Working Hours Set.</p>
                 </div>
             </div>
+
+            <div class="subContainer">
+                <div id="workingDaysHeader" class="heading">
+                    Working Days: 
+                    {{#each workingDays}}
+                        {{this}}{{#unless @last}}, {{/unless}}
+                    {{/each}}
+
+                </div>
+
+                <div class="list bg-orange-400 rounded-md p-3 text-center">
+                    <label for="start">Pick Working Days</label>
+                    <!--Checkboxes for working days-->
+                    <div class="flex flex-col" id="dayCheckBox">
+                       
+                        <div class="flex flex-col">
+                            <input type="checkbox"  name="monday" value="Mon">
+                            <label for="monday">Monday</label>
+                        </div>
+                        <div class="flex flex-col">
+                            <input type="checkbox"  name="tuesday" value="Tue">
+                            <label for="tuesday">Tuesday</label>
+                        </div>
+                        <div class="flex flex-col">
+                            <input type="checkbox"  name="wednesday" value="Wed">
+                            <label for="wednesday">Wednesday</label>
+                        </div>
+                        <div class="flex flex-col">
+                            <input type="checkbox"  name="thursday" value="Thu">
+                            <label for="thursday">Thursday</label>
+                        </div>
+                        <div class="flex flex-col">
+                            <input type="checkbox"  name="friday" value="Fri">
+                            <label for="friday">Friday</label>    
+                        </div>
+                        <div class="flex flex-col">
+                            <input type="checkbox"  name="saturday" value="Sat">
+                            <label for="saturday">Saturday</label>
+                        </div>
+                        <div class="flex flex-col">
+                            <input type="checkbox"  name="sunday" value="Sun">
+                            <label for="sunday">Sunday</label>
+                        </div>
+                    </div>
+
+                    <button id="editWorkingDays" class="store-button" type="submit">Confirm New Working Days</button>
+                    <p id="confirmDaysMsg" hidden>Working Days Set.</p>
+                </div>
+            </div>
         </div>
 
         <div id="pendings">

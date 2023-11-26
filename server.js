@@ -105,7 +105,8 @@ app.get('/admin/:storeName', async(req, res) => {
     const salonName = req.params.storeName
     const store = await Store.findOne({name: salonName})
     const services = store.services
-    
+    const workDays = store.workingDays
+
     // Delete finished appointments
     await Appointment.deleteMany({'endDatetime': {$lt: new Date()}})
 
@@ -156,7 +157,7 @@ app.get('/admin/:storeName', async(req, res) => {
         workingHours = `${store.workingHoursStart}-${store.workingHoursEnd}`
     }
     
-    res.render('layouts/admin', {salonName: salonName, services: services, appointments: appointments, pending: pending, workingHours: workingHours})
+    res.render('layouts/admin', {salonName: salonName, services: services, appointments: appointments, pending: pending, workingHours: workingHours, workingDays: workDays})
 })
 
 
@@ -584,6 +585,16 @@ app.put('/editWorkingHours/:salonName/:start/:end', async (req, res) => {
 
     store.workingHoursStart = req.params.start
     store.workingHoursEnd = req.params.end
+    store.save()
+    res.status(200)
+    res.end()
+})
+
+// edit working days
+app.put('/editWorkingDays/:salonName/:days', async (req, res) => {
+    const store = await Store.findOne({ 'name': req.params.salonName });
+    const dayArray = req.params.days.split(',');
+    store.workingDays = dayArray;
     store.save()
     res.status(200)
     res.end()

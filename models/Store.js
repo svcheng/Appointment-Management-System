@@ -31,6 +31,10 @@ const StoreSchema = new mongoose.Schema({
     workingHoursEnd: {
         type: Number,
         default: -1
+    },
+    workingDays: {
+        type: [String],
+        default: ["Mon", "Tue", "Wed", "Thu", "Fri"]
     }
 });
 

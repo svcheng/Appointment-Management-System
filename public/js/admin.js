@@ -138,6 +138,36 @@ document.getElementById('editServiceDropdown').addEventListener('change', async 
     document.getElementById('editConfirmMsg').hidden = true;
 });
 
+//edit working days
+document.getElementById('editWorkingDays').addEventListener('click', async () => {
+    const salonName = document.getElementById('salonName').textContent;
+    //get the checked working days from the checkboxes
+    const days = document.getElementById('dayCheckBox');
+    const workingDays = days.querySelectorAll('input');
+    const newWorkingDays = [];
+    const confirmDays = document.getElementById('confirmDaysMsg');
+
+    for (const day of workingDays) {
+        if (day.checked) {
+            newWorkingDays.push(day.value);
+        }
+    }
+    
+    const response = await fetch(`/editWorkingDays/${salonName}/${newWorkingDays}`, {
+        method: 'PUT',
+    });
+
+    if (response.ok) {
+        // working days are edited
+        document.getElementById('workingDaysHeader').textContent = `Working Days: ${newWorkingDays.join(', ')}`;
+        confirmDays.hidden = false;
+        //reset checkboxes
+        for (const day of workingDays) {
+            day.checked = false;
+        }
+    }
+
+});
 
 async function updateServiceDropdown() {
     const deleteServiceDropdown = document.getElementById('deleteServiceDropdown');
