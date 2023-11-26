@@ -104,8 +104,17 @@ app.post('/register/:storeName/:password/:receivedEmail', async (req, res) => {
 app.get('/admin/:storeName', async(req, res) => {
     const salonName = req.params.storeName
     const store = await Store.findOne({name: salonName})
-    const services = store.services
+    let services = store.services
+    const durations = store.serviceDurations
     const workDays = store.workingDays
+
+    // zip services and durations
+    services = services.map(function(serviceName, i) {
+        return {
+            serviceName: serviceName,
+            serviceDuration: durations[i]
+        }
+    })
 
     // Delete finished appointments
     await Appointment.deleteMany({'endDatetime': {$lt: new Date()}})
