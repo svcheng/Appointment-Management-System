@@ -87,7 +87,7 @@ document.getElementById('editSubmit').addEventListener('click', async () => {
     let newServiceName = document.getElementById('editServiceName').value;
     let newServiceDuration = document.getElementById('editServiceDuration').value;
     const confirmMsg = document.getElementById('editConfirmMsg');
-
+    const editDiv = document.getElementById('editInputs');
     //placeholder value when no new service name is entered
     if (!newServiceName) {
         newServiceName = selectedService;
@@ -117,6 +117,7 @@ document.getElementById('editSubmit').addEventListener('click', async () => {
 
         confirmMsg.hidden = false;
         updateServiceDropdown();
+        editDiv.style.display = 'none';
     }
     //reset the input fields
     document.getElementById('editServiceName').value = '';
@@ -127,6 +128,7 @@ document.getElementById('editSubmit').addEventListener('click', async () => {
 document.getElementById('editServiceDropdown').addEventListener('change', async () => {
     var style = this.value == 0 ? 'none' : 'block';
     document.getElementById('editInputs').style.display = style;
+    document.getElementById('editConfirmMsg').hidden = true;
 });
 
 
