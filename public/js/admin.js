@@ -248,7 +248,7 @@ document.getElementById('approveButton').addEventListener('click', async () => {
                         <div>End Date and Time: ${endTime}</div>
                         <div>Email: ${email}</div>
                     </div>
-                    <div class="deleteAptmntBtn">Cancel Appointment</div> 
+                    <div class="deleteAptmntBtn" onclick=deleteAppointmentEvent()>Cancel Appointment</div> 
                 </div>
             `;
 
