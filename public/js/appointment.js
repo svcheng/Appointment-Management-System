@@ -69,7 +69,9 @@ const salonSelection = async (e) => {
     appointmentHeader.appendChild(document.createTextNode("Schedule for"))
     appointmentHeader.appendChild(document.createTextNode(" " + salon))
     appointmentHeader.appendChild(document.createTextNode(" (" + email + ")"))
-    appointmentHeader.appendChild(document.createElement("br"));
+    appointmentHeader.appendChild(document.createElement("br"))
+    appointmentHeader.appendChild(document.createTextNode(`Working Days: ${data.workingDays}`))
+    appointmentHeader.appendChild(document.createElement("br"))
     appointmentHeader.appendChild(document.createTextNode(`Working Hours: ${data.workingHoursStart} - ${data.workingHoursEnd}`))
     appointmentHeader.style.display = 'block'
 

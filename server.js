@@ -225,7 +225,8 @@ app.get('/services/:salon', async (req, res) => {
         durations: salon.serviceDurations,
         email: salon.email,
         workingHoursStart: salon.workingHoursStart,
-        workingHoursEnd: salon.workingHoursEnd
+        workingHoursEnd: salon.workingHoursEnd,
+        workingDays: salon.workingDays
     }
 
     res.send(response)
@@ -603,8 +604,16 @@ app.put('/editWorkingDays/:salonName/:days', async (req, res) => {
 // checks if appointment is withing working hours 
 app.get('/withinWorkingHours/:salonName/:service/:startDate', async (req, res) => {
     const salon = await Store.findOne({ 'name': req.params.salonName })
+    let workingDays = salon.workingDays;
     let workingHoursStart = salon.workingHoursStart
     let workingHoursEnd = salon.workingHoursEnd 
+    
+    let day = req.params.startDate.substring(0,3);
+    //checks if day is in workingDays
+    if(!workingDays.includes(day)){
+        res.status(300)
+        res.end()
+    }
 
     if (workingHoursStart === -1 || workingHoursEnd === -1) {
         res.status(300)
