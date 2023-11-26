@@ -735,6 +735,6 @@ app.post('/emailDeleted/:salon/:customerName/:customerPhone/:dateTime/:service/:
     res.end()
 })
 
-app.listen(3000, () =>{
+app.listen(process.env.PORT, () =>{
     console.log('Hello! Listening at http://localhost:3000')
 })
