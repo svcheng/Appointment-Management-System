@@ -48,16 +48,36 @@
                     
                         <div>
                             <label for="deleteService">Select Service to Delete:</label>
-                             <select id="deleteServiceDropdown" class="colorful-textbox">
-                                
+                             <select id="deleteServiceDropdown">
+   
                             {{#each services}}
                             <option value="{{this}}">{{this}}</option>
                              {{/each}}
                              </select>
-
-                             <button id="deleteService" class="store-button">Delete Service</button>
+                             <button id="deleteService">Delete Service</button>
                         </div>
                         
+                        <div>
+                            <label for="editService">Select Service to Edit:</label>
+                            <select id="editServiceDropdown">
+                                <option value="0">Select a service</option>
+                                {{#each services}}
+                                <option value="{{this}}">{{this}}</option>
+                                {{/each}}
+                            </select>
+                             {{!-- <button id="deleteService">Edit Service</button> --}}
+
+                             <div id="editInputs" hidden>
+                                <label for="editServiceName">Edit Service Name:</label>
+                                <input type="text" id="editServiceName" name="editServiceName" class="colorful-textbox">
+                                <label for="editServiceDuration">Edit Service Duration (in minutes):</label>
+                                <input type="text" id="editServiceDuration" name="editServiceDuration" class="colorful-textbox">
+                                <p>Note: No input means no change.</p>
+                                <button id="editSubmit" class="store-button" type="submit">Save Changes</button>
+                                <p id="editConfirmMsg" hidden>Changes saved.</p>
+                             </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -107,7 +127,7 @@
         
         <div id="nonpendings" class="w-55">
             <div class="subContainer">
-                <div class="selectDateContainer" class="flex justify-between">
+                <div class="selectDateContainer">
                     <div class="heading">Appointments:</div>
 
                     <div class="mt-2">

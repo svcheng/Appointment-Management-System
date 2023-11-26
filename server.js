@@ -176,6 +176,7 @@ app.put('/addService/:storeName/:service/:duration', async (req, res) => {
 //delete service 
 app.delete('/deleteService/:storeName/:service', async (req, res) => {
     try {
+       
         const store = await Store.findOne({ 'name': req.params.storeName });
 
         // Find the index of the service in the array
@@ -254,6 +255,24 @@ app.get('/schedules/:salon', async (req, res) => {
     }
 });
 
+//edits service details in db
+app.put('/editService/:storeName/:service/:newService/:newDuration', async (req, res) => {
+    const store = await Store.findOne({ 'name': req.params.storeName });
+    const serviceIndex = store.services.indexOf(req.params.service);
+
+    
+
+    if (serviceIndex !== -1) {
+        store.services[serviceIndex] = req.params.newService;
+        if(req.params.newDuration != -1){
+            store.serviceDurations[serviceIndex] = req.params.newDuration;
+        }
+        await store.save();
+        res.status(200).end();
+    } else {
+        res.status(404).json({ error: 'Service not found' });
+    }
+});
 
 // books an appointment if not conflicting
 app.post('/bookAppointment', async (req, res) => {

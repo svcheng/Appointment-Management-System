@@ -51,7 +51,7 @@ document.getElementById('appointmentsDate').addEventListener('change', (e) => {
 })
 
 
-//delete service (tenatative)
+//delete service 
 document.getElementById('deleteService').addEventListener('click', async () => {
     const deleteServiceDropdown = document.getElementById('deleteServiceDropdown');
     const selectedService = deleteServiceDropdown.value;
@@ -79,12 +79,65 @@ document.getElementById('deleteService').addEventListener('click', async () => {
     }
 });
 
+//edit service
+document.getElementById('editSubmit').addEventListener('click', async () => {
+    const editServiceDropdown = document.getElementById('editServiceDropdown');
+    const selectedService = editServiceDropdown.value; //original service name, used to fetch the service from db
+    const salonName = document.getElementById('salonName').textContent;
+    let newServiceName = document.getElementById('editServiceName').value;
+    let newServiceDuration = document.getElementById('editServiceDuration').value;
+    const confirmMsg = document.getElementById('editConfirmMsg');
+
+    //placeholder value when no new service name is entered
+    if (!newServiceName) {
+        newServiceName = selectedService;
+    }
+    //placeholder value when no new service duration is entered
+    if (!newServiceDuration) {
+        newServiceDuration = -1;
+    }
+    //if the selected service is not chosen returns
+    if (!selectedService) {
+        return;
+    }
+    
+    const response = await fetch(`/editService/${salonName}/${encodeURIComponent(selectedService)}/${newServiceName}/${newServiceDuration}`, {
+        method: 'PUT',
+    
+    });
+
+    if (response.ok) {
+        // service is edited
+        const servicesContainer = document.getElementById('services');
+        for (const service of servicesContainer.children) {
+            if (service.textContent === selectedService) {
+                service.textContent = newServiceName;
+            }
+        }
+
+        confirmMsg.hidden = false;
+        updateServiceDropdown();
+    }
+    //reset the input fields
+    document.getElementById('editServiceName').value = '';
+    document.getElementById('editServiceDuration').value = '';
+});
+
+//displays edit service form
+document.getElementById('editServiceDropdown').addEventListener('change', async () => {
+    var style = this.value == 0 ? 'none' : 'block';
+    document.getElementById('editInputs').style.display = style;
+});
+
+
 async function updateServiceDropdown() {
     const deleteServiceDropdown = document.getElementById('deleteServiceDropdown');
+    const editServiceDropdown = document.getElementById('editServiceDropdown');
     const services = document.querySelectorAll('.service');
 
     // clears the option in dropdown
     deleteServiceDropdown.innerHTML = '';
+    editServiceDropdown.innerHTML = '';
 
     // populate dropdown with other services
     services.forEach(service => {
@@ -93,6 +146,14 @@ async function updateServiceDropdown() {
         option.value = serviceName;
         option.textContent = serviceName;
         deleteServiceDropdown.appendChild(option);
+    });
+
+    services.forEach(service => {
+        const serviceName = service.textContent;
+        const option = document.createElement('option');
+        option.value = serviceName;
+        option.textContent = serviceName;
+        editServiceDropdown.appendChild(option);
     });
 }
 

@@ -176,7 +176,7 @@ main {
   background-color: #dde9b9;
 }
 
-#confirmMsg {
+#confirmMsg, #editConfirmMsg {
   margin-top: 1rem;
   margin-bottom: 0px;
 
