@@ -214,6 +214,8 @@ document.getElementById('approveButton').addEventListener('click', async () => {
         const customerPhone = pendingAppointment.querySelector('div:nth-child(3)').textContent.split(': ')[1];
         const dateTime = pendingAppointment.querySelector('div:nth-child(4)').textContent.split(': ')[1];
         const service = pendingAppointment.querySelector('div:nth-child(1)').textContent.split(': ')[1];
+        const endTime = pendingAppointment.querySelector('div:nth-child(5)').textContent.split(': ')[1];
+        const email = pendingAppointment.querySelector('div:nth-child(6)').textContent.split(': ')[1];
 
         const res = await fetch('/approveAppointment', {
             method: 'POST',
@@ -235,20 +237,26 @@ document.getElementById('approveButton').addEventListener('click', async () => {
 
             // Create a new appointment element for the approved appointment
             const newAppointment = document.createElement('div');
-            newAppointment.classList.add('appointmentContainer');
+            // newAppointment.classList.add('appointmentContainer');
             newAppointment.innerHTML = `
-                <div>Service: ${service}</div>
-                <div>Booker: ${customerName}</div>
-                <div>Phone Number: ${customerPhone}</div>
-                <div>Start Date and Time: ${dateTime}</div>
-                <div>End Date and Time: ${new Date(dateTime).toString()}</div>
-                <div class="deleteAptmntBtn">Cancel Appointment</div>  
+                <div>
+                    <div class="appointmentContainer border-black border-solid border-thin p-2">
+                        <div>Service: ${service}</div>
+                        <div>Booker: ${customerName}</div>
+                        <div>Phone Number: ${customerPhone}</div>
+                        <div>Start Date and Time: ${dateTime}</div>
+                        <div>End Date and Time: ${endTime}</div>
+                        <div>Email: ${email}</div>
+                    </div>
+                    <div class="deleteAptmntBtn">Cancel Appointment</div> 
+                </div>
             `;
-            let result = 'Approved';
-            sendEmailResponse(salon, customerName, customerPhone, dateTime, service, result);
 
             // Append the new appointment to the appointments container
             document.getElementById('appointments').appendChild(newAppointment);
+
+            let result = 'Approved';
+            sendEmailResponse(salon, customerName, customerPhone, dateTime, service, result);
 
             displayNoAppointments()
         }

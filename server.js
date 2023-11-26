@@ -616,7 +616,7 @@ app.get('/withinWorkingHours/:salonName/:service/:startDate', async (req, res) =
     let workingDays = salon.workingDays;
     let workingHoursStart = salon.workingHoursStart
     let workingHoursEnd = salon.workingHoursEnd 
-    
+    console.log(req.params.startDate)
     let day = req.params.startDate.substring(0,3);
     //checks if day is in workingDays
     if(!workingDays.includes(day)){
