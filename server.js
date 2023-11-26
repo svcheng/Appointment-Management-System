@@ -462,6 +462,7 @@ app.post('/sendData/:receivedEmail/:codeVerify', async (req) =>{
 //Email Notification: send to the StoreOwner about a sent appointment
 app.post('/appointmentEmail/:salon/:customerName/:customerPhone/:dateTime/:service', async (req) =>{
     const exists = await Store.findOne({ 'name': req.params.salon });
+    const appointmentSchedule = req.params.dateTime.replace('T', ' at ');
 
     if(exists){
         const mailOptions = {
@@ -489,7 +490,7 @@ app.post('/appointmentEmail/:salon/:customerName/:customerPhone/:dateTime/:servi
                         </tr>
                         <tr>
                         <td><strong>Time:</strong></td>
-                        <td>${req.params.dateTime}</td>
+                        <td>${appointmentSchedule}</td>
                         </tr>
                         <tr>
                         <td><strong>Service:</strong></td>
@@ -514,6 +515,8 @@ app.post('/emailApproveOrDecline/:salon/:customerName/:customerPhone/:dateTime/:
     //req.params.result is just "Approved" or "Declined" as a string to include in the email ^
     const existsStore = await Store.findOne({ 'name': req.params.salon });
     const salonOwnerEmail = existsStore.email;
+
+    const appointmentSchedule = req.params.dateTime.replace('T', ' at ');
 
     console.log("Trying to find appointment in pendings")
     let existsPending = await Pending.findOne({ 'storeName': req.params.salon, 'bookerName': req.params.customerName})
@@ -555,7 +558,7 @@ app.post('/emailApproveOrDecline/:salon/:customerName/:customerPhone/:dateTime/:
                         </tr>
                         <tr>
                         <td><strong>Time:</strong></td>
-                        <td>${req.params.dateTime}</td>
+                        <td>${appointmentSchedule}</td>
                         </tr>
                         <tr>
                         <td><strong>Service:</strong></td>
