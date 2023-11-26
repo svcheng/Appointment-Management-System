@@ -50,6 +50,7 @@ main {
   display: flex;
   padding-left: 0.5em;
   padding-left: 0.5em;
+  justify-content: space-between;
 }
 
 #left {
@@ -64,8 +65,8 @@ main {
   flex-direction: column;
 }
 
-#pendings, #nonpendings {
-  width: 55%;
+#right {
+  width: 50%;
 }
 
 .heading {

@@ -147,60 +147,62 @@
             </div>
         </div>
 
-        <div id="pendings">
-                <div class="subContainer">
-                    <div class="selectDateContainer">
-                        <div class="heading">Pending Appointments:</div>
-                        <div>
-                            <label for="date">Filter by Start Date</label>
-                            <input type="date" id="pendingsDate" class="colorful-date-input">
+        <div id="right">
+            <div id="pendings">
+                    <div class="subContainer">
+                        <div class="selectDateContainer">
+                            <div class="heading">Pending Appointments:</div>
+                            <div>
+                                <label for="date">Filter by Start Date</label>
+                                <input type="date" id="pendingsDate" class="colorful-date-input">
+                            </div>
                         </div>
-                    </div>
-                    <div id="pendingAppointments" class="list">
-                        <div class="noAppointments" id="noAppointmentsPending" hidden>No appointments on this day waiting to be approved.</div>
-                        {{#each pending}}
-                        <div class="appointmentContainer">
-                            <div>Service: {{this.service}}</div>
-                            <div>Booker: {{this.bookerName}}</div>
-                            <div>Phone Number: {{this.bookerPhoneNum}}</div>
-                            <div>Start Date and Time: {{this.startDatetime}}</div>
-                            <div>End Date and Time: {{this.endDatetime}}</div>
-                            <div>Email: {{this.clientEmail}}</div>
-                        </div>              
-                        {{/each}}
-                        <div id="approveDeclineButtons">
-                            <button id="approveButton" class="store-button">Approve</button>
-                            <button id="declineButton" class="store-button">Decline</button>
+                        <div id="pendingAppointments" class="list">
+                            <div class="noAppointments" id="noAppointmentsPending" hidden>No appointments on this day waiting to be approved.</div>
+                            {{#each pending}}
+                            <div class="appointmentContainer">
+                                <div>Service: {{this.service}}</div>
+                                <div>Customer: {{this.bookerName}}</div>
+                                <div>Phone Number: {{this.bookerPhoneNum}}</div>
+                                <div>Start Date and Time: {{this.startDatetime}}</div>
+                                <div>End Date and Time: {{this.endDatetime}}</div>
+                                <div>Email: {{this.clientEmail}}</div>
+                            </div>              
+                            {{/each}}
+                            <div id="approveDeclineButtons">
+                                <button id="approveButton" class="store-button">Approve</button>
+                                <button id="declineButton" class="store-button">Decline</button>
+                            </div>
                         </div>
+            </div>
+            
+            <div id="nonpendings" class="subContainer">
+                <div class="selectDateContainer">
+                    <div class="heading">Appointments:</div>
+                    <div class="mt-2">
+                        <label for="date" class="block">Filter by Start Date</label>
+                        <input type="date" id="appointmentsDate" class="colorful-date-input">
                     </div>
-        </div>
-        
-<div id="nonpendings" class="subContainer">
-    <div class="selectDateContainer">
-        <div class="heading">Appointments:</div>
-        <div class="mt-2">
-            <label for="date" class="block">Filter by Start Date</label>
-            <input type="date" id="appointmentsDate" class="colorful-date-input">
-        </div>
-    </div>
-
-    <div id="appointments" class="list">
-        <div class="noAppointments" id="noAppointmentsNonPending" hidden>No appointments scheduled on this day.</div>
-        {{#each appointments}}
-            <div>
-                <div class="appointmentContainer border-black border-solid border-thin p-2">
-                    <div>Service: {{this.service}}</div>
-                    <div>Booker: {{this.bookerName}}</div>
-                    <div>Phone Number: {{this.bookerPhoneNum}}</div>
-                    <div>Start Date and Time: {{this.startDatetime}}</div>
-                    <div>End Date and Time: {{this.endDatetime}}</div>
-                    <div>Email: {{this.clientEmail}}</div>
                 </div>
-                <div class="deleteAptmntBtn">Cancel Appointment</div>  
-            </div>  
-        {{/each}}
-    </div>
-</div>
+
+                <div id="appointments" class="list">
+                    <div class="noAppointments" id="noAppointmentsNonPending" hidden>No appointments scheduled on this day.</div>
+                    {{#each appointments}}
+                        <div>
+                            <div class="appointmentContainer border-black border-solid border-thin p-2">
+                                <div>Service: {{this.service}}</div>
+                                <div>Customer: {{this.bookerName}}</div>
+                                <div>Phone Number: {{this.bookerPhoneNum}}</div>
+                                <div>Start Date and Time: {{this.startDatetime}}</div>
+                                <div>End Date and Time: {{this.endDatetime}}</div>
+                                <div>Email: {{this.clientEmail}}</div>
+                            </div>
+                            <div class="deleteAptmntBtn">Cancel Appointment</div>  
+                        </div>  
+                    {{/each}}
+                </div>
+            </div>
+        </div>
 
     </main>
 </body>
