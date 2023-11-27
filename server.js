@@ -478,7 +478,7 @@ app.post('/appointmentEmail/:salon/:customerName/:customerPhone/:dateTime/:servi
     if(exists){
         const mailOptions = {
             from: {
-              name: "Appointment Notification to" + req.params.salon,
+              name: "Appointment Notification to " + req.params.salon,
               address: 'appointmentsserver@gmail.com'
             }, // sender address
             to: exists.email, // list of receivers
