@@ -631,7 +631,7 @@ app.get('/withinWorkingHours/:salonName/:service/:startDate', async (req, res) =
 
     let duration
     for (let i=0; i < salon.services.length; i+=1) {
-        if (salon.services[i] == req.body.service) {
+        if (salon.services[i] == req.params.service) {
             duration = salon.serviceDurations[i]
         }
     }
