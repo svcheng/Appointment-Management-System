@@ -23,12 +23,16 @@ nav {
   background-color:#796465;
   border-bottom: 1px solid black;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+
+  display: flex;
+  justify-content: space-between;
 }
 
 nav > a {
   color: white;
   display: block;
   text-align: right;
+  text-decoration: none;
 }
 
 nav > a:hover {
