@@ -207,3 +207,26 @@ main {
   font-size: 1em;
   font-weight: bold;
 }
+
+.goog-te-banner-frame {
+  display: none;
+}
+
+.goog-logo-link {
+  display:none !important;
+}
+
+.goog-te-gadget{
+  color: transparent !important;
+}
+.goog-te-combo{
+  background-color: #796465;
+  background-color: hsl(20, 17%, 50%);
+  color: white;
+  border-radius: 10px;
+  border-bottom: black solid 1px;
+  height:50px;
+  padding:10px;
+  margin-left: 1em;
+  
+}

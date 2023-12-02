@@ -210,13 +210,25 @@ input[class="Disabled"]:hover{
     text-align: center;
 }
 
-.goog-te-menu-value span,
-.goog-te-menu-value span:before {
-  font-size: 8px; 
+.goog-te-banner-frame {
+    display: none;
+  }
+  
+.goog-logo-link {
+    display:none !important;
 }
-
-
-.goog-te-menu-frame.skiptranslate,
-.goog-te-menu-frame.skiptranslate iframe {
-  max-width: 200px; 
+  
+.goog-te-gadget{
+    color: transparent !important;
+}
+.goog-te-combo{
+    background-color: #796465;
+    background-color: hsl(20, 17%, 50%);
+    color: white;
+    border-radius: 10px;
+    border-bottom: black solid 1px;
+    height:50px;
+    padding:10px;
+    margin-left: 1em;
+    
 }
