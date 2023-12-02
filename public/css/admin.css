@@ -47,7 +47,18 @@ nav > a:hover {
 
 header {
   text-align: center;
-  font-size: 2em;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1em;
+  margin-bottom: 2em;
+}
+
+#salonName {
+  font-size: 3em;
+}
+
+.contact {
+  font-size: 1em;
 }
 
 main {

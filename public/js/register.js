@@ -24,12 +24,13 @@ document.getElementById("regBtn").addEventListener("click", async (e) => {
     const password = document.getElementById("password").value
     const codeVerify = document.getElementById("codeVerify").value
     const receivedEmail = document.getElementById("email").value
+    const phone = document.getElementById("phone").value
 
     //Confirms if the code matches
     if(codeVerify === verify){
         errorCode.hidden = true
         //Sends data OR Checks if name already exists
-        const res = await fetch(`/register/${storeName}/${password}/${receivedEmail}`, {
+        const res = await fetch(`/register/${storeName}/${password}/${receivedEmail}/${phone}`, {
             method: "POST"
         })
 

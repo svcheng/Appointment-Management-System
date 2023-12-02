@@ -70,11 +70,16 @@ const salonSelection = async (e) => {
     appointmentHeader.appendChild(document.createTextNode(" " + salon))
     appointmentHeader.appendChild(document.createTextNode(" (" + email + ")"))
     appointmentHeader.appendChild(document.createElement("br"))
+    if (data.phone != "") {
+        appointmentHeader.appendChild(document.createTextNode(`Phone: ${data.phone}`))
+        appointmentHeader.appendChild(document.createElement("br"))
+    }
     appointmentHeader.appendChild(document.createTextNode(`Working Days: ${data.workingDays}`))
     appointmentHeader.appendChild(document.createElement("br"))
-    appointmentHeader.appendChild(document.createTextNode(`Working Hours: ${data.workingHoursStart} - ${data.workingHoursEnd}`))
+    if (data.workingHoursStart != -1 && data.workingHoursEnd) {
+        appointmentHeader.appendChild(document.createTextNode(`Working Hours: ${data.workingHoursStart} - ${data.workingHoursEnd}`))
+    }
     appointmentHeader.style.display = 'block'
-
 
     // display salon schedule
     let sched = await fetch('/schedules/' + salon, {

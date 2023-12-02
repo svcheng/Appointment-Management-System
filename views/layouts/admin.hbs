@@ -22,7 +22,11 @@
         </nav>
 
     <header class="text-center text-2xl">
-        <h2 id="salonName">{{salonName}}</h2>
+        <div id="salonName">{{salonName}}</div>
+        <div id="email" class="contact">Email: {{email}}</div>
+        {{#if phone}}
+        <div id="phone" class="contact">Phone: {{phone}}</div>
+        {{/if}}
     </header>
 
     <main class="flex">

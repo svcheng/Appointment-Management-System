@@ -82,14 +82,14 @@ app.get('/login/:username/:password', async (req, res) => {
 })
 
 // register salon
-app.post('/register/:storeName/:password/:receivedEmail', async (req, res) => {    
+app.post('/register/:storeName/:password/:receivedEmail/:phone', async (req, res) => {    
     // check if storeName already exists in the database
 
     const exists = await Store.findOne({ 'name': req.params.storeName });
    
     if (!exists) {
         // add store to database
-        const newStore = new Store({name: req.params.storeName, password: req.params.password, email: req.params.receivedEmail})
+        const newStore = new Store({name: req.params.storeName, password: req.params.password, email: req.params.receivedEmail, phone: req.params.phone})
         await newStore.save()
         res.status(200)
         res.end()
@@ -104,6 +104,8 @@ app.post('/register/:storeName/:password/:receivedEmail', async (req, res) => {
 app.get('/admin/:storeName', async(req, res) => {
     const salonName = req.params.storeName
     const store = await Store.findOne({name: salonName})
+    const email = store.email
+    const phone = store.phone
     let services = store.services
     const durations = store.serviceDurations
     const workDays = store.workingDays
@@ -166,7 +168,16 @@ app.get('/admin/:storeName', async(req, res) => {
         workingHours = `${store.workingHoursStart}-${store.workingHoursEnd}`
     }
     
-    res.render('layouts/admin', {salonName: salonName, services: services, appointments: appointments, pending: pending, workingHours: workingHours, workingDays: workDays})
+    res.render('layouts/admin', {
+        salonName: salonName,
+        email: email,
+        phone: phone, 
+        services: services, 
+        appointments: appointments, 
+        pending: pending, 
+        workingHours: workingHours, 
+        workingDays: workDays
+    })
 })
 
 
@@ -233,6 +244,7 @@ app.get('/services/:salon', async (req, res) => {
         services: salon.services, 
         durations: salon.serviceDurations,
         email: salon.email,
+        phone: salon.phone,
         workingHoursStart: salon.workingHoursStart,
         workingHoursEnd: salon.workingHoursEnd,
         workingDays: salon.workingDays
