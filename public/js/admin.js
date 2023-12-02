@@ -310,6 +310,10 @@ const sendEmailResponse = async (salon, customerName, customerPhone, dateTime, s
 
 // delete appointment 
 async function deleteAppointmentEvent(e) {
+    if(!window.confirm("Are you sure you wan't to cancel this appointment?")) {
+        return
+    }
+
     // Get appointment details for deletion
     const appointment = e.target.parentNode.firstElementChild
     const children = appointment.children 

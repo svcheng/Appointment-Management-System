@@ -72,7 +72,7 @@ app.get('/login/:username/:password', async (req, res) => {
             res.status(200)
         } 
         else {
-            res.status(300)
+            res.status(301)
         }
     }
     else {

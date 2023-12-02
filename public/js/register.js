@@ -19,12 +19,21 @@ const generateRandomString = (length) => {
 document.getElementById("regBtn").addEventListener("click", async (e) => {
     const errorMsg = document.getElementById("r_error")
     const errorCode = document.getElementById("r_code")
+    const emailError = document.getElementById("r_email")
 
     const storeName = document.getElementById("storeName").value
     const password = document.getElementById("password").value
     const codeVerify = document.getElementById("codeVerify").value
     const receivedEmail = document.getElementById("email").value
     const phone = document.getElementById("phone").value
+
+    errorMsg.hidden = true
+    errorCode.hidden = true
+    emailError.hidden = true
+
+    if (!storeName || !password || !receivedEmail || !codeVerify) {
+        return 
+    }
 
     //Confirms if the code matches
     if(codeVerify === verify){
@@ -45,18 +54,29 @@ document.getElementById("regBtn").addEventListener("click", async (e) => {
 
     } 
     else {
-        errorMsg.hidden = true
         errorCode.hidden = false
         console.log("Incorrect code")
     }
 })
 
 document.getElementById("sendCode").addEventListener("click", async (e) =>{
-
+    const errorMsg = document.getElementById("r_error")
+    const errorCode = document.getElementById("r_code")
     const emailError = document.getElementById("r_email")
+    const storeName = document.getElementById("storeName").value
+    const password = document.getElementById("password").value
     const receivedEmail = document.getElementById("email").value
     const sendCodeButton = document.getElementById("sendCode");
    
+    errorMsg.hidden = true
+    errorCode.hidden = true
+    emailError.hidden = true
+
+    if (!storeName || !password || !receivedEmail) {
+        emailError.hidden = false
+        emailError.textContent = "Enter a store name, password, and valid email."
+        return 
+    }
 
     if(document.getElementById("email").checkValidity()){
         const codeVerify = generateRandomString(6);
@@ -71,7 +91,9 @@ document.getElementById("sendCode").addEventListener("click", async (e) =>{
             method: 'POST', 
         });
     } else {
-        emailError.hidden = false;
+        emailError.hidden = false
+        emailError.textContent = "Please enter a valid email."
+        return 
     }
 })
 
