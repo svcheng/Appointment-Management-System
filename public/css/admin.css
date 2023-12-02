@@ -15,8 +15,6 @@ body {
   overflow-y: auto; /* Add vertical scroll */
 }
 
-
-
 nav {
   padding: 1em;
   font-size: 24px;
@@ -221,7 +219,8 @@ main {
 }
 
 .goog-te-combo{
-  background-color: #796465;
+  background-color: #cb8589;
   padding: 10px;
   border: 2px solid black;
+  font-weight: bold;
 }

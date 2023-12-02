@@ -23,6 +23,6 @@ document.getElementById("loginBtn").addEventListener("click", async (e) => {
         errorMsg.hidden = false
         errorMsg.textContent = "Incorrect password."
     } else {
-        //window.location.href = "/admin/" + username
+        window.location.href = "/admin/" + username
     }
 })

@@ -221,7 +221,8 @@ h1{
 }
 
 .goog-te-combo{
-    background-color: #796465;
+    background-color: #cb8589;
     padding: 10px;
     border: 2px solid black;
+    font-weight: bold;
 }

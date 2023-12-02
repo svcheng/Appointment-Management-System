@@ -105,11 +105,8 @@ nav > a {
 }
 
 .goog-te-combo{
-    background-color: #796465;
+    background-color: #cb8589;
     padding: 10px;
     border: 2px solid black;
-}
-
-.w-20{
-    padding-right: 200px;
+    font-weight: bold;
 }
