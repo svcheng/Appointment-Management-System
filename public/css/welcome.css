@@ -90,6 +90,7 @@ nav > a {
 
 .goog-te-banner-frame {
     display: none;
+    margin-top: -20px;
   }
   
 .goog-logo-link {
@@ -97,19 +98,9 @@ nav > a {
 }
   
 .goog-te-gadget{
-    color: transparent !important;
+    color: black !important;
 }
-.goog-te-combo{
-    background-color: #796465;
-    background-color: hsl(20, 17%, 50%);
-    color: white;
-    border-radius: 10px;
-    border-bottom: black solid 1px;
-    height:50px;
-    padding:10px;
-    margin-left: 1em;
-    
-}
+
 
 .w-20{
     padding-right: 200px;
