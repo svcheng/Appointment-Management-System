@@ -231,10 +231,12 @@ document.getElementById('submitBtn').addEventListener('click', async (e) => {
 
     const errorMsg = document.getElementById('errorMsg')
     const confirmMsg = document.getElementById('confirmMsg')
-    errorMsg.hidden = salon && customerName && customerPhone && dateTime && service
-    if (!errorMsg.hidden) {
-        confirmMsg.hidden = true
-        return
+    errorMsg.hidden = true
+    confirmMsg.hidden = true
+
+    if (!salon && !customerName && !customerPhone && !dateTime && !service) {
+        errorMsg.hidden = false
+        errorMsg.textContent = "All required fields must be filled out." 
     }
 
     // check if time falls within salon working hours
@@ -242,12 +244,14 @@ document.getElementById('submitBtn').addEventListener('click', async (e) => {
         method: "GET"
     })
 
-    let workingHoursError = document.getElementById("workingHoursError")
-    if (!res.ok) {
-        workingHoursError.hidden = false
+    if (res.status === 300) {
+        errorMsg.hidden = false
+        errorMsg.textContent = "Not within salon working hours." 
         return 
-    } else {
-        workingHoursError.hidden = true
+    } else if (res.status === 301) {
+        errorMsg.hidden = false
+        errorMsg.textContent = "Not within salon working days." 
+        return
     }
     
     confirmMsg.hidden = false
@@ -266,6 +270,8 @@ document.getElementById('submitBtn').addEventListener('click', async (e) => {
             service: service
         })
     })
+
+    confirmMsg.hidden = false
 
     //Sends Email Notification to Admin
     sendEmail(salon, customerName, customerPhone, dateTime, service)

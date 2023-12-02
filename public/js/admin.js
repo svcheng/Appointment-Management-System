@@ -55,6 +55,11 @@ document.getElementById('appointmentsDate').addEventListener('change', (e) => {
     }
 })
 
+//displays delete service btn
+document.getElementById('deleteServiceDropdown').addEventListener('change', async () => {
+    var style = this.value == 0 ? 'none' : 'block';
+    document.getElementById('deleteService').style.display = style;
+});
 
 //delete service 
 document.getElementById('deleteService').addEventListener('click', async () => {
@@ -144,7 +149,7 @@ document.getElementById('editWorkingDays').addEventListener('click', async () =>
     //get the checked working days from the checkboxes
     const days = document.getElementById('dayCheckBox');
     const workingDays = days.querySelectorAll('input');
-    const newWorkingDays = [];
+    let newWorkingDays = [];
     const confirmDays = document.getElementById('confirmDaysMsg');
 
     for (const day of workingDays) {
@@ -152,6 +157,7 @@ document.getElementById('editWorkingDays').addEventListener('click', async () =>
             newWorkingDays.push(day.value);
         }
     }
+    newWorkingDays = newWorkingDays.length === 0 ? "None" : newWorkingDays.join(',')
     
     const response = await fetch(`/editWorkingDays/${salonName}/${newWorkingDays}`, {
         method: 'PUT',
@@ -159,7 +165,7 @@ document.getElementById('editWorkingDays').addEventListener('click', async () =>
 
     if (response.ok) {
         // working days are edited
-        document.getElementById('workingDaysHeader').textContent = `Working Days: ${newWorkingDays.join(', ')}`;
+        document.getElementById('workingDaysHeader').textContent = `Working Days: ${newWorkingDays}`;
         confirmDays.hidden = false;
         //reset checkboxes
         for (const day of workingDays) {
@@ -363,25 +369,48 @@ for (let i=0; i <btns.length; i+=1) {
 
 document.getElementById("editWorkingHours").addEventListener("click", async () => {
     let confirmMsg = document.getElementById("confirmMsg")
-    let start = document.getElementById("start")
-    let end = document.getElementById("end")
+    let errorWorkingHours = document.getElementById("errorWorkingHours")
+    let start = document.getElementById("start").value
+    let end = document.getElementById("end").value
     const salon = document.getElementById('salonName').textContent;
 
     confirmMsg.hidden = true
-    if (start.value < 0 || start.value > 23 || end.value < 0 || end.value > 23 || start.value === end.value) {
-        window.alert("Invalid Working Hours.")
+    errorWorkingHours.hidden = true
+
+    if (start === "" && end === "") {
+        start = -1
+        end = -1
+    } else if (start === "" || end === "") {
+        errorWorkingHours.hidden = false
+        errorWorkingHours.textContent = "Enter both start and end date. To unset working hours, leave both blank."
         return
-    }
+    } else {
+        start = Number(start)
+        end = Number(end)
+
+        if (!Number.isInteger(start) || !Number.isInteger(end)) {
+            errorWorkingHours.hidden = false
+            errorWorkingHours.textContent = "Enter positive integers as working hours."
+            return
+        } else if (start < 0 || start > 23 || end < 0 || end > 23 || start === end) {
+            errorWorkingHours.hidden = false
+            errorWorkingHours.textContent = "Invalid Working Hours."
+            return
+        }
+    } 
     
-    const res = await fetch(`/editWorkingHours/${salon}/${start.value}/${end.value}`, {
+    const res = await fetch(`/editWorkingHours/${salon}/${start}/${end}`, {
         method: "PUT"
     }) 
 
     if (res.ok) {
-        document.getElementById("workingHoursHeader").textContent = `Working Hours: ${start.value}-${end.value}`
+        let text = `Working Hours: ${start}-${end}`
+        if (start === -1 && end === -1) {
+            text = "Working Hours: Not Set"
+        } 
+
+        document.getElementById("workingHoursHeader").textContent = text
         confirmMsg.hidden = false
-    } else {
-        window.alert("Invalid Working Hours.")
     }
 })
 

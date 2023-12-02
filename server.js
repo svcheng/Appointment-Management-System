@@ -615,8 +615,14 @@ app.put('/editWorkingHours/:salonName/:start/:end', async (req, res) => {
 // edit working days
 app.put('/editWorkingDays/:salonName/:days', async (req, res) => {
     const store = await Store.findOne({ 'name': req.params.salonName });
-    const dayArray = req.params.days.split(',');
-    store.workingDays = dayArray;
+
+    if (req.params.days === "None") {
+        store.workingDays = []
+    } else {
+        const dayArray = req.params.days.split(',');
+        store.workingDays = dayArray;
+    }
+    
     store.save()
     res.status(200)
     res.end()
@@ -630,14 +636,10 @@ app.get('/withinWorkingHours/:salonName/:service/:startDate', async (req, res) =
     let workingHoursEnd = salon.workingHoursEnd 
     console.log(req.params.startDate)
     let day = req.params.startDate.substring(0,3);
+    
     //checks if day is in workingDays
     if(!workingDays.includes(day)){
-        res.status(300)
-        res.end()
-    }
-
-    if (workingHoursStart === -1 || workingHoursEnd === -1) {
-        res.status(300)
+        res.status(301)
         res.end()
     }
 

@@ -42,15 +42,17 @@
                     </div>
 
                     <div id="inputContainer" class="mt-4 mx-auto w-90 flex flex-col">
-                        <label for="newService" class="block">Service Name</label>
+                        <div class="inputContainer">
+                            <label for="newService" class="block">Service Name</label>
                         
-                        <input type="text" id="newService" name="newService" class="colorful-textbox">
+                            <input type="text" id="newService" name="newService" class="colorful-textbox">
 
-                        <label for="newServiceDuration" class="block mt-2">Service Duration (in minutes)</label>
-                        <input type="text" id="newServiceDuration" name="newService" class="colorful-textbox">
-                        <button id="addService" class="store-button" type="submit">Add Service</button>
-                    
-                        <div>
+                            <label for="newServiceDuration" class="block mt-2">Service Duration (in minutes)</label>
+                            <input type="text" id="newServiceDuration" name="newService" class="colorful-textbox">
+                            <button id="addService" class="store-button" type="submit">Add Service</button>
+                        </div>
+                        
+                        <div class="inputContainer">
                             <label for="deleteService">Select Service to Delete:</label>
                             <select id="deleteServiceDropdown" class="colorful-textbox">
                                 <option value="0" disabled selected>Select a service</option>
@@ -58,10 +60,10 @@
                                 <option value="{{this}}">{{this}}</option>
                                 {{/each}}
                             </select>
-                            <button id="deleteService" class="store-button">Delete Service</button>
+                            <button id="deleteService" class="store-button" hidden>Delete Service</button>
                         </div>
                         
-                        <div>
+                        <div class="inputContainer">
                             <label for="editService">Select Service to Edit:</label>
                             <select id="editServiceDropdown" class="colorful-textbox">
                                 <option value="0" disabled selected>Select a service</option>
@@ -97,17 +99,21 @@
                     <label for="start">End of Working Hours (Military Time)</label>
                     <input type="number" id="end" step="1" min="0" max="23" name="end" class="colorful-textbox">
                     <button id="editWorkingHours" class="store-button" type="submit">Confirm New Working Hours</button>
-                    <p id="confirmMsg" hidden>Working Hours Set.</p>
+                    <p id="confirmMsg" hidden>Working Hours Changed.</p>
+                    <p id="errorWorkingHours" class="error"></p>
                 </div>
             </div>
 
             <div class="subContainer">
                 <div id="workingDaysHeader" class="heading">
-                    Working Days: 
-                    {{#each workingDays}}
-                        {{this}}{{#unless @last}}, {{/unless}}
-                    {{/each}}
-
+                    {{#if workingDays}}
+                        Working Days: 
+                        {{#each workingDays}}
+                            {{this}}{{#unless @last}}, {{/unless}}
+                        {{/each}}
+                    {{else}}
+                        Working Days: None
+                    {{/if}}
                 </div>
 
                 <div class="list bg-orange-400 rounded-md p-3 text-center">
@@ -146,7 +152,7 @@
                     </div>
 
                     <button id="editWorkingDays" class="store-button" type="submit">Confirm New Working Days</button>
-                    <p id="confirmDaysMsg" hidden>Working Days Set.</p>
+                    <p id="confirmDaysMsg" hidden>Working Days Changed.</p>
                 </div>
             </div>
         </div>

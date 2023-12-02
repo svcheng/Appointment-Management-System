@@ -201,6 +201,25 @@ main {
   text-align: center;
 }
 
+.error {
+  margin-top: 1rem;
+
+  font-style: italic;
+  color: red;
+  font-size: 16px;
+
+  text-align: center;
+}
+
+.inputContainer {
+  margin-bottom: 0.7em;
+}
+
+.checkBoxes {
+
+  justify-content: left;
+}
+
 .noAppointments {
   font-size: 1em;
   font-weight: bold;
