@@ -13,6 +13,8 @@ nav {
     background-color:#796465;
     border-bottom: 1px solid black;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: space-between;
 }
 
 nav > a {
@@ -215,5 +217,11 @@ h1{
 }
   
 .goog-te-gadget{
-    color: black !important;
+    color: white !important;
+}
+
+.goog-te-combo{
+    background-color: #796465;
+    padding: 10px;
+    border: 2px solid black;
 }

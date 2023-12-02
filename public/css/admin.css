@@ -217,5 +217,11 @@ main {
 }
 
 .goog-te-gadget{
-  color: black !important;
+  color: white !important;
+}
+
+.goog-te-combo{
+  background-color: #796465;
+  padding: 10px;
+  border: 2px solid black;
 }
