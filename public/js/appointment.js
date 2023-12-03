@@ -2,14 +2,13 @@
 document.getElementById("searchBar").addEventListener("keyup", async (e) => {
     const searchInput = e.target.value
     
-    // remake search result container
-    document.getElementById("searchResults").remove()
-    const searchResults = document.createElement("div")
-    searchResults.setAttribute("id", 'searchResults')
+    // remove children of search result container
+    const searchResults = document.getElementById("searchResults")
+    while (searchResults.firstChild) {
+        searchResults.firstChild.remove()
+    }
 
     if (!searchInput) {
-        console.log("empty search")
-        document.getElementById('search').appendChild(searchResults)
         return 
     }
 
@@ -20,28 +19,26 @@ document.getElementById("searchBar").addEventListener("keyup", async (e) => {
     const data = await res.json()
 
     // add search suggestions
+    let elem
     data.stores.forEach(store => {
-        let elem = document.createElement("div")
+        elem = document.createElement("div")
         elem.setAttribute("class", 'searchResult')
         elem.setAttribute("value", store.name)
         elem.textContent = store.name
         elem.addEventListener('click', salonSelection)
         searchResults.appendChild(elem)
     });
-
-    // add to DOM
-    document.getElementById('search').appendChild(searchResults)
 })  
 
 const salonSelection = async (e) => {
     const salon = e.target.textContent
     document.getElementById('selectedSalon').value = salon
 
-    // empty search results
-    document.getElementById("searchResults").remove() 
-    const searchResults = document.createElement("div")
-    searchResults.setAttribute("id", 'searchResults')
-    document.getElementById('search').appendChild(searchResults)
+    // remove children of search result container
+    const searchResults = document.getElementById("searchResults")
+    while (searchResults.firstChild) {
+        searchResults.firstChild.remove()
+    }
 
     // empty services options if any
     let parent = document.getElementById('customer-service')
@@ -56,10 +53,16 @@ const salonSelection = async (e) => {
 
     data = await data.json()
 
-
     // display services
     for (let i=0; i < data.services.length; i+=1) {
         addServiceOption(data.services[i], data.durations[i])
+    }
+
+    // empty schedule container
+    const scheduleContainer = document.getElementById('schedule-container')
+
+    while (scheduleContainer.children.length > 1) {
+        scheduleContainer.lastChild.remove()
     }
 
     // show header
@@ -90,6 +93,7 @@ const salonSelection = async (e) => {
 
     //Sorts chronologically before displaying
     sched.sort((a, b) => new Date(a.start) - new Date(b.start));
+
     sched.forEach(sched => {
         addScheduleOption(sched.start, sched.end)
     })
