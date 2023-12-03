@@ -170,21 +170,21 @@
                         <div id="pendingAppointments" class="list">
                             <div class="noAppointments" id="noAppointmentsPending" hidden>No appointments on this day waiting to be approved.</div>
                             {{#each pending}}
-                            <div class="appointmentContainer">
-                                <div>Service: {{this.service}}</div>
-                                <div>Customer: {{this.bookerName}}</div>
-                                <div>Phone Number: {{this.bookerPhoneNum}}</div>
-                                <div name="appointmentDateStart">Start Date and Time: {{timePresentable this.startDatetime}}</div>
-                                <div name="appointmentDateEnd">End Date and Time: {{timePresentable this.endDatetime}}</div>
-                                {{#if this.clientEmail}}
-                                <div>Email: {{this.clientEmail}}</div>
-                                {{/if}}
-                            </div>              
+                            <div class="cont">
+                                <div class="appointmentContainer">
+                                    <div>Service: {{this.service}}</div>
+                                    <div>Customer: {{this.bookerName}}</div>
+                                    <div>Phone Number: {{this.bookerPhoneNum}}</div>
+                                    <div name="appointmentDateStart">Start Date and Time: {{timePresentable this.startDatetime}}</div>
+                                    <div name="appointmentDateEnd">End Date and Time: {{timePresentable this.endDatetime}}</div>
+                                    {{#if this.clientEmail}}
+                                    <div>Email: {{this.clientEmail}}</div>
+                                    {{/if}}
+                                </div>
+                                <div class="approvePending">Approve</div> 
+                                <div class="declinePending">Decline</div> 
+                            </div>               
                             {{/each}}
-                            <div id="approveDeclineButtons">
-                                <button id="approveButton" class="store-button">Approve</button>
-                                <button id="declineButton" class="store-button">Decline</button>
-                            </div>
                         </div>
             </div>
             
@@ -200,7 +200,7 @@
                 <div id="appointments" class="list">
                     <div class="noAppointments" id="noAppointmentsNonPending" hidden>No appointments scheduled on this day.</div>
                     {{#each appointments}}
-                        <div>
+                        <div class="cont">
                             <div class="appointmentContainer border-black border-solid border-thin p-2">
                                 <div>Service: {{this.service}}</div>
                                 <div>Customer: {{this.bookerName}}</div>

@@ -8,7 +8,7 @@ const PendingSchema = new mongoose.Schema({
     startDatetime: {type: Date, required: true}, 
     endDatetime: {type: Date, required: true},
     service: {type: String, required: true},
-    clientEmail: {type: String, required: false}
+    clientEmail: {type: String, required: false, default: null}
 });
 
 const Appointment = mongoose.model('Pending', PendingSchema)

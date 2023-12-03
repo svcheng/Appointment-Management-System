@@ -175,8 +175,7 @@ main {
 .colorful-date-input::-webkit-calendar-drop-indicator {
   color: #cb9589; }
 
-.deleteAptmntBtn {
-  margin-bottom: 1em;
+.deleteAptmntBtn, .approvePending, .declinePending {
   border-width: 1px;
   border-color: black;
   border-style: solid;
@@ -185,9 +184,13 @@ main {
   color: black;
 }
 
-.deleteAptmntBtn:hover {
+.deleteAptmntBtn:hover, .approvePending:hover, .declinePending:hover {
   cursor: pointer;
   background-color: #dde9b9;
+}
+
+.cont {
+  margin-bottom: 1em;
 }
 
 #confirmMsg, #editConfirmMsg, #confirmDaysMsg {
