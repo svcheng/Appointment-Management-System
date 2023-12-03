@@ -216,6 +216,81 @@ const addServiceOption = (serviceName, duration) => {
     document.getElementById('customer-service').appendChild(elem)
 }
 
+const computeEnd = (dateTime, duration) => {
+    let end = new Date(dateTime)
+    end.setMinutes(end.getMinutes() + duration)
+
+    return end.toString()
+}
+
+const withinWorkingHours = async (salonName, service, startDate) => {
+    let data = await fetch(`/workSchedule/${salonName}`, {
+        method: "GET"
+    })
+
+    data = await data.json()
+    let workingDays = data.workingDays  
+    let workingHoursStart = data.workingHoursStart 
+    let workingHoursEnd = data.workingHoursEnd 
+    let services = data.services 
+    let serviceDurations = data.serviceDurations 
+
+    let day = startDate.substring(0,3);
+    
+    //checks if day is in workingDays
+    if(!workingDays.includes(day)){
+        return 301
+    }
+
+    let duration
+    for (let i=0; i < services.length; i+=1) {
+        if (services[i] == service) {
+            duration = serviceDurations[i]
+        }
+    }
+
+    const endDate = new Date(computeEnd(startDate, duration))
+
+    let appointmentStartHour = new Date(startDate).getHours()
+    let appointmentEndHour = endDate.getHours()
+
+    if (endDate.getMinutes() > 0) {
+        appointmentEndHour = (appointmentEndHour + 1) % 24
+    }
+
+    // returns whether each hour in hours is within the interval [start, end] 
+    const within = (hours, interval) => {
+        for (let i=0; i < hours.length; i+=1) {
+            if (hours[i] > interval[1] || hours[i] < interval[0]) {
+                return false
+            }
+        }
+
+        return true
+    }
+
+    workingHoursEnd = workingHoursEnd === 0 ? 24 : workingHoursEnd
+    const appointmentRange = [appointmentStartHour, appointmentEndHour]
+    if (workingHoursStart < workingHoursEnd) {
+        appointmentEndHour = appointmentEndHour === 0 ? 24 : appointmentEndHour
+        if (within([appointmentStartHour, appointmentEndHour], [workingHoursStart, workingHoursEnd])) {
+            return true
+        }
+    } else {
+        if (appointmentStartHour > appointmentEndHour) {
+            if (within([appointmentStartHour], [workingHoursStart, 24]) && within([appointmentEndHour], [0, workingHoursEnd])) {
+                return true
+            }
+        } else {
+            if (within(appointmentRange, [workingHoursStart, 24]) || within(appointmentRange, [0, workingHoursEnd])) {
+                return true
+            }
+        }
+    } 
+
+    return 300
+}
+
 // prevent page reload upon submit 
 document.getElementById('submitBtn').addEventListener('click', (e) => {e.preventDefault()})
 
@@ -239,18 +314,14 @@ document.getElementById('submitBtn').addEventListener('click', async (e) => {
         errorMsg.textContent = "All required fields must be filled out." 
     }
 
-    console.log(dateTime)
-    console.log(new Date(dateTime))
     // check if time falls within salon working hours
-    let res = await fetch(`/withinWorkingHours/${salon}/${service}/${new Date(dateTime).toString()}`, {
-        method: "GET"
-    })
+    let res = await withinWorkingHours(salon, service, new Date(dateTime).toString())
 
-    if (res.status === 300) {
+    if (res === 300) {
         errorMsg.hidden = false
         errorMsg.textContent = "Not within salon working hours." 
         return 
-    } else if (res.status === 301) {
+    } else if (res === 301) {
         errorMsg.hidden = false
         errorMsg.textContent = "Not within salon working days." 
         return

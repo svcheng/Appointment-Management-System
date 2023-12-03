@@ -623,72 +623,85 @@ app.put('/editWorkingDays/:salonName/:days', async (req, res) => {
     res.end()
 })
 
-// checks if appointment is withing working hours 
-app.get('/withinWorkingHours/:salonName/:service/:startDate', async (req, res) => {
+app.get('/workSchedule/:salonName', async (req, res) => {
     const salon = await Store.findOne({ 'name': req.params.salonName })
-    let workingDays = salon.workingDays;
-    let workingHoursStart = salon.workingHoursStart
-    let workingHoursEnd = salon.workingHoursEnd 
-    console.log(req.params.startDate)
-    console.log(new Date(req.params.startDate))
-    let day = req.params.startDate.substring(0,3);
-    
-    //checks if day is in workingDays
-    if(!workingDays.includes(day)){
-        res.status(301)
-        res.end()
+    let data = {
+        workingDays: salon.workingDays,
+        workingHoursStart: salon.workingHoursStart,
+        workingHoursEnd: salon.workingHoursEnd,
+        services: salon.services,
+        serviceDurations: salon.serviceDurations 
     }
 
-    let duration
-    for (let i=0; i < salon.services.length; i+=1) {
-        if (salon.services[i] == req.params.service) {
-            duration = salon.serviceDurations[i]
-        }
-    }
-
-    const endDate = new Date(computeEnd(req.params.startDate, duration))
-    let appointmentStartHour = new Date(req.params.startDate).getHours()
-    let appointmentEndHour = endDate.getHours()
-    if (endDate.getMinutes() > 0) {
-        appointmentEndHour = (appointmentEndHour + 1) % 24
-    }
-
-    // returns whether each hour in hours is within the interval [start, end] 
-    const within = (hours, interval) => {
-        for (let i=0; i < hours.length; i+=1) {
-            if (hours[i] > interval[1] || hours[i] < interval[0]) {
-                return false
-            }
-        }
-
-        return true
-    }
-
-    workingHoursEnd = workingHoursEnd === 0 ? 24 : workingHoursEnd
-    const appointmentRange = [appointmentStartHour, appointmentEndHour]
-    if (workingHoursStart < workingHoursEnd) {
-        appointmentEndHour = appointmentEndHour === 0 ? 24 : appointmentEndHour
-        if (within([appointmentStartHour, appointmentEndHour], [workingHoursStart, workingHoursEnd])) {
-            res.status(200)
-            res.end()
-        }
-    } else {
-        if (appointmentStartHour > appointmentEndHour) {
-            if (within([appointmentStartHour], [workingHoursStart, 24]) && within([appointmentEndHour], [0, workingHoursEnd])) {
-                res.status(200)
-                res.end()
-            }
-        } else {
-            if (within(appointmentRange, [workingHoursStart, 24]) || within(appointmentRange, [0, workingHoursEnd])) {
-                res.status(200)
-                res.end()
-            }
-        }
-    } 
-
-    res.status(300)
-    res.end()
+    res.json(data)
 })
+
+// checks if appointment is withing working hours 
+// app.get('/withinWorkingHours/:salonName/:service/:startDate', async (req, res) => {
+//     const salon = await Store.findOne({ 'name': req.params.salonName })
+//     let workingDays = salon.workingDays;
+//     let workingHoursStart = salon.workingHoursStart
+//     let workingHoursEnd = salon.workingHoursEnd 
+//     console.log(req.params.startDate)
+//     console.log(new Date(req.params.startDate))
+//     let day = req.params.startDate.substring(0,3);
+    
+//     //checks if day is in workingDays
+//     if(!workingDays.includes(day)){
+//         res.status(301)
+//         res.end()
+//     }
+
+//     let duration
+//     for (let i=0; i < salon.services.length; i+=1) {
+//         if (salon.services[i] == req.params.service) {
+//             duration = salon.serviceDurations[i]
+//         }
+//     }
+
+//     const endDate = new Date(computeEnd(req.params.startDate, duration))
+//     let appointmentStartHour = new Date(req.params.startDate).getHours()
+//     let appointmentEndHour = endDate.getHours()
+//     if (endDate.getMinutes() > 0) {
+//         appointmentEndHour = (appointmentEndHour + 1) % 24
+//     }
+
+//     // returns whether each hour in hours is within the interval [start, end] 
+//     const within = (hours, interval) => {
+//         for (let i=0; i < hours.length; i+=1) {
+//             if (hours[i] > interval[1] || hours[i] < interval[0]) {
+//                 return false
+//             }
+//         }
+
+//         return true
+//     }
+
+//     workingHoursEnd = workingHoursEnd === 0 ? 24 : workingHoursEnd
+//     const appointmentRange = [appointmentStartHour, appointmentEndHour]
+//     if (workingHoursStart < workingHoursEnd) {
+//         appointmentEndHour = appointmentEndHour === 0 ? 24 : appointmentEndHour
+//         if (within([appointmentStartHour, appointmentEndHour], [workingHoursStart, workingHoursEnd])) {
+//             res.status(200)
+//             res.end()
+//         }
+//     } else {
+//         if (appointmentStartHour > appointmentEndHour) {
+//             if (within([appointmentStartHour], [workingHoursStart, 24]) && within([appointmentEndHour], [0, workingHoursEnd])) {
+//                 res.status(200)
+//                 res.end()
+//             }
+//         } else {
+//             if (within(appointmentRange, [workingHoursStart, 24]) || within(appointmentRange, [0, workingHoursEnd])) {
+//                 res.status(200)
+//                 res.end()
+//             }
+//         }
+//     } 
+
+//     res.status(300)
+//     res.end()
+// })
 
 //Email Notification: sent to client (if they have an email) upon an approved appointment being deleted
 app.post('/emailDeleted/:salon/:customerName/:customerPhone/:dateTime/:service/:clientEmail', async (req, res) =>{
