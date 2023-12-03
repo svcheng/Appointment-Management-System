@@ -1,3 +1,25 @@
+document.addEventListener('DOMContentLoaded', () => {
+    let starts = document.getElementsByName('appointmentDateStart')
+    let ends = document.getElementsByName('appointmentDateEnd')
+
+    const prepend0 = (d) => {return Math.floor(d / 10) == 0 ? '0' + String(d) : d}
+
+    // converts date object into 'YYYY-MM-DDTHH:MM' format in local time
+    const localTimeString = (datetime) => {
+        datetime = new Date(datetime)
+        return `${datetime.getFullYear()}-${prepend0(datetime.getMonth() + 1)}-${prepend0(datetime.getDate())}T${prepend0(datetime.getHours())}:${prepend0(datetime.getMinutes())}`
+    }
+
+    for (let i=0; i<starts.length; i+=1) {
+        let str = localTimeString(starts[i].textContent)
+        starts[i].textContent = `Start Date and Time: ${str.substring(0, 10)}, ${str.substring(11, 16)}`
+    }
+    for (let i=0; i<ends.length; i+=1) {
+        let str = localTimeString(ends[i].textContent)
+        ends[i].textContent = `End Date and Time: ${str.substring(0, 10)}, ${str.substring(11, 16)}`
+    }
+})
+
 document.getElementById('addService').addEventListener('click', async (e)=> {
     const newService = document.getElementById('newService').value
     const salon = document.getElementById('salonName').textContent
@@ -234,6 +256,7 @@ document.getElementById('approveButton').addEventListener('click', async () => {
                 customerPhone: customerPhone,
                 dateTime: new Date(dateTime).toString(),
                 service: service,
+                clientEmail: email
             }),
         });
 

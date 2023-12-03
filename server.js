@@ -14,6 +14,12 @@ app.set('view engine', 'hbs')
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
 
+hbs.registerHelper('timePresentable', (string) => {
+    // let str = localTimeString(string)
+    // return `${str.substring(0, 10)}, ${str.substring(11, 16)}`
+    return string
+})
+
 // Connect to database
 const password = "cssweng_5"
 const uri = `mongodb+srv://CSSWENG_5:${password}@salon.ievwh4s.mongodb.net/?retryWrites=true&w=majority`
@@ -136,27 +142,24 @@ app.get('/admin/:storeName', async(req, res) => {
     })
 
     appointments = appointments.map((a) => {
-        let start = localTimeString(a.startDatetime)
-        let end = localTimeString(a.endDatetime)
         return {
             service: a.service,
             bookerName: a.bookerName,
             bookerPhoneNum: a.bookerPhoneNum,
-            startDatetime: `${start.substring(0, 10)}, ${start.substring(11, 16)}`,
-            endDatetime: `${end.substring(0, 10)}, ${end.substring(11, 16)}`,
+            startDatetime: a.startDatetime,
+            endDatetime: a.endDatetime,
             clientEmail: a.clientEmail
         }
     })
-
+    
     pending = pending.map((a) => {
-        let start = localTimeString(a.startDatetime)
-        let end = localTimeString(a.endDatetime)
+
         return {
             service: a.service,
             bookerName: a.bookerName,
             bookerPhoneNum: a.bookerPhoneNum,
-            startDatetime: `${start.substring(0, 10)}, ${start.substring(11, 16)}`,
-            endDatetime: `${end.substring(0, 10)}, ${end.substring(11, 16)}`,
+            startDatetime: a.startDatetime,
+            endDatetime: a.endDatetime,
             clientEmail: a.clientEmail
         }
     })
@@ -167,7 +170,7 @@ app.get('/admin/:storeName', async(req, res) => {
     } else {
         workingHours = `${store.workingHoursStart}-${store.workingHoursEnd}`
     }
-    
+
     res.render('layouts/admin', {
         salonName: salonName,
         email: email,
@@ -343,13 +346,13 @@ app.post('/pendingAppointment', async (req, res) => {
     })
     await newPendingAppointment.save()
 
-    
+
 
     res.send('Appointment request sent to pending collection.');
 })
 
 app.post('/approveAppointment', async (req, res) => {
-    const { salon, customerName, customerPhone, dateTime, service } = req.body;
+    const { salon, customerName, customerPhone, dateTime, service, clientEmail } = req.body;
 
     // Add the approved appointment to the appointments collection
     const salonInfo = await Store.findOne({ name: salon }, 'services serviceDurations');
@@ -362,13 +365,7 @@ app.post('/approveAppointment', async (req, res) => {
     const endDate = computeEnd(dateTime, duration);
 
     //find email if it exists
-    let email = await Pending.findOne({
-        storeName: salon, bookerName: customerName,
-        bookerPhoneNum: customerPhone,
-        startDatetime: dateTime,
-        endDatetime: endDate,
-        service: service}, 
-        'clientEmail')
+    let email = clientEmail
     if(email){
         const newAppointment = new Appointment({
             storeName: salon,
@@ -377,24 +374,21 @@ app.post('/approveAppointment', async (req, res) => {
             startDatetime: dateTime,
             endDatetime: endDate,
             service: service,
-            clientEmail: email.clientEmail
+            clientEmail: email
         });
         await newAppointment.save();
-    }else{
+    } else {
         const newAppointment = new Appointment({
             storeName: salon,
             bookerName: customerName,
             bookerPhoneNum: customerPhone,
             startDatetime: dateTime,
             endDatetime: endDate,
-            service: service
-            
+            service: service,
+            clientEmail: email
         });
         await newAppointment.save();
     }
-    
-
-    
 
     // Delete the pending appointment from the pendings collection
     await Pending.findOneAndDelete({
@@ -635,73 +629,6 @@ app.get('/workSchedule/:salonName', async (req, res) => {
 
     res.json(data)
 })
-
-// checks if appointment is withing working hours 
-// app.get('/withinWorkingHours/:salonName/:service/:startDate', async (req, res) => {
-//     const salon = await Store.findOne({ 'name': req.params.salonName })
-//     let workingDays = salon.workingDays;
-//     let workingHoursStart = salon.workingHoursStart
-//     let workingHoursEnd = salon.workingHoursEnd 
-//     console.log(req.params.startDate)
-//     console.log(new Date(req.params.startDate))
-//     let day = req.params.startDate.substring(0,3);
-    
-//     //checks if day is in workingDays
-//     if(!workingDays.includes(day)){
-//         res.status(301)
-//         res.end()
-//     }
-
-//     let duration
-//     for (let i=0; i < salon.services.length; i+=1) {
-//         if (salon.services[i] == req.params.service) {
-//             duration = salon.serviceDurations[i]
-//         }
-//     }
-
-//     const endDate = new Date(computeEnd(req.params.startDate, duration))
-//     let appointmentStartHour = new Date(req.params.startDate).getHours()
-//     let appointmentEndHour = endDate.getHours()
-//     if (endDate.getMinutes() > 0) {
-//         appointmentEndHour = (appointmentEndHour + 1) % 24
-//     }
-
-//     // returns whether each hour in hours is within the interval [start, end] 
-//     const within = (hours, interval) => {
-//         for (let i=0; i < hours.length; i+=1) {
-//             if (hours[i] > interval[1] || hours[i] < interval[0]) {
-//                 return false
-//             }
-//         }
-
-//         return true
-//     }
-
-//     workingHoursEnd = workingHoursEnd === 0 ? 24 : workingHoursEnd
-//     const appointmentRange = [appointmentStartHour, appointmentEndHour]
-//     if (workingHoursStart < workingHoursEnd) {
-//         appointmentEndHour = appointmentEndHour === 0 ? 24 : appointmentEndHour
-//         if (within([appointmentStartHour, appointmentEndHour], [workingHoursStart, workingHoursEnd])) {
-//             res.status(200)
-//             res.end()
-//         }
-//     } else {
-//         if (appointmentStartHour > appointmentEndHour) {
-//             if (within([appointmentStartHour], [workingHoursStart, 24]) && within([appointmentEndHour], [0, workingHoursEnd])) {
-//                 res.status(200)
-//                 res.end()
-//             }
-//         } else {
-//             if (within(appointmentRange, [workingHoursStart, 24]) || within(appointmentRange, [0, workingHoursEnd])) {
-//                 res.status(200)
-//                 res.end()
-//             }
-//         }
-//     } 
-
-//     res.status(300)
-//     res.end()
-// })
 
 //Email Notification: sent to client (if they have an email) upon an approved appointment being deleted
 app.post('/emailDeleted/:salon/:customerName/:customerPhone/:dateTime/:service/:clientEmail', async (req, res) =>{

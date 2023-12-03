@@ -57,7 +57,7 @@
                             <select id="deleteServiceDropdown" class="colorful-textbox">
                                 <option value="0" disabled selected>Select a service</option>
                                 {{#each services}}
-                                <option value="{{this}}">{{this}}</option>
+                                <option value="{{this.serviceName}}">{{this.serviceName}}</option>
                                 {{/each}}
                             </select>
                             <button id="deleteService" class="store-button" hidden>Delete Service</button>
@@ -68,7 +68,7 @@
                             <select id="editServiceDropdown" class="colorful-textbox">
                                 <option value="0" disabled selected>Select a service</option>
                                 {{#each services}}
-                                <option value="{{this}}">{{this}}</option>
+                                <option value="{{this.serviceName}}">{{this.serviceName}}</option>
                                 {{/each}}
                             </select>
                              {{!-- <button id="deleteService">Edit Service</button> --}}
@@ -174,9 +174,11 @@
                                 <div>Service: {{this.service}}</div>
                                 <div>Customer: {{this.bookerName}}</div>
                                 <div>Phone Number: {{this.bookerPhoneNum}}</div>
-                                <div>Start Date and Time: {{this.startDatetime}}</div>
-                                <div>End Date and Time: {{this.endDatetime}}</div>
+                                <div name="appointmentDateStart">Start Date and Time: {{timePresentable this.startDatetime}}</div>
+                                <div name="appointmentDateEnd">End Date and Time: {{timePresentable this.endDatetime}}</div>
+                                {{#if this.clientEmail}}
                                 <div>Email: {{this.clientEmail}}</div>
+                                {{/if}}
                             </div>              
                             {{/each}}
                             <div id="approveDeclineButtons">
@@ -203,9 +205,11 @@
                                 <div>Service: {{this.service}}</div>
                                 <div>Customer: {{this.bookerName}}</div>
                                 <div>Phone Number: {{this.bookerPhoneNum}}</div>
-                                <div>Start Date and Time: {{this.startDatetime}}</div>
-                                <div>End Date and Time: {{this.endDatetime}}</div>
+                                <div name="appointmentDateStart">{{timePresentable this.startDatetime}}</div>
+                                <div name="appointmentDateEnd">End Date and Time: {{timePresentable this.endDatetime}}</div>
+                                {{#if this.clientEmail}}
                                 <div>Email: {{this.clientEmail}}</div>
+                                {{/if}}
                             </div>
                             <div class="deleteAptmntBtn">Cancel Appointment</div>  
                         </div>  
