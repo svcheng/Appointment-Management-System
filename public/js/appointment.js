@@ -239,6 +239,8 @@ document.getElementById('submitBtn').addEventListener('click', async (e) => {
         errorMsg.textContent = "All required fields must be filled out." 
     }
 
+    console.log(dateTime)
+    console.log(new Date(dateTime))
     // check if time falls within salon working hours
     let res = await fetch(`/withinWorkingHours/${salon}/${service}/${new Date(dateTime).toString()}`, {
         method: "GET"

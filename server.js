@@ -218,7 +218,6 @@ app.delete('/deleteService/:storeName/:service', async (req, res) => {
         }
     } catch (error) {
         // Handle errors
-        console.error('Error deleting service:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
@@ -258,7 +257,6 @@ app.get('/schedules/:salon', async (req, res) => {
         const appointments = await Appointment.find({'storeName': req.params.salon});
         
         if (!appointments) {
-            console.log("No appointment found");
             return res.status(404).send("No appointment found");
         }
 
@@ -270,7 +268,6 @@ app.get('/schedules/:salon', async (req, res) => {
             bookerPhoneNum: appointment.bookerPhoneNum
         }));
 
-        // console.log("Response: ", response)
         res.send(response)
     } catch (error) {
         console.error("Error:", error);
@@ -423,7 +420,6 @@ app.post('/deletePendingAppointment', async (req, res) => {
         clientEmail: clientEmail === "" ? null : clientEmail
     });
 
-    console.log(deleted)
     res.end();
 });
 
@@ -437,7 +433,6 @@ app.delete('/deleteAppointment', async (req, res) => {
         clientEmail: req.body.clientEmail === "" ? null : req.body.clientEmail
     });
 
-    // console.log(deletedAppointment)
     res.end()
 })
 
@@ -635,6 +630,7 @@ app.get('/withinWorkingHours/:salonName/:service/:startDate', async (req, res) =
     let workingHoursStart = salon.workingHoursStart
     let workingHoursEnd = salon.workingHoursEnd 
     console.log(req.params.startDate)
+    console.log(new Date(req.params.startDate))
     let day = req.params.startDate.substring(0,3);
     
     //checks if day is in workingDays
