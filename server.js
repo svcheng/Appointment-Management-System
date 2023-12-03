@@ -225,8 +225,6 @@ app.delete('/deleteService/:storeName/:service', async (req, res) => {
     }
 });
 
-
-
 // search salon
 app.get('/search/:searchInput', async (req, res) => {
     // query database for all store names containing search input
@@ -234,7 +232,7 @@ app.get('/search/:searchInput', async (req, res) => {
         "name": { $regex: req.params.searchInput, $options: "i"}
     }, 'name') 
 
-    res.send({stores: results})
+    res.json({stores: results})
 })
 
 // returns all services and service durations of a salon
