@@ -1,12 +1,14 @@
 // send request to server when user inputs types into search bar
 document.getElementById("searchBar").addEventListener("keyup", async (e) => {
     const searchInput = e.target.value
-    const searchResults = document.getElementById("searchResults")
     
+    // remove children of search result container
+    const searchResults = document.getElementById("searchResults")
+    while (searchResults.firstChild) {
+        searchResults.firstChild.remove()
+    }
+
     if (!searchInput) {
-        while (searchResults.firstChild) {
-            searchResults.firstChild.remove()
-        }
         return 
     }
 
@@ -16,14 +18,10 @@ document.getElementById("searchBar").addEventListener("keyup", async (e) => {
     })
     const data = await res.json()
 
-    // remove search results
-    while (searchResults.firstChild) {
-        searchResults.firstChild.remove()
-    }
-
     // add search suggestions
+    let elem
     data.stores.forEach(store => {
-        let elem = document.createElement("div")
+        elem = document.createElement("div")
         elem.setAttribute("class", 'searchResult')
         elem.setAttribute("value", store.name)
         elem.textContent = store.name
