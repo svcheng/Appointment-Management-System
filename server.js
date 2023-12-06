@@ -21,6 +21,11 @@ const SearchController = require('./controllers/searchController');
 const AdminController = require('./controllers/adminController');
 
 
+hbs.registerHelper('timePresentable', (string) => {
+    // let str = localTimeString(string)
+    // return `${str.substring(0, 10)}, ${str.substring(11, 16)}`
+    return string
+})
 
 // Connect to database
 const password = "cssweng_5"

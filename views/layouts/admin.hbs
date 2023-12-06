@@ -175,8 +175,8 @@
                                     <div>Service: {{this.service}}</div>
                                     <div>Customer: {{this.bookerName}}</div>
                                     <div>Phone Number: {{this.bookerPhoneNum}}</div>
-                                    <div name="appointmentDateStart">Start Date and Time: {{this.startDatetime}}</div>
-                                    <div name="appointmentDateEnd">End Date and Time: {{this.endDatetime}}</div>
+                                    <div name="appointmentDateStart">Start Date and Time: {{timePresentable this.startDatetime}}</div>
+                                    <div name="appointmentDateEnd">End Date and Time: {{timePresentable this.endDatetime}}</div>
                                     {{#if this.clientEmail}}
                                     <div>Email: {{this.clientEmail}}</div>
                                     {{/if}}
@@ -205,8 +205,8 @@
                                 <div>Service: {{this.service}}</div>
                                 <div>Customer: {{this.bookerName}}</div>
                                 <div>Phone Number: {{this.bookerPhoneNum}}</div>
-                                <div name="appointmentDateStart">{{this.startDatetime}}</div>
-                                <div name="appointmentDateEnd">End Date and Time: {{this.endDatetime}}</div>
+                                <div name="appointmentDateStart">{{timePresentable this.startDatetime}}</div>
+                                <div name="appointmentDateEnd">End Date and Time: {{timePresentable this.endDatetime}}</div>
                                 {{#if this.clientEmail}}
                                 <div>Email: {{this.clientEmail}}</div>
                                 {{/if}}
