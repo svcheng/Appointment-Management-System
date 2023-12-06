@@ -25,7 +25,10 @@ document.getElementById("regBtn").addEventListener("click", async (e) => {
     const password = document.getElementById("password").value
     const codeVerify = document.getElementById("codeVerify").value
     const receivedEmail = document.getElementById("email").value
-    const phone = document.getElementById("phone").value
+    let phone = document.getElementById("phone").value
+    if(!phone){
+        phone = 0;
+    }
 
     errorMsg.hidden = true
     errorCode.hidden = true
