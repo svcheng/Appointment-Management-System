@@ -46,6 +46,10 @@ document.getElementById('addService').addEventListener('click', async (e)=> {
 
     //updates the server list
     updateServiceDropdown()
+    // refresh the page
+    location.reload()
+
+
 
     document.getElementById('newService').value = ""
     document.getElementById('newServiceDuration').value = ""
@@ -175,6 +179,8 @@ document.getElementById('editSubmit').addEventListener('click', async () => {
     //reset the input fields
     document.getElementById('editServiceName').value = '';
     document.getElementById('editServiceDuration').value = '';
+    // refresh page
+    location.reload();
 });
 
 //displays edit service form
