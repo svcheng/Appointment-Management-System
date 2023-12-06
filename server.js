@@ -41,7 +41,22 @@ app.get('/static/:page', StaticController.renderPage);
 app.get('/login/:username/:password', AdminController.login)
 
 // register salon
-app.post('/register/:storeName/:password/:receivedEmail/:phone', AdminController.registerSalon)
+app.post('/register/:storeName/:password/:receivedEmail/:phone', async (req, res) => {    
+    // check if storeName already exists in the database
+    const exists = await Store.findOne({ 'name': req.params.storeName });
+   
+    if (!exists) {
+        // add store to database
+        const newStore = new Store({name: req.params.storeName, password: req.params.password, email: req.params.receivedEmail, phone: req.params.phone})
+        await newStore.save()
+        res.status(200)
+        res.end()
+    }
+    else {
+        res.status(300)
+        res.end()
+    }
+})
 
 // send admin page
 app.get('/admin/:storeName', StaticController.adminPage)

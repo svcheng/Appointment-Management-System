@@ -17,6 +17,7 @@ const generateRandomString = (length) => {
   }
 
 document.getElementById("regBtn").addEventListener("click", async (e) => {
+    console.log("Register btn clicked");
     const errorMsg = document.getElementById("r_error")
     const errorCode = document.getElementById("r_code")
     const emailError = document.getElementById("r_email")
@@ -37,12 +38,14 @@ document.getElementById("regBtn").addEventListener("click", async (e) => {
 
     //Confirms if the code matches
     if(codeVerify === verify){
+        console.log("Code matches");
         errorCode.hidden = true
         //Sends data OR Checks if name already exists
         const res = await fetch(`/register/${storeName}/${password}/${receivedEmail}/${phone}`, {
             method: "POST"
         })
-
+        console.log("Trying to create store");
+        console.log("Res: " + res);
             if (!res.ok) {
                 errorMsg.hidden = false
                 console.log("Incorrect register")

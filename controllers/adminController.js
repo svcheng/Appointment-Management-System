@@ -5,7 +5,6 @@ const Appointment = require('../models/Appointment'); // Import your Appointment
 const bcrypt = require('bcrypt'); // Import bcrypt for password comparison
 
 const login = async (req, res) => {
-  try {
     const exists = await Store.findOne({ 'name': req.params.username });
 
     if (exists) {
@@ -21,34 +20,34 @@ const login = async (req, res) => {
     } else {
       res.status(300).end();
     }
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
 };
 
-const registerSalon = async (req, res) => {
-  try {
-    const exists = await Store.findOne({ 'name': req.params.storeName });
-
-    if (!exists) {
-      const newStore = new Store({
-        name: req.params.storeName,
-        password: req.params.password,
-        email: req.params.receivedEmail,
-        phone: req.params.phone
-      });
-      await newStore.save();
-      res.status(200).end();
-    } else {
-      res.status(300).end();
-    }
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
+// const registerSalon = async (req, res) => {
+//     console.log("In register Salon");
+//     const exists = await Store.findOne({ 'name': req.params.storeName });
+//     console.log("Finding one");
+//     console.log("Exists: " + exists);
+    
+//     if (!exists) {
+//         console.log("Doesn't Exist");  
+//         const newStore = new Store({
+//             name: req.params.storeName,
+//             password: req.params.password,
+//             email: req.params.receivedEmail,
+//             phone: req.params.phone
+//         });
+//         await newStore.save();
+//         console.log("Creating new salon");
+//         res.status(200)
+//         res.end();
+//     } else {
+//         console.log("Failed creating new salon");
+//         res.status(300)
+//         res.end();
+//     }
+// };
 
 const displaySalonSchedule = async (req, res) => {
-  try {
     const appointments = await Appointment.find({ 'storeName': req.params.salon });
 
     if (!appointments) {
@@ -64,14 +63,9 @@ const displaySalonSchedule = async (req, res) => {
     }));
 
     res.send(response);
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).send("Internal Server Error");
-  }
 };
 
 const editWorkingHours = async (req, res) => {
-  try {
     const store = await Store.findOne({ 'name': req.params.salonName });
 
     store.workingHoursStart = req.params.start;
@@ -79,13 +73,9 @@ const editWorkingHours = async (req, res) => {
     await store.save();
 
     res.status(200).end();
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
 };
 
 const editWorkingDays = async (req, res) => {
-  try {
     const store = await Store.findOne({ 'name': req.params.salonName });
 
     if (req.params.days === "None") {
@@ -98,13 +88,9 @@ const editWorkingDays = async (req, res) => {
     await store.save();
 
     res.status(200).end();
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
 };
 
 const getWorkSchedule = async (req, res) => {
-  try {
     const salon = await Store.findOne({ 'name': req.params.salonName });
     const data = {
       workingDays: salon.workingDays,
@@ -115,14 +101,11 @@ const getWorkSchedule = async (req, res) => {
     };
 
     res.json(data);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
 };
 
 module.exports = {
   login,
-  registerSalon,
+//   registerSalon,
   displaySalonSchedule,
   editWorkingHours,
   editWorkingDays,
