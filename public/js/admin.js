@@ -104,14 +104,26 @@ document.getElementById('deleteService').addEventListener('click', async () => {
     });
 
     if (response.ok) {
-        // service is deleted
+        // // service is deleted
+        // console.log("Selected Service: "+selectedService);
+        // const servicesContainer = document.getElementById('services');
+        // for (const service of servicesContainer.children) {
+        //     console.log("Service: "+service.textContent);
+        //     if (service.textContent === selectedService) {
+        //         servicesContainer.removeChild(service);
+        //     }
+        // }
+
+        // Service is deleted
         const servicesContainer = document.getElementById('services');
         for (const service of servicesContainer.children) {
-            if (service.textContent === selectedService) {
+            const serviceText = service.textContent.trim();
+            const serviceIndex = serviceText.indexOf('(');
+            const serviceWithoutDuration = serviceIndex !== -1 ? serviceText.substring(0, serviceIndex).trim() : serviceText;
+            if (serviceWithoutDuration === selectedService) {
                 servicesContainer.removeChild(service);
             }
         }
-
         // update delete service dropdown
         updateServiceDropdown();
     }
@@ -148,7 +160,10 @@ document.getElementById('editSubmit').addEventListener('click', async () => {
         // service is edited
         const servicesContainer = document.getElementById('services');
         for (const service of servicesContainer.children) {
-            if (service.textContent === selectedService) {
+            const serviceText = service.textContent.trim();
+            const serviceIndex = serviceText.indexOf('(');
+            const serviceWithoutDuration = serviceIndex !== -1 ? serviceText.substring(0, serviceIndex).trim() : serviceText;
+            if (serviceWithoutDuration === selectedService) {
                 service.textContent = newServiceName;
             }
         }
