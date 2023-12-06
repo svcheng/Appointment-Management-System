@@ -21,7 +21,7 @@ const EmailController = {
             subject: "Account Authentication", // Subject line
             html: "<p>Your code is: " + codeConfirm, 
         };
-        sendMail(transporter, mailOptions);
+        sendMail(mailOptions);
         res.status(200).send('Data sent via email.');
     } catch (error) {
       console.error(error);
@@ -73,7 +73,7 @@ const EmailController = {
                 </table>
                 `, 
               }
-            sendMail(transporter, mailOptions);
+            sendMail(mailOptions);
         }
         res.status(200).send('Appointment notification email sent.');
     } catch (error) {
@@ -144,7 +144,7 @@ const EmailController = {
                 </table>
                 `, 
                 }
-            sendMail(transporter, mailOptions);
+            sendMail(mailOptions);
             res.status(200).send('Approval/Decline email sent.');
         }else{
             console.log("Email not sent to appointment peep");
@@ -203,7 +203,7 @@ const EmailController = {
                 </table>
                 `, 
                 }
-            sendMail(transporter, mailOptions);
+            sendMail(mailOptions);
             res.status(200).send('Deleted appointment email sent.');
         }else{
             console.log("Deleted appointment Email not sent");
