@@ -21,12 +21,6 @@ const SearchController = require('./controllers/searchController');
 const AdminController = require('./controllers/adminController');
 
 
-hbs.registerHelper('timePresentable', (string) => {
-    // let str = localTimeString(string)
-    // return `${str.substring(0, 10)}, ${str.substring(11, 16)}`
-    return string
-})
-
 // Connect to database
 const password = "cssweng_5"
 const uri = `mongodb+srv://CSSWENG_5:${password}@salon.ievwh4s.mongodb.net/?retryWrites=true&w=majority`
@@ -46,22 +40,7 @@ app.get('/static/:page', StaticController.renderPage);
 app.get('/login/:username/:password', AdminController.login)
 
 // register salon
-app.post('/register/:storeName/:password/:receivedEmail/:phone', async (req, res) => {    
-    // check if storeName already exists in the database
-    const exists = await Store.findOne({ 'name': req.params.storeName });
-   
-    if (!exists) {
-        // add store to database
-        const newStore = new Store({name: req.params.storeName, password: req.params.password, email: req.params.receivedEmail, phone: req.params.phone})
-        await newStore.save()
-        res.status(200)
-        res.end()
-    }
-    else {
-        res.status(300)
-        res.end()
-    }
-})
+app.post('/register/:storeName/:password/:receivedEmail/:phone', AdminController.registerSalon)
 
 // send admin page
 app.get('/admin/:storeName', StaticController.adminPage)
@@ -71,44 +50,12 @@ app.get('/admin/:storeName', StaticController.adminPage)
 app.put('/addService/:storeName/:service/:duration', ServiceController.addService)
 
 //delete service 
-app.delete('/deleteService/:storeName/:service', async (req, res) => {
-    try {
-       
-        const store = await Store.findOne({ 'name': req.params.storeName });
-
-        // Find the index of the service in the array
-        const serviceIndex = store.services.indexOf(req.params.service);
-
-        if (serviceIndex !== -1) {
-            // Remove the service and its duration
-            store.services.splice(serviceIndex, 1);
-            store.serviceDurations.splice(serviceIndex, 1);
-
-            // Save the updated store
-            await store.save();
-
-            res.status(200).end();
-        } else {
-            // Service not found
-            res.status(404).json({ error: 'Service not found' });
-        }
-    } catch (error) {
-        // Handle errors
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
+app.delete('/deleteService/:storeName/:service', ServiceController.deleteService)
 
 
 
 // search salon
-app.get('/search/:searchInput', async (req, res) => {
-    // query database for all store names containing search input
-    const results = await Store.find({
-        "name": { $regex: req.params.searchInput, $options: "i"}
-    }, 'name') 
-
-    res.send({stores: results})
-})
+app.get('/search/:searchInput', SearchController.searchSalon)
 
 // returns all services and service durations of a salon
 app.get('/services/:salon', ServiceController.getServices);

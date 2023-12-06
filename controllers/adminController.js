@@ -22,30 +22,30 @@ const login = async (req, res) => {
     }
 };
 
-// const registerSalon = async (req, res) => {
-//     console.log("In register Salon");
-//     const exists = await Store.findOne({ 'name': req.params.storeName });
-//     console.log("Finding one");
-//     console.log("Exists: " + exists);
+const registerSalon = async (req, res) => {
+    console.log("In register Salon");
+    const exists = await Store.findOne({ 'name': req.params.storeName });
+    console.log("Finding one");
+    console.log("Exists: " + exists);
     
-//     if (!exists) {
-//         console.log("Doesn't Exist");  
-//         const newStore = new Store({
-//             name: req.params.storeName,
-//             password: req.params.password,
-//             email: req.params.receivedEmail,
-//             phone: req.params.phone
-//         });
-//         await newStore.save();
-//         console.log("Creating new salon");
-//         res.status(200)
-//         res.end();
-//     } else {
-//         console.log("Failed creating new salon");
-//         res.status(300)
-//         res.end();
-//     }
-// };
+    if (!exists) {
+        console.log("Doesn't Exist");  
+        const newStore = new Store({
+            name: req.params.storeName,
+            password: req.params.password,
+            email: req.params.receivedEmail,
+            phone: req.params.phone
+        });
+        await newStore.save();
+        console.log("Creating new salon");
+        res.status(200)
+        res.end();
+    } else {
+        console.log("Failed creating new salon");
+        res.status(300)
+        res.end();
+    }
+};
 
 const displaySalonSchedule = async (req, res) => {
     const appointments = await Appointment.find({ 'storeName': req.params.salon });
@@ -105,7 +105,7 @@ const getWorkSchedule = async (req, res) => {
 
 module.exports = {
   login,
-//   registerSalon,
+  registerSalon,
   displaySalonSchedule,
   editWorkingHours,
   editWorkingDays,
