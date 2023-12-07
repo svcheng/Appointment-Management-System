@@ -137,10 +137,10 @@ const AppointmentController = {
     
         res.end();
 
-        res.status(200).send('Pending appointment deleted.');
+        res.status(200)
     } catch (error) {
         console.error(error);
-        res.status(500).send('Internal Server Error');
+        res.status(500)
     }
   },
 
@@ -156,10 +156,10 @@ const AppointmentController = {
         });
     
         res.end()
-        res.status(200).send('Appointment deleted.');
+        res.status(200)
     } catch (error) {
         console.error(error);
-        res.status(500).send('Internal Server Error');
+        res.status(500)
     }
   }
 };

@@ -130,6 +130,7 @@ document.getElementById('deleteService').addEventListener('click', async () => {
         }
         // update delete service dropdown
         updateServiceDropdown();
+        location.reload()
     }
 });
 
