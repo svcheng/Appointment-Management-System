@@ -2,12 +2,6 @@
 document.getElementById("searchBar").addEventListener("keyup", async (e) => {
     const searchInput = e.target.value
     
-    // remove children of search result container
-    const searchResults = document.getElementById("searchResults")
-    while (searchResults.firstChild) {
-        searchResults.firstChild.remove()
-    }
-
     if (!searchInput) {
         return 
     }
@@ -17,6 +11,12 @@ document.getElementById("searchBar").addEventListener("keyup", async (e) => {
         method: "GET"
     })
     const data = await res.json()
+
+    // remove children of search result container
+    const searchResults = document.getElementById("searchResults")
+    while (searchResults.firstChild) {
+        searchResults.firstChild.remove()
+    } 
 
     // add search suggestions
     let elem
@@ -313,9 +313,10 @@ document.getElementById('submitBtn').addEventListener('click', async (e) => {
     errorMsg.hidden = true
     confirmMsg.hidden = true
 
-    if (!salon && !customerName && !customerPhone && !dateTime && !service) {
+    if (!salon || !customerName || !customerPhone || !dateTime || !service) {
         errorMsg.hidden = false
         errorMsg.textContent = "All required fields must be filled out." 
+        return
     }
 
     // check if time falls within salon working hours

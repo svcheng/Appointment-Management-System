@@ -38,19 +38,19 @@
                     <div class="form-inner-box">
                         <form id="form">
                             <label class="form-text" for="customer-name">Name</label><br>
-                            <input type="text" id="name" name="customer-name" placeholder="Enter your name"><br><br>
+                            <input type="text" id="name" name="customer-name" placeholder="Enter your name" required><br><br>
 
                             <label class="form-text" for="customer-num">Phone</label><br>
-                            <input type="tel" id="tel" name="customer-num" placeholder="Enter your phone"><br><br>
+                            <input type="tel" id="tel" name="customer-num" placeholder="Enter your phone" required><br><br>
 
                             <label class="form-text" for="customer-num">Email (Optional)</label><br>
                             <input type="email" id="email" name="customer-email" placeholder="Enter your email"><br><br>
 
                             <label class="form-text" for="dateTime">Date and Time</label><br>
-                            <input type="datetime-local" id="dateTime" name="dateTime" min="{{curDate}}"><br><br>
+                            <input type="datetime-local" id="dateTime" name="dateTime" min="{{curDate}}" required><br><br>
 
                             <label class="form-text" for="customer-service">Type of Service</label><br>
-                            <select id="customer-service" name="options">
+                            <select id="customer-service" name="options" required>
                             </select>
 
                             <p class="error" id="errorMsg" hidden>All required fields must be filled out</p>
